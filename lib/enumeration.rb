@@ -50,7 +50,7 @@ module Enumeration
   class Base < Struct.new(:id, :name, :symbol)
     class_inheritable_accessor :all, :id_index, :symbol_index
     
-    def metaclass
+    def singleton_class
       class << self
         self
       end
@@ -68,7 +68,7 @@ module Enumeration
         attributes[:name] ||= symbol.to_s.humanize
         object = self.new(attributes[:id], attributes[:name], symbol)
 
-        self.metaclass.send(:define_method, symbol) do
+        self.singleton_class.send(:define_method, symbol) do
           object
         end
         
