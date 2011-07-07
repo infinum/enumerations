@@ -45,6 +45,15 @@ module Enumeration
         send("#{options[:foreign_key]}=", other.id)
       end
     end
+    
+    def has_many_enumerations(name, options = {})
+      define_method name do
+        send(options[:through]).map do |through_object|
+          through_object.send(name.to_s.singularize)
+        end
+      end
+    end
+    
   end
   
   class Base < Struct.new(:id, :name, :symbol)
