@@ -6,7 +6,7 @@ Rails plugin for enumerations in ActiveRecord models
 Install
 =======
 
-    script/plugin install git://github.com/carr/enumerations.git
+    rails plugin install git://github.com/infinum/enumerations.git
 
 Usage
 =====
