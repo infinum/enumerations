@@ -12,7 +12,7 @@ If you are using Bundler (and you should be), just add it as a gem.
 
 If not, then just install it as a regular plugin.
     
-    rails plugin install git://github.com/infinum/activerecord-enumerations.git
+    rails plugin install git://github.com/infinum/enumerations.git
 
 Usage
 =====
