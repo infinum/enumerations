@@ -137,3 +137,6 @@ module Enumeration
     end
   end
 end
+
+# Activate the extension
+ActiveRecord::Base.send(:include, Enumeration)
