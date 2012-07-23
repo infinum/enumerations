@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.description = "Extends ActiveRecord with enumeration capabilites."
   s.authors     = ["Tomislav Car"]
   s.email       = 'carr@infinum.hr'
-  s.files       = ["lib/activerecord-enumerations.rb"]
+  s.files       = ["lib/enumerations.rb"]
   s.homepage    = 'http://rubygems.org/gems/activerecord-enumerations'
 
   s.add_dependency 'activerecord'
