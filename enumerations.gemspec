@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Tomislav Car"]
   s.email       = 'carr@infinum.hr'
   s.files       = ["lib/enumerations.rb"]
-  s.homepage    = 'http://rubygems.org/gems/activerecord-enumerations'
+  s.homepage    = 'https://github.com/infinum/enumerations'
 
   s.add_dependency 'activerecord'
 end
