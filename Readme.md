@@ -6,7 +6,9 @@ Rails plugin for enumerations in ActiveRecord models.
 Install
 =======
 
-If you are using Bundler (and you should be), just add 'enumerations' to your Gemfile.
+If you are using Bundler (and you should be), just add it as a gem.
+
+    gem 'enumerations'
 
 If not, then just install it as a regular plugin.
     
