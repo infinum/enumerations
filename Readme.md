@@ -10,7 +10,7 @@ If you are using Bundler (and you should be), just add it as a gem.
 
     gem 'activerecord-enumerations'
 
-If not, then just install it as a regular plugin.
+If not, then install it as a plugin.
     
     rails plugin install git://github.com/infinum/enumerations.git
 
