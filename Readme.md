@@ -8,11 +8,11 @@ Install
 
 If you are using Bundler (and you should be), just add it as a gem.
 
-    gem 'enumerations'
+    gem 'activerecord-enumerations'
 
 If not, then just install it as a regular plugin.
     
-    rails plugin install git://github.com/infinum/enumerations.git
+    rails plugin install git://github.com/infinum/activerecord-enumerations.git
 
 Usage
 =====
