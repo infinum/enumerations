@@ -8,7 +8,7 @@ Install
 
 If you are using Bundler (and you should be), just add it as a gem.
 
-    gem 'activerecord-enumerations'
+    gem 'enumerations'
 
 If not, then install it as a plugin.
     
