@@ -45,19 +45,10 @@ module Enumeration
         send("#{options[:foreign_key]}=", other.id)
       end
     end
-    
-    def has_many_enumerations(name, options = {})
-      define_method name do
-        send(options[:through]).map do |through_object|
-          through_object.send(name.to_s.singularize)
-        end
-      end
-    end
-    
   end
   
   class Base < Struct.new(:id, :name, :symbol)
-    class_inheritable_accessor :all, :id_index, :symbol_index
+    class_attribute :all, :id_index, :symbol_index
     
     def singleton_class
       class << self
@@ -137,3 +128,6 @@ module Enumeration
     end
   end
 end
+
+# Extend ActiveRecord with Enumeration capabilites
+ActiveRecord::Base.send(:include, Enumeration)
