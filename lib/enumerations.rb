@@ -1,30 +1,9 @@
-# i want to be able to write
-# DogType < Enumeration
-#   enumerate_values :pekinezer, :bulldog, :jack_russell
-#
-#   enumerate_values :pekinezer => 'Jako lijepi pekinezer'
-# end
-#
-# DogType.all => [DogType, DogType, DogType]
-# DogType.find(id) => DogType
-# 
-# if something == DogType.pekinezer # => <#DogType>
-# if something == DogType::Pekinezer # => <#DogType> # => TODO
-# if something == DogType[:pekinezer] # => <#DogType> # => TODO
-#
-# So we have
-# * id (numeric). used in database
-# * lookup method (for comparison), symbol basically, used in source code
-# * name. used in user interface
-#
-# Status.draft?
-# Status.review_pending?
-#
-# TODO 
-# - http://github.com/binarylogic/enumlogic/blob/master/lib/enumlogic.rb
-# - http://github.com/eeng/ar-enums
-# - think about storing strings, not integers
+require 'active_support/core_ext/class/attribute.rb'
+require 'active_support/core_ext/string/inflections.rb'
+
 module Enumeration
+  VERSION = "1.1"
+  
   def self.included(receiver)
     receiver.extend ClassMethods
   end
@@ -44,9 +23,29 @@ module Enumeration
       define_method "#{name}=" do |other|
         send("#{options[:foreign_key]}=", other.id)
       end
+      
+      # store a list of used enumerations
+      @_all_enumerations ||= []
+      @_all_enumerations << EnumerationReflection.new(name, options)            
+    end
+
+    # output all the enumerations that this model has defined
+    def reflect_on_all_enumerations
+      @_all_enumerations
     end
   end
   
+  class EnumerationReflection < Struct.new(:name, :options)
+    def class_name
+      options[:class_name]
+    end
+    
+    def foreign_key
+      options[:foreign_key]
+    end
+  end  
+  
+  # used as a base class for enumeration classes
   class Base < Struct.new(:id, :name, :symbol)
     class_attribute :all, :id_index, :symbol_index
     
@@ -120,7 +119,7 @@ module Enumeration
     
     def method_missing(method_name, *args)
       symbol = method_name.to_s.gsub(/[?]$/, '')
-      if self.class.find(symbol) && method_name.to_s.last=="?"
+      if self.class.find(symbol) && method_name =~ /[?]$/
         self.symbol == symbol.to_sym
       else
         super(method_name, args)
@@ -130,4 +129,4 @@ module Enumeration
 end
 
 # Extend ActiveRecord with Enumeration capabilites
-ActiveRecord::Base.send(:include, Enumeration)
+ActiveRecord::Base.send(:include, Enumeration) if defined? ActiveRecord

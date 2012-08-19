@@ -1,1 +1,0 @@
-* support for object values (not just symbols/strings)

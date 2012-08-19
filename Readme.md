@@ -61,6 +61,11 @@ Use in forms
       %br
       = f.collection_select :status_id, Status.all, :id, :name
 
+TODO
+====
+
+* support for object values (not just symbols and strings)
+
 Author
 ======
 
