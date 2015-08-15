@@ -46,6 +46,12 @@ Set enumerations, find enumerations by `symbol`:
 @post.save
 ```
 
+Or you can set enumerations on this way:
+
+```ruby
+@post.status = Status.draft
+```
+
 Find enumerations by `id`:
 
 ```ruby
