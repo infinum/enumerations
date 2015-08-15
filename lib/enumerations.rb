@@ -2,7 +2,7 @@ require 'active_support/core_ext/class/attribute.rb'
 require 'active_support/core_ext/string/inflections.rb'
 
 module Enumeration
-  VERSION = "1.1"
+  VERSION = '1.1'
 
   def self.included(receiver)
     receiver.extend ClassMethods
@@ -36,7 +36,7 @@ module Enumeration
     end
   end
 
-  class EnumerationReflection < Struct.new(:name, :options)
+  EnumerationReflection = Struct.new(:name, :options) do
     def class_name
       options[:class_name]
     end
@@ -46,8 +46,8 @@ module Enumeration
     end
   end
 
-  # Used as a base class for enumeration classes
-  class Base < Struct.new(:id, :name, :symbol)
+  # Used as a Base class for enumeration classes
+  Base = Struct.new(:id, :name, :symbol) do
     class_attribute :all, :id_index, :symbol_index
 
     def singleton_class
@@ -83,20 +83,21 @@ module Enumeration
 
     # Lookup a specific enum
     def self.find(id)
-      if id.is_a?(Fixnum)
+      case id
+      when Fixnum
         id_index[id]
-      elsif id.is_a?(Symbol) || id.is_a?(String)
+      when Symbol, String
         symbol_index[id.to_sym]
       end
     end
 
-    # FIXME: for some reason this doesn't work for case..when expressions
     def ==(other)
-      if other.is_a?(Fixnum)
+      case other
+      when Fixnum
         other == id
-      elsif other.is_a?(Symbol)
+      when Symbol
         other == symbol
-      elsif other.is_a?(self.class)
+      when self.class
         other.id == id
       end
     end

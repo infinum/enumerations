@@ -1,11 +1,9 @@
 $:.unshift(File.dirname(__FILE__) + '/../lib')
 
-# require 'rubygems' - not sure if i need this
-
 require 'test/unit'
 require 'enumerations'
 
-# Faking activerecord
+# Faking ActiveRecord
 class MockActiveRecordBase
   include Enumeration
 end
