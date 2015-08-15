@@ -92,7 +92,7 @@ class EnumerationsTest < Test::Unit::TestCase
   def test_duplicated_symbol
     assert_raise 'Duplicate symbol draft' do
       Class.new.values draft: { id: 1, name: 'Draft' },
-                       draft:  { id: 2, name: 'Draft Again' }
+                       draft: { id: 2, name: 'Draft Again' }
     end
   end
 end
