@@ -6,13 +6,13 @@ Rails plugin for enumerations in ActiveRecord models.
 Install
 =======
 
-If you are using **Bundler** (and you should be), just add it as a `gem`.
+If you are using **Bundler** (and you should be), just add it as a `gem`:
 
 ```ruby
 gem 'enumerations'
 ```
 
-If not, then install it as a plugin.
+If not, then install it as a plugin:
 
     rails plugin install git://github.com/infinum/enumerations.git
 
