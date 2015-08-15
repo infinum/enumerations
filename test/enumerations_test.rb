@@ -57,4 +57,42 @@ class EnumerationsTest < Test::Unit::TestCase
 
     assert_equal false, p.status.published?
   end
+
+  def test_equal_by_id
+    status = Status.find(:draft)
+
+    assert_equal true, status == 1
+  end
+
+  def test_equal_by_symbol
+    status = Status.draft
+
+    assert_equal true, status == :draft
+  end
+
+  def test_equal_by_enumeration
+    status = Status.draft
+
+    assert_equal true, status == Status.draft
+  end
+
+  def test_not_equal_by_enumeration
+    status = Status.draft
+
+    assert_equal false, status == Status.published
+  end
+
+  def test_duplicated_id
+    assert_raise 'Duplicate id 1' do
+      Class.new.values draft: { id: 1, name: 'Draft' },
+                       test:  { id: 1, name: 'Draft' }
+    end
+  end
+
+  def test_duplicated_symbol
+    assert_raise 'Duplicate symbol draft' do
+      Class.new.values draft: { id: 1, name: 'Draft' },
+                       draft:  { id: 2, name: 'Draft Again' }
+    end
+  end
 end
