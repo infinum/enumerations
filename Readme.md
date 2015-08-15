@@ -1,65 +1,81 @@
 Enumerations
-==========
+============
 
 Rails plugin for enumerations in ActiveRecord models.
 
 Install
 =======
 
-If you are using Bundler (and you should be), just add it as a gem.
+If you are using **Bundler** (and you should be), just add it as a `gem`.
 
-    gem 'enumerations'
+```ruby
+gem 'enumerations'
+```
 
 If not, then install it as a plugin.
-    
+
     rails plugin install git://github.com/infinum/enumerations.git
 
 Usage
 =====
 
-Create a model for your enumerations
+Create a model for your enumerations:
 
-    class Status < Enumeration::Base
-      values :draft => {:id => 1, :name => 'Draft'},
-             :review_pending => {:id => 2, :name => 'Review pending'},
-             :published => {:id => 3, :name => 'Published'}  
-    end
+```ruby
+class Status < Enumeration::Base
+  values draft:           { id: 1, name: 'Draft' },
+         review_pending:  { id: 2, name: 'Review pending' },
+         published:       { id: 3, name: 'Published' }
+end
+```
 
-Include enumerations for integer fields in other models
+Include enumerations for integer fields in other models:
 
-    class Post < ActiveRecord::Base
-      enumeration :status
-      validates_presence_of :body, :title, :status_id
-    end
+```ruby
+class Post < ActiveRecord::Base
+  enumeration :status
+  validates_presence_of :body, :title, :status_id
+end
+```
 
-Set enumerations, find enumerations by symbol
+Set enumerations, find enumerations by `symbol`:
 
-    @post = Post.first
-    @post.status = Status.find(:draft)
-    @post.save
+```ruby
+@post = Post.first
+@post.status = Status.find(:draft)
+@post.save
+```
 
-Find enumerations by id
+Find enumerations by `id`:
 
-    @post.status = Status.find(2) # => Review pending
-    @post.save
+```ruby
+@post.status = Status.find(2)               # => Review pending
+@post.save
+```
 
-Compare enumerations
+Compare enumerations:
 
-    @post.status == :published                  # => true
-    @post.status == 3                           # => true
-    @post.status == Status.find(:published)     # => true
-    @post.status.published?                     # => true
+```ruby
+@post.status == :published                  # => true
+@post.status == 3                           # => true
+@post.status == Status.find(:published)     # => true
+@post.status.published?                     # => true
+```
 
-Get all enumerations
+Get all enumerations:
 
-    Status.all
+```ruby
+Status.all
+```
 
-Use in forms
+Use in forms:
 
-    %p
-      = f.label :status_id
-      %br
-      = f.collection_select :status_id, Status.all, :id, :name
+```ruby
+%p
+  = f.label :status_id
+  %br
+  = f.collection_select :status_id, Status.all, :id, :name
+```
 
 TODO
 ====
@@ -69,5 +85,4 @@ TODO
 Author
 ======
 
-Copyright (c) 2010 Tomislav Car, Infinum
-
+Copyright © 2010 Tomislav Car, Infinum Ltd.
