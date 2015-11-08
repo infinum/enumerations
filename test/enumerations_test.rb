@@ -16,7 +16,7 @@ class EnumerationsTest < Test::Unit::TestCase
   def test_all
     statuses = Status.all
 
-    assert_equal 3, statuses.size
+    assert_equal 5, statuses.size
     assert_equal statuses.first, Status.draft
   end
 
@@ -91,8 +91,43 @@ class EnumerationsTest < Test::Unit::TestCase
 
   def test_duplicated_symbol
     assert_raise 'Duplicate symbol draft' do
-      Class.new.values draft: { id: 1, name: 'Draft' },
-                       draft: { id: 2, name: 'Draft Again' }
+      obj = Class.new
+
+      obj.value :draft, id: 1, name: 'Draft'
+      obj.value :draft, id: 2, name: 'Draft Again'
     end
+  end
+
+  def test_all_has_custom_attributes
+    statuses = Status.all
+
+    assert_nothing_raised NoMethodError do
+      statuses.map(&:visible)
+      statuses.map(&:deleted)
+    end
+  end
+
+  def test_with_defined_custom_attributes_visible
+    status = Status.find(:none)
+
+    assert_equal true, status.visible
+  end
+
+  def test_with_defined_custom_attributes_deleted
+    status = Status.find(:deleted)
+
+    assert_equal true, status.deleted
+  end
+
+  def test_without_defined_custom_attributes
+    status = Status.find(:draft)
+
+    assert_equal nil, status.visible
+  end
+
+  def test_name_set_to_humanized_symbol
+    status = Status.find(:deleted)
+
+    assert_equal 'Deleted', status.name
   end
 end

@@ -12,6 +12,9 @@ class Status < Enumeration::Base
   values draft:           { id: 1, name: 'Draft' },
          review_pending:  { id: 2, name: 'Review pending' },
          published:       { id: 3, name: 'Published' }
+
+  value :none,    id: 4, name: 'None', visible: true
+  value :deleted, id: 5, deleted: true
 end
 
 class Post < MockActiveRecordBase
