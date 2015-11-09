@@ -1,6 +1,5 @@
 require 'active_support/core_ext/class/attribute.rb'
 require 'active_support/core_ext/string/inflections.rb'
-require 'byebug'
 
 module Enumeration
   VERSION = '1.1'
