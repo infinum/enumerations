@@ -40,7 +40,7 @@ Include enumerations for integer fields in other models:
 ```ruby
 class Post < ActiveRecord::Base
   enumeration :status
-  validates_presence_of :body, :title, :status_id
+  validates :status_id, presence: true
 end
 ```
 
