@@ -25,6 +25,16 @@ class Status < Enumeration::Base
 end
 ```
 
+Or you can use `value` method for defining your enumerations:
+
+```ruby
+class Status < Enumeration::Base
+  value :draft,           id: 1, name: 'Draft'
+  value :review_pending,  id: 2, name: 'Review pending'
+  value :published,       id: 3, name: 'Published'
+end
+```
+
 Include enumerations for integer fields in other models:
 
 ```ruby
@@ -79,10 +89,25 @@ Use in forms:
   = f.collection_select :status_id, Status.all, :id, :name
 ```
 
-TODO
-====
+Advance Usage
+=====
 
-* support for object values (not just symbols and strings)
+Except `id` and `name` you can specify other attributes to your enumerations:
+
+```ruby
+class Status < Enumeration::Base
+  value :draft,           id: 1, name: 'Draft'
+  value :review_pending,  id: 2, name: 'Review pending', description: 'Some description...'
+  value :published,       id: 3, name: 'Published'
+end
+```
+
+Every enumeration has `id`, `name` and `description` methods. If you call method that is not in attribute list for enumeration, it will return `nil`.
+
+```ruby
+Status.review_pending.description             # => 'Some description...'
+Status.draft.description                      # => nil
+```
 
 Author
 ======
