@@ -1,9 +1,9 @@
 require 'active_support/core_ext/class/attribute.rb'
 require 'active_support/core_ext/string/inflections.rb'
 
-module Enumeration
-  VERSION = '1.1'
+require 'enumerations/version'
 
+module Enumeration
   def self.included(receiver)
     receiver.extend ClassMethods
   end
