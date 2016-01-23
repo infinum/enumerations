@@ -5,6 +5,7 @@ require 'enumerations/version'
 require 'enumerations/base'
 require 'enumerations/reflection'
 
+# TODO: rename to Enumeration(s) in a major version change
 module Enumeration
   def self.included(receiver)
     receiver.extend ClassMethods
