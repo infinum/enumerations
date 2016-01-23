@@ -1,5 +1,5 @@
 module Enumeration
-  EnumerationReflection = Struct.new(:name, :options) do
+  Reflection = Struct.new(:name, :options) do
     def class_name
       options[:class_name]
     end

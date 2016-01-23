@@ -29,7 +29,7 @@ module Enumeration
 
       # Store a list of used enumerations
       @_all_enumerations ||= []
-      @_all_enumerations << EnumerationReflection.new(name, options)
+      @_all_enumerations << Reflection.new(name, options)
     end
 
     # Output all the enumerations that this model has defined
