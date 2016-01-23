@@ -1,3 +1,6 @@
+# required for class_attribute method
+require 'active_support/core_ext/class/attribute.rb'
+
 module Enumeration
   # Used as a Base class for enumeration classes
   Base = Struct.new(:id, :name, :symbol) do

@@ -1,4 +1,4 @@
-require 'active_support/core_ext/class/attribute.rb'
+# required for constantize method
 require 'active_support/core_ext/string/inflections.rb'
 
 require 'enumerations/version'
