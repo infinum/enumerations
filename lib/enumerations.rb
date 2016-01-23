@@ -3,6 +3,7 @@ require 'active_support/core_ext/string/inflections.rb'
 
 require 'enumerations/version'
 require 'enumerations/base'
+require 'enumerations/reflection'
 
 module Enumeration
   def self.included(receiver)
@@ -34,16 +35,6 @@ module Enumeration
     # Output all the enumerations that this model has defined
     def reflect_on_all_enumerations
       @_all_enumerations
-    end
-  end
-
-  EnumerationReflection = Struct.new(:name, :options) do
-    def class_name
-      options[:class_name]
-    end
-
-    def foreign_key
-      options[:foreign_key]
     end
   end
 end
