@@ -41,4 +41,6 @@ module Enumeration
 end
 
 # Extend ActiveRecord with Enumeration capabilites
-ActiveRecord::Base.send(:include, Enumeration) if defined? ActiveRecord
+ActiveSupport.on_load(:active_record) do
+  include Enumeration
+end
