@@ -1,7 +1,7 @@
 require 'active_support'
 require 'active_support/concern'
-require 'active_support/core_ext/class/attribute.rb'
-require 'active_support/core_ext/string/inflections.rb'
+require 'active_support/core_ext/class/attribute'
+require 'active_support/core_ext/string/inflections'
 
 require 'enumerations/version'
 require 'enumerations/base'
@@ -22,8 +22,17 @@ module Enumeration
     #
     # Example:
     #
-    #    enumeration :role
+    #   class User < ActiveRecord::Base
+    #     enumeration :role
+    #   end
     #
+    #  user.role_id = 1
+    #  user.role => #<Enumeration::Value:0x007fff45d7ec30 @base=Role, @symbol=:admin...>
+    #
+    #  user.role = Role.staff
+    #  user.role_id => 2
+    #
+    # TODO: add documentation for foreign_key and class_name
     def enumeration(name, options = {})
       options[:foreign_key] ||= "#{name}_id".to_sym
       options[:class_name] ||= name.to_s.camelize
@@ -37,7 +46,9 @@ module Enumeration
     #
     # Example:
     #
-    #   User.reflect_on_all_enumerations  # returns an array of all enumerations
+    #   User.reflect_on_all_enumerations => # [
+    #      #<Enumeration::Reflection:0x007fe894724320 @name=:role...>,
+    #      #<Enumeration::Reflection:0x007fe89471d020 @name=:status...>]
     #
     def reflect_on_all_enumerations
       _enumerations
@@ -50,7 +61,8 @@ module Enumeration
       #
       # Example:
       #
-      #   user.role => #<struct Role id=1, name="Admin", symbol=:admin>
+      #   user.role_id = 1
+      #   user.role => #<Enumeration::Value:0x007fff45d7ec30 @base=Role, @symbol=:admin...>
       #
       define_method name do
         options[:class_name].constantize.find(send(options[:foreign_key]))
@@ -60,7 +72,8 @@ module Enumeration
       #
       # Example:
       #
-      #   user.role = Role.admin => #user.role_id = 1
+      #   user.role = Role.admin
+      #   user.role_id => 1
       #
       define_method "#{name}=" do |other|
         send("#{options[:foreign_key]}=", other.id)
