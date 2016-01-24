@@ -66,7 +66,7 @@ module Enumeration
         send("#{options[:foreign_key]}=", other.id)
       end
 
-      _enumerations << Reflection.new(name, options)
+      self._enumerations += [Reflection.new(name, options)]
     end
   end
 end
