@@ -1,100 +1,110 @@
-# required for class_attribute method
-require 'active_support/core_ext/class/attribute.rb'
+require 'active_support/core_ext/class/attribute'
+require 'active_support/core_ext/string/inflections'
+require 'enumerations/value'
 
 module Enumeration
-  # Used as a Base class for enumeration classes
-  Base = Struct.new(:id, :name, :symbol) do
-    class_attribute :all, :id_index, :symbol_index, :attribute_list
+  class Base
+    class_attribute :_values, :_symbol_index
+    self._values = {}
+    self._symbol_index = {}
 
-    def singleton_class
-      class << self
-        self
+    # Adding new value to enumeration
+    #
+    # Example:
+    #
+    #   value :admin, id: 1, name: 'Admin', description: 'Some description...'
+    #
+    #   Role.admin.id => # 1
+    #   Role.find(:admin).name => # "Admin"
+    #   Role.find(1).description => # "Some description..."
+    #
+    def self.value(symbol, attributes)
+      # TODO: make this errors better if needed
+      # TODO: test this errors
+      fail 'Enumeration id is required' if attributes[:id].nil?
+      fail "Duplicate symbol #{symbol}" if find(symbol)
+      fail "Duplicate id #{attributes[:id]}" if find(attributes[:id])
+
+      self._values = _values.merge(symbol => Enumeration::Value.new(self, symbol, attributes))
+      self._symbol_index = _symbol_index.merge(symbol => id)
+
+      # Adds name base finder methods
+      #
+      # Example:
+      #
+      #    Role.admin => #<Enumeration::Value:0x007fff45d7ec30 @base=Role, @symbol=:admin...>
+      #    Role.staff => #<Enumeration::Value:0x007f980e9cb0a0 @base=Role, @symbol=:staff...>
+      #
+      singleton_class.send(:define_method, symbol) do
+        find(symbol)
       end
     end
 
-    # All values
-    self.all = []
-    # For id based lookup
-    self.id_index = {}
-    # For symbol based lookup
-    self.symbol_index = {}
-    # Methods on enum
-    self.attribute_list = [:id, :name]
-
+    # Adding multiple values to enumeration
+    #
+    # Example:
+    #
+    #   values admin:           { id: 1, name: 'Admin' },
+    #          manager:         { id: 2, name: 'Manager' },
+    #          staff:           { id: 3, name: 'Staff', description: 'Some description...' }
+    #
+    #   Role.admin.id => # 1
+    #   Role.find(:manager).name => # "Manager"
+    #   Role.find(3).description => # "Some description..."
+    #
     def self.values(values)
-      values.each_pair do |symbol, attributes|
+      values.each do |symbol, attributes|
         value(symbol, attributes)
       end
     end
 
-    def self.value(symbol, attributes)
-      attributes[:name] ||= symbol.to_s.humanize
-
-      object = new(attributes[:id], attributes[:name], symbol)
-
-      singleton_class.send(:define_method, symbol) do
-        object
-      end
-
-      fail "Duplicate id #{attributes[:id]}" if id_index[attributes[:id]]
-      fail "Duplicate symbol #{symbol}" if symbol_index[symbol]
-
-      id_index[attributes[:id]] = object
-      symbol_index[symbol] = object
-      all << object
-
-      update_enum_methods(object, attributes)
+    # Returns an array of all enumeration symbols
+    #
+    # Example:
+    #
+    #   Role.symbols => # [:admin, :manager, :staff]
+    #
+    def self.symbols
+      _values.keys
     end
 
-    def self.update_enum_methods(object, attributes)
-      self.attribute_list |= attributes.keys
-
-      attribute_list.each do |method|
-        all.each do |enum|
-          next if enum.respond_to?(method)
-
-          enum.singleton_class.class_eval do
-            define_method(method) { attributes[method] if enum.id == object.id }
-          end
-        end
-      end
+    # Returns an array of all enumeration values
+    #
+    # Example:
+    #
+    #   Role.all => # [#<Enumeration::Value:0x007f8ed7f46100 @base=Role, @symbol=:admin...>,
+    #                  #<Enumeration::Value:0x007f8ed7f45de0 @base=Role, @symbol=:manager...>,
+    #                  #<Enumeration::Value:0x007f8ed7f45ae8 @base=Role, @symbol=:staff...>]
+    #
+    def self.all
+      _values.values
     end
 
-    private_class_method :update_enum_methods
-
-    # Lookup a specific enum
-    def self.find(id)
-      case id
-      when Fixnum
-        id_index[id]
-      when Symbol, String
-        symbol_index[id.to_sym]
+    # Finds an enumeration by symbol, id or name
+    #
+    # Example:
+    #
+    #   Role.find(:admin)  => #<Enumeration::Value:0x007f8ed7f46100 @base=Role, @symbol=:admin...>
+    #   Role.find(2)       => #<Enumeration::Value:0x007f8ed7f45de0 @base=Role, @symbol=:manager...>
+    #   Role.find('2')     => #<Enumeration::Value:0x007f8ed7f45de0 @base=Role, @symbol=:manager...>
+    #   Role.find('staff') => #<Enumeration::Value:0x007f8ed7f45ae8 @base=Role, @symbol=:staff...>
+    #
+    def self.find(key)
+      case key
+      when Symbol then find_by_key(key)
+      when String then find_by_key(key.to_sym) || find_by_id(key.to_i)
+      when Fixnum then find_by_id(key)
       end
     end
 
-    def ==(other)
-      case other
-      when Fixnum
-        other == id
-      when Symbol
-        other == symbol
-      when self.class
-        other.id == id
-      end
+    def self.find_by_key(key)
+      _values[key]
     end
+    private_class_method :find_by_key
 
-    alias_method :to_s, :name
-    alias_method :to_i, :id
-    alias_method :to_sym, :symbol
-    alias_method :to_param, :id
-
-    def method_missing(method_name, *args)
-      symbol = method_name.to_s.gsub(/[?]$/, '')
-      if self.class.find(symbol) && method_name =~ /[?]$/
-        self.symbol == symbol.to_sym
-      else
-        super(method_name, args)
-      end
+    def self.find_by_id(id)
+      _values[_symbol_index.key(id)]
     end
+    private_class_method :find_by_id
   end
 end
