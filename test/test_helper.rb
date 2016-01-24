@@ -1,5 +1,4 @@
-$:.unshift(File.dirname(__FILE__) + '/../lib')
-
+# TODO: improve tests
 require 'test/unit'
 require 'enumerations'
 
