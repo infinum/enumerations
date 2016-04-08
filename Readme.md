@@ -44,6 +44,17 @@ class Post < ActiveRecord::Base
 end
 ```
 
+You can pass attributes to specify which enumeratior and which column to use:
+
+```ruby
+class Post < ActiveRecord::Base
+  enumeration :status,
+              foreign_key: :post_status_id,
+              class_name: 'Post::Status'
+  validates :post_status_id, presence: true
+end
+```
+
 Set enumerations, find enumerations by `symbol`:
 
 ```ruby
