@@ -49,8 +49,8 @@ You can pass attributes to specify which enumeratior and which column to use:
 ```ruby
 class Post < ActiveRecord::Base
   enumeration :status,
-              foreign_key: :post_status_id,
-              class_name: 'Post::Status'
+              foreign_key: :post_status_id, # specifies which column to use
+              class_name: 'Post::Status' # specifies the class of the enumerator
   validates :post_status_id, presence: true
 end
 ```
