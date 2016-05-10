@@ -65,7 +65,13 @@ module Enumeration
       #   user.role => #<Enumeration::Value:0x007fff45d7ec30 @base=Role, @symbol=:admin...>
       #
       define_method name do
-        options[:class_name].constantize.find(send(options[:foreign_key]))
+        enumerator_class = if options[:class_name].is_a?(Class)
+                             options[:class_name]
+                           else
+                             options[:class_name].constantize
+                           end
+
+        enumerator_class.find(send(options[:foreign_key]))
       end
 
       # Setter for belongs_to
