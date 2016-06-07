@@ -26,7 +26,7 @@ module Enumeration
       fail "Duplicate id #{attributes[:id]}" if find(attributes[:id])
 
       self._values = _values.merge(symbol => Enumeration::Value.new(self, symbol, attributes))
-      self._symbol_index = _symbol_index.merge(symbol => id)
+      self._symbol_index = _symbol_index.merge(symbol => attributes[:id])
 
       # Adds name base finder methods
       #
