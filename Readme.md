@@ -3,6 +3,8 @@ Enumerations
 
 Rails plugin for enumerations in ActiveRecord models.
 
+[![Build Status](https://travis-ci.org/infinum/enumerations.svg?branch=master)](https://travis-ci.org/infinum/enumerations)
+
 Installation
 ============
 
