@@ -1,6 +1,8 @@
+require File.expand_path('../lib/enumerations/version', __FILE__)
+
 Gem::Specification.new do |s|
   s.name        = 'enumerations'
-  s.version     = '1.1.0'
+  s.version     = Enumeration::VERSION
   s.date        = '2010-08-20'
   s.summary     = "Enumerations for ActiveRecord!"
   s.description = 'Extends ActiveRecord with enumeration capabilites.'

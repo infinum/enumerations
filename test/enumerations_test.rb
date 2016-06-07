@@ -1,26 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/test_helper')
 
 class EnumerationsTest < Test::Unit::TestCase
-  def test_lookup_by_symbol
-    status = Status.find(:draft)
-
-    assert_equal :draft, status.symbol
-  end
-
-  def test_lookup_fail_by_symbol
-    status = Status.find(:draft)
-
-    assert_not_equal :published, status.symbol
-  end
-
-  def test_all
-    statuses = Status.all
-
-    assert_equal 3, statuses.size
-    assert_equal statuses.first, Status.draft
-  end
-
-  def test_reflections
+  def test_reflect_on_all_enumerations
     enumerations = Post.reflect_on_all_enumerations
 
     assert_equal 2, enumerations.size
@@ -56,43 +37,5 @@ class EnumerationsTest < Test::Unit::TestCase
     p.status = Status.draft
 
     assert_equal false, p.status.published?
-  end
-
-  def test_equal_by_id
-    status = Status.find(:draft)
-
-    assert_equal true, status == 1
-  end
-
-  def test_equal_by_symbol
-    status = Status.draft
-
-    assert_equal true, status == :draft
-  end
-
-  def test_equal_by_enumeration
-    status = Status.draft
-
-    assert_equal true, status == Status.draft
-  end
-
-  def test_not_equal_by_enumeration
-    status = Status.draft
-
-    assert_equal false, status == Status.published
-  end
-
-  def test_duplicated_id
-    assert_raise 'Duplicate id 1' do
-      Class.new.values draft: { id: 1, name: 'Draft' },
-                       test:  { id: 1, name: 'Draft' }
-    end
-  end
-
-  def test_duplicated_symbol
-    assert_raise 'Duplicate symbol draft' do
-      Class.new.values draft: { id: 1, name: 'Draft' },
-                       draft: { id: 2, name: 'Draft Again' }
-    end
   end
 end
