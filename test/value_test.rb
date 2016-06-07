@@ -1,6 +1,6 @@
 require_relative 'test_helper'
 
-class ValueTest < Test::Unit::TestCase
+class ValueTest < Minitest::Test
   def test_equal_by_id
     status = Status.find(:draft)
 

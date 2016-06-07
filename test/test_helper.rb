@@ -1,5 +1,5 @@
 # TODO: improve tests
-require 'test/unit'
+require 'minitest/autorun'
 require 'enumerations'
 
 # Faking ActiveRecord

@@ -1,6 +1,6 @@
 require_relative 'test_helper'
 
-class ReflectionTest < Test::Unit::TestCase
+class ReflectionTest < Minitest::Test
   def test_reflections
     reflection = Enumeration::Reflection.new(:role, class_name: 'Role', foreign_key: :role_id)
 

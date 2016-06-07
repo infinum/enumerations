@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/test_helper')
 
-class EnumerationsTest < Test::Unit::TestCase
+class EnumerationsTest < Minitest::Test
   def test_reflect_on_all_enumerations
     enumerations = Post.reflect_on_all_enumerations
 
