@@ -1,6 +1,6 @@
 require_relative 'test_helper'
 
-class BaseTest < Test::Unit::TestCase
+class BaseTest < Minitest::Test
   def test_lookup_by_symbol
     status = Status.find(:draft)
 
@@ -10,7 +10,7 @@ class BaseTest < Test::Unit::TestCase
   def test_lookup_fail_by_symbol
     status = Status.find(:draft)
 
-    assert_not_equal :published, status.symbol
+    refute_same :published, status.symbol
   end
 
   def test_all
@@ -21,14 +21,14 @@ class BaseTest < Test::Unit::TestCase
   end
 
   def test_duplicated_id
-    assert_raise 'Duplicate id 1' do
+    assert_raises 'Duplicate id 1' do
       Class.new.values draft: { id: 1, name: 'Draft' },
                        test:  { id: 1, name: 'Draft' }
     end
   end
 
   def test_duplicated_symbol
-    assert_raise 'Duplicate symbol draft' do
+    assert_raises 'Duplicate symbol draft' do
       obj = Class.new
 
       obj.value :draft, id: 1, name: 'Draft'
@@ -39,7 +39,7 @@ class BaseTest < Test::Unit::TestCase
   def test_all_has_custom_attributes
     statuses = Status.all
 
-    assert_nothing_raised NoMethodError do
+    assert_silent do
       statuses.map(&:visible)
       statuses.map(&:deleted)
     end
