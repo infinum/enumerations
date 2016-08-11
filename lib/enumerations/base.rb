@@ -1,6 +1,5 @@
 require 'active_support/core_ext/class/attribute'
 require 'active_support/core_ext/string/inflections'
-require 'enumerations/value'
 
 module Enumeration
   class Base
@@ -21,11 +20,11 @@ module Enumeration
     def self.value(symbol, attributes)
       # TODO: make this errors better if needed
       # TODO: test this errors
-      fail 'Enumeration id is required' if attributes[:id].nil?
-      fail "Duplicate symbol #{symbol}" if find(symbol)
-      fail "Duplicate id #{attributes[:id]}" if find(attributes[:id])
+      raise 'Enumeration id is required' if attributes[:id].nil?
+      raise "Duplicate symbol #{symbol}" if find(symbol)
+      raise "Duplicate id #{attributes[:id]}" if find(attributes[:id])
 
-      self._values = _values.merge(symbol => Enumeration::Value.new(self, symbol, attributes))
+      self._values = _values.merge(symbol => new(symbol, attributes))
       self._symbol_index = _symbol_index.merge(symbol => attributes[:id])
 
       # Adds name base finder methods
@@ -97,14 +96,92 @@ module Enumeration
       end
     end
 
+    # Finds an enumeration by defined attribute. Simmilar to AcriveRecord::FinderMethods#find_by
+    #
+    # Example:
+    #
+    #   Role.find_by(name: 'Admin')  => #<Enumeration::Value:0x007f8ed7f46100 @base=Role, @symbol=:admin...>
+    #
+    def self.find_by(**args)
+      _values.values.find { |value| args.map { |k, v| value.send(k) == v }.all? }
+    end
+
     def self.find_by_key(key)
       _values[key]
     end
-    private_class_method :find_by_key
 
     def self.find_by_id(id)
       _values[_symbol_index.key(id)]
     end
-    private_class_method :find_by_id
+
+    def initialize(symbol, attributes)
+      @symbol = symbol
+      @attributes = attributes
+      create_instance_methods
+    end
+
+    attr_reader :symbol
+
+    def to_i
+      id
+    end
+
+    def to_s
+      name
+    end
+
+    def to_sym
+      @symbol
+    end
+
+    def to_param
+      id
+    end
+
+    # Comparison by id, symbol or object
+    #
+    # Example:
+    #
+    #   Role.admin == 1           => true
+    #   Role.admin == :admin      => true
+    #   Role.admin == Role.admin  => true
+    #   Role.admin == 2           => false
+    #   Role.admin == :staff      => false
+    #   Role.admin == Role.staff  => false
+    #
+    # TODO: test if case..when is working with this
+    def ==(other)
+      case other
+      when Fixnum then other == id
+      when Symbol then other == @symbol
+      else super
+      end
+    end
+
+    private
+
+    # Getters for all attributes
+    #
+    # Example:
+    #
+    #   Role.admin => #<Enumeration::Value:0x007fff45d7ec30 @base=Role, @symbol=:admin,
+    #                   @attributes={:id=>1, :name=>"Admin", :description=>"Some description..."}>
+    #   user.role.id => # 1
+    #   user.role.name => # "Admin"
+    #   user.role.description => # "Some description..."
+    #   user.role.admin? => # true
+    #   user.role.staff? => # false
+    #
+    def create_instance_methods
+      @attributes.each do |key, _|
+        self.class.send :define_method, key do
+          @attributes[key]
+        end
+      end
+
+      self.class.send :define_method, "#{@symbol}?" do
+        __callee__[0..-2].to_sym == @symbol
+      end
+    end
   end
 end

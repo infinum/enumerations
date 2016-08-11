@@ -1,6 +1,7 @@
 # TODO: improve tests
 require 'minitest/autorun'
 require 'enumerations'
+require 'pry'
 
 # Faking ActiveRecord
 class MockActiveRecordBase
