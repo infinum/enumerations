@@ -3,6 +3,9 @@ Enumerations
 
 Rails plugin for enumerations in ActiveRecord models.
 
+[![Code Climate](https://codeclimate.com/github/infinum/enumerations/badges/gpa.svg)](https://codeclimate.com/github/infinum/enumerations)
+[![Test Coverage](https://codeclimate.com/github/infinum/enumerations/badges/coverage.svg)](https://codeclimate.com/github/infinum/enumerations/coverage)
+[![Issue Count](https://codeclimate.com/github/infinum/enumerations/badges/issue_count.svg)](https://codeclimate.com/github/infinum/enumerations)
 [![Build Status](https://travis-ci.org/infinum/enumerations.svg?branch=master)](https://travis-ci.org/infinum/enumerations)
 
 Installation
@@ -46,13 +49,13 @@ class Post < ActiveRecord::Base
 end
 ```
 
-You can pass attributes to specify which enumeratior and which column to use:
+You can pass attributes to specify which enumeration and which column to use:
 
 ```ruby
 class Post < ActiveRecord::Base
   enumeration :status,
-              foreign_key: :post_status_id, # specifies which column to use
-              class_name: Post::Status # specifies the class of the enumerator
+              foreign_key: :post_status_id,   # specifies which column to use
+              class_name: Post::Status        # specifies the class of the enumerator
   validates :post_status_id, presence: true
 end
 ```
