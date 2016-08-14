@@ -38,4 +38,25 @@ class EnumerationsTest < Minitest::Test
 
     assert_equal false, p.status.published?
   end
+
+  def test_multiple_enumerations_on_model
+    enumerations = User.reflect_on_all_enumerations
+
+    assert_equal 2, enumerations.size
+
+    assert_equal :role, enumerations.first.name
+    assert_equal :role_id, enumerations.first.foreign_key
+
+    assert_equal :status, enumerations[1].name
+    assert_equal :status_id, enumerations[1].foreign_key
+  end
+
+  def test_multiple_enumeration_assignments_on_model
+    u = User.new
+    u.role = Role.admin
+    u.status = Status.published
+
+    assert_equal 'Admin', u.role.to_s
+    assert_equal 'Published', u.status.to_s
+  end
 end

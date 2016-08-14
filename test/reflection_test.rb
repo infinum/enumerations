@@ -1,11 +1,37 @@
 require_relative 'test_helper'
 
 class ReflectionTest < Minitest::Test
-  def test_reflections
-    reflection = Enumeration::Reflection.new(:role, class_name: 'Role', foreign_key: :role_id)
+  def test_reflection_with_all_attributes
+    reflection = Enumeration::Reflection.new(:status, class_name: 'Status', foreign_key: :status_id)
 
-    assert_equal :role, reflection.name
-    assert_equal 'Role', reflection.class_name
-    assert_equal :role_id, reflection.foreign_key
+    assert_equal :status, reflection.name
+    assert_equal 'Status', reflection.class_name
+    assert_equal :status_id, reflection.foreign_key
+    assert_equal ::Status, reflection.enumerator_class
+  end
+
+  def test_reflection_without_class_name_and_foreign_key
+    reflection = Enumeration::Reflection.new(:status)
+
+    assert_equal :status, reflection.name
+    assert_equal 'Status', reflection.class_name
+    assert_equal :status_id, reflection.foreign_key
+    assert_equal ::Status, reflection.enumerator_class
+  end
+
+  def test_reflection_with_custom_name_and_without_foreign_key
+    reflection = Enumeration::Reflection.new(:my_status, class_name: 'Status')
+
+    assert_equal :my_status, reflection.name
+    assert_equal 'Status', reflection.class_name
+    assert_equal :my_status_id, reflection.foreign_key
+    assert_equal ::Status, reflection.enumerator_class
+  end
+
+  def test_reflection_with_class_name_as_constant
+    reflection = Enumeration::Reflection.new(:status, class_name: Status)
+
+    assert_equal 'Status', reflection.class_name
+    assert_equal ::Status, reflection.enumerator_class
   end
 end

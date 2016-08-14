@@ -17,9 +17,22 @@ class Status < Enumeration::Base
   value :deleted, id: 5, deleted: true
 end
 
+class Role < Enumeration::Base
+  value :admin,   id: 1, name: 'Admin', admin: true
+  value :editor,  id: 2, name: 'Editor'
+  value :author,  id: 3, name: 'Author'
+end
+
 class Post < MockActiveRecordBase
   attr_accessor :status_id, :some_other_status_id
 
   enumeration :status
   enumeration :different_status, foreign_key: :some_other_status_id, class_name: 'Status'
+end
+
+class User < MockActiveRecordBase
+  attr_accessor :role_id, :status_id
+
+  enumeration :role
+  enumeration :status
 end
