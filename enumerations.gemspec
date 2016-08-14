@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.name        = 'enumerations'
   s.version     = Enumeration::VERSION
   s.date        = '2010-08-20'
-  s.summary     = "Enumerations for ActiveRecord!"
+  s.summary     = 'Enumerations for ActiveRecord!'
   s.description = 'Extends ActiveRecord with enumeration capabilites.'
   s.authors     = ['Tomislav Car', 'Nikica Jokic', 'Nikola Santic']
   s.email       = ['tomislav@infinum.hr', 'nikica.jokic@infinum.hr', 'nikola.santic@infinum.hr']

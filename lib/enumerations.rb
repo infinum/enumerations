@@ -48,7 +48,8 @@ module Enumeration
     #
     #   User.reflect_on_all_enumerations => # [
     #      #<Enumeration::Reflection:0x007fe894724320 @name=:role...>,
-    #      #<Enumeration::Reflection:0x007fe89471d020 @name=:status...>]
+    #      #<Enumeration::Reflection:0x007fe89471d020 @name=:status...>
+    #   ]
     #
     def reflect_on_all_enumerations
       _enumerations
