@@ -19,8 +19,6 @@ module Enumeration
     #   Role.find(1).description  => # "Some description..."
     #
     def self.value(symbol, attributes)
-      # TODO: make this errors better if needed
-      # TODO: test this errors
       raise 'Enumeration id is required' if attributes[:id].nil?
       raise "Duplicate symbol #{symbol}" if find(symbol)
       raise "Duplicate id #{attributes[:id]}" if find(attributes[:id])

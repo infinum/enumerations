@@ -59,6 +59,7 @@ class Post < ActiveRecord::Base
   validates :post_status_id, presence: true
 end
 ```
+Attribute `foreign_key` you can pass as a `String` or a `Symbol`. Attribute `class_name` can be set as a `String`, a `Symbol` or a `String`.
 
 Set enumerations, find enumerations by `symbol`:
 

@@ -32,7 +32,6 @@ module Enumeration
     #  user.role = Role.staff
     #  user.role_id => 2
     #
-    # TODO: add documentation for foreign_key and class_name
     def enumeration(name, options = {})
       reflection = Reflection.new(name, options)
 
