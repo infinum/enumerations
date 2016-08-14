@@ -8,11 +8,11 @@ module Enumeration
     end
 
     def class_name
-      (@options[:class_name] || name).to_s.camelize
+      @class_name ||= (@options[:class_name] || name).to_s.camelize
     end
 
     def foreign_key
-      @options[:foreign_key] ||= "#{name}_id".to_sym
+      @foreign_key ||= (@options[:foreign_key] || "#{name}_id").to_sym
     end
 
     def enumerator_class
