@@ -18,6 +18,13 @@ class EnumerationsTest < Minitest::Test
     assert_equal 'Draft', p.status.to_s
   end
 
+  def test_model_bang_assignment
+    p = Post.new
+    p.status_draft!
+
+    assert_equal 'Draft', p.status.to_s
+  end
+
   def test_model_via_id_assignment
     p = Post.new
     p.some_other_status_id = Status.published.id

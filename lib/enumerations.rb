@@ -58,6 +58,7 @@ module Enumeration
     def add_enumeration(reflection)
       define_getter_method(reflection)
       define_setter_method(reflection)
+      define_bang_methods(reflection)
 
       self._enumerations += [reflection]
     end
@@ -85,6 +86,22 @@ module Enumeration
     def define_setter_method(reflection)
       define_method("#{reflection.name}=") do |other|
         send("#{reflection.foreign_key}=", other.id)
+      end
+    end
+
+    # Add bang methods for setting all enumeration values.
+    # All methods are prefixed with enumeration name.
+    #
+    # Example:
+    #
+    #   user.role_admin!
+    #   user.role => #<Enumeration::Value: @base=Role, @symbol=:admin...>
+    #
+    def define_bang_methods(reflection)
+      reflection.enumerator_class.all.each do |enumeration|
+        define_method("#{reflection.name}_#{enumeration.to_sym}!") do
+          send("#{reflection.name}=", enumeration)
+        end
       end
     end
   end

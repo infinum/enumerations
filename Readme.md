@@ -20,6 +20,8 @@ gem 'enumerations'
 Usage
 =====
 
+## Defining enumerations
+
 Create a model for your enumerations:
 
 ```ruby
@@ -61,6 +63,10 @@ end
 ```
 Attribute `foreign_key` you can pass as a `String` or a `Symbol`. Attribute `class_name` can be set as a `String`, a `Symbol` or a `String`.
 
+
+
+## Setting enumeration value to objects
+
 Set enumerations, find enumerations by `symbol`:
 
 ```ruby
@@ -74,6 +80,42 @@ Or you can set enumerations on this way:
 ```ruby
 @post.status = Status.draft
 ```
+
+Also, you can set enumeration value like this:
+
+```ruby
+@post.status_draft!
+```
+
+> When you include enumerations into your model, you'll get methods for setting each enumeration value. Each method name is consists from enumeration name and enumeration value name with **!** at the end. Examples:
+
+```ruby
+class Post < ActiveRecord::Base
+  enumeration :status
+end
+
+@post.status_draft!
+```
+
+```ruby
+class User < ActiveRecord::Base
+  enumeration :role
+end
+
+@user.role_admin!
+```
+
+```ruby
+class User < ActiveRecord::Base
+  enumeration :type, class_name: Role
+end
+
+@user.type_editor!
+```
+
+
+
+## Finder methods
 
 Find enumerations by `id`:
 
@@ -96,6 +138,10 @@ Get all enumerations:
 ```ruby
 Status.all
 ```
+
+
+
+## Forms usage
 
 Use in forms:
 
