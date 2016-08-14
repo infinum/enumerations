@@ -59,6 +59,8 @@ module Enumeration
     #
     def create_instance_methods
       @attributes.each do |key, _|
+        next if respond_to?(key)
+
         self.class.send :define_method, key do
           @attributes[key]
         end
