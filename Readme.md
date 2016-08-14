@@ -3,9 +3,9 @@ Enumerations
 
 Rails plugin for enumerations in ActiveRecord models.
 
+[![Gem Version](https://badge.fury.io/rb/enumerations.svg)](https://badge.fury.io/rb/enumerations)
 [![Code Climate](https://codeclimate.com/github/infinum/enumerations/badges/gpa.svg)](https://codeclimate.com/github/infinum/enumerations)
 [![Test Coverage](https://codeclimate.com/github/infinum/enumerations/badges/coverage.svg)](https://codeclimate.com/github/infinum/enumerations/coverage)
-[![Issue Count](https://codeclimate.com/github/infinum/enumerations/badges/issue_count.svg)](https://codeclimate.com/github/infinum/enumerations)
 [![Build Status](https://travis-ci.org/infinum/enumerations.svg?branch=master)](https://travis-ci.org/infinum/enumerations)
 
 Installation
