@@ -1,4 +1,6 @@
-# TODO: improve tests
+require 'codeclimate-test-reporter'
+CodeClimate::TestReporter.start
+
 require 'minitest/autorun'
 require 'enumerations'
 require 'pry'
