@@ -62,4 +62,18 @@ class BaseTest < Minitest::Test
       statuses.map(&:deleted)
     end
   end
+
+  def test_enumerations_custom_instance_method
+    role = Role.find(:admin)
+
+    assert_equal 'user_Admin', role.my_custom_name
+  end
+
+  def test_all_enumerations_has_custom_instance_methods
+    roles = Role.all
+
+    assert_silent do
+      roles.map(&:my_custom_name)
+    end
+  end
 end

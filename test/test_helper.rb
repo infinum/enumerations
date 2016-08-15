@@ -23,6 +23,10 @@ class Role < Enumeration::Base
   value :admin,   id: 1, name: 'Admin', admin: true
   value :editor,  id: 2, name: 'Editor'
   value :author,  id: 3, name: 'Author'
+
+  def my_custom_name
+    ['user', name].join('_')
+  end
 end
 
 class Post < MockActiveRecordBase

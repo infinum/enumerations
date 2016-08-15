@@ -6,6 +6,7 @@ require 'enumerations/finder_methods'
 module Enumeration
   class Base
     extend Enumeration::FinderMethods
+    include Enumeration::Value
 
     class_attribute :_values, :_symbol_index
     self._values = {}
@@ -26,7 +27,7 @@ module Enumeration
       raise "Duplicate symbol #{symbol}" if find(symbol)
       raise "Duplicate id #{attributes[:id]}" if find(attributes[:id])
 
-      self._values = _values.merge(symbol => Enumeration::Value.new(symbol, attributes))
+      self._values = _values.merge(symbol => new(symbol, attributes))
       self._symbol_index = _symbol_index.merge(symbol => attributes[:id])
 
       # Adds name base finder methods
@@ -79,6 +80,15 @@ module Enumeration
     #
     def self.all
       _values.values
+    end
+
+    attr_reader :symbol
+
+    def initialize(symbol, attributes)
+      @symbol = symbol
+      @attributes = attributes
+
+      create_instance_methods
     end
   end
 end

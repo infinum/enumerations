@@ -1,14 +1,5 @@
 module Enumeration
-  class Value
-    attr_reader :symbol
-
-    def initialize(symbol, attributes)
-      @symbol = symbol
-      @attributes = attributes
-
-      create_instance_methods
-    end
-
+  module Value
     def to_i
       id
     end
