@@ -1,9 +1,12 @@
 require 'active_support/core_ext/class/attribute'
 require 'active_support/core_ext/string/inflections'
 require 'enumerations/value'
+require 'enumerations/finder_methods'
 
 module Enumeration
   class Base
+    extend Enumeration::FinderMethods
+
     class_attribute :_values, :_symbol_index
     self._values = {}
     self._symbol_index = {}
@@ -76,41 +79,6 @@ module Enumeration
     #
     def self.all
       _values.values
-    end
-
-    # Finds an enumeration by symbol, id or name
-    #
-    # Example:
-    #
-    #   Role.find(:admin)  => #<Enumeration::Value: @base=Role, @symbol=:admin...>
-    #   Role.find(2)       => #<Enumeration::Value: @base=Role, @symbol=:manager...>
-    #   Role.find('2')     => #<Enumeration::Value: @base=Role, @symbol=:manager...>
-    #   Role.find('staff') => #<Enumeration::Value: @base=Role, @symbol=:staff...>
-    #
-    def self.find(key)
-      case key
-      when Symbol then find_by_key(key)
-      when String then find_by_key(key.to_sym) || find_by_id(key.to_i)
-      when Fixnum then find_by_id(key)
-      end
-    end
-
-    # Finds an enumeration by defined attribute. Similar to ActiveRecord::FinderMethods#find_by
-    #
-    # Example:
-    #
-    #   Role.find_by(name: 'Admin') => #<Enumeration::Value: @base=Role, @symbol=:admin...>
-    #
-    def self.find_by(**args)
-      _values.values.find { |value| args.map { |k, v| value.send(k) == v }.all? }
-    end
-
-    def self.find_by_key(key)
-      _values[key]
-    end
-
-    def self.find_by_id(id)
-      _values[_symbol_index.key(id)]
     end
   end
 end
