@@ -13,6 +13,18 @@ class BaseTest < Minitest::Test
     refute_same :published, status.symbol
   end
 
+  def test_lookup_by_string_id
+    status = Status.find('1')
+
+    assert_equal :draft, status.symbol
+  end
+
+  def test_lookup_by_string_key
+    status = Status.find('draft')
+
+    assert_equal :draft, status.symbol
+  end
+
   def test_find_by
     status = Status.find_by(name: 'Draft')
 
@@ -30,6 +42,13 @@ class BaseTest < Minitest::Test
 
     assert_equal 5, statuses.size
     assert_equal statuses.first, Status.draft
+  end
+
+  def test_symbols
+    status_symbols = Status.symbols
+
+    assert_equal 5, status_symbols.size
+    assert_equal status_symbols.first, Status.draft.to_sym
   end
 
   def test_required_id

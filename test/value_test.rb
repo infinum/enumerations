@@ -42,4 +42,22 @@ class ValueTest < Minitest::Test
 
     assert_equal nil, status.visible
   end
+
+  def test_enumeration_to_i
+    status = Status.find(:draft)
+
+    assert_equal status.to_i, 1
+  end
+
+  def test_enumeration_to_sym
+    status = Status.find(:draft)
+
+    assert_equal status.to_sym, :draft
+  end
+
+  def test_enumeration_to_param
+    status = Status.find(:draft)
+
+    assert_equal status.to_param, 1
+  end
 end
