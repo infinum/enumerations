@@ -120,17 +120,17 @@ end
 Find enumerations by `id`:
 
 ```ruby
-@post.status = Status.find(2)               # => Review pending
+@post.status = Status.find(2)                  # => Review pending
 @post.save
 ```
 
 Compare enumerations:
 
 ```ruby
-@post.status == :published                  # => true
-@post.status == 3                           # => true
-@post.status == Status.find(:published)     # => true
-@post.status.published?                     # => true
+@post.status == :published                     # => true
+@post.status == 3                              # => true
+@post.status == Status.find(:published)        # => true
+@post.status.published?                        # => true
 ```
 
 Get all enumerations:
@@ -157,8 +157,8 @@ class Post < ActiveRecord::Base
   enumeration :status
 end
 
-Post.with_status_draft                      # => <#ActiveRecord::Relation []>
-Post.with_status_review_pending             # => <#ActiveRecord::Relation []>
+Post.with_status_draft                        # => <#ActiveRecord::Relation []>
+Post.with_status_review_pending               # => <#ActiveRecord::Relation []>
 ```
 
 ```ruby
@@ -201,8 +201,8 @@ end
 Every enumeration has `id`, `name` and `description` methods. If you call method that is not in attribute list for enumeration, it will return `nil`.
 
 ```ruby
-Status.review_pending.description             # => 'Some description...'
-Status.draft.description                      # => nil
+Status.review_pending.description              # => 'Some description...'
+Status.draft.description                       # => nil
 ```
 
 Author
