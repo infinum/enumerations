@@ -59,7 +59,6 @@ module Enumeration
       define_getter_method(reflection)
       define_setter_method(reflection)
       define_bang_methods(reflection)
-      define_scopes(reflection)
 
       self._enumerations += [reflection]
     end
@@ -103,21 +102,6 @@ module Enumeration
         define_method("#{reflection.name}_#{enumeration.to_sym}!") do
           send("#{reflection.name}=", enumeration)
         end
-      end
-    end
-
-    # Scopes for enumerated ActiveRecord model.
-    # Format of scope name is with_#{enumeration_name}_#{enumeration_value_name}.
-    #
-    # Example:
-    #
-    #   User.with_role_admin => <#ActiveRecord::Relation []>
-    #   User.with_role_editor => <#ActiveRecord::Relation []>
-    #
-    def define_scopes(reflection)
-      reflection.enumerator_class.all.each do |enumeration|
-        scope "with_#{reflection.name}_#{enumeration.symbol}",
-              -> { where(reflection.foreign_key => enumeration.id) }
       end
     end
   end

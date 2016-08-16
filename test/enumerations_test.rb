@@ -73,16 +73,4 @@ class EnumerationsTest < Minitest::Test
     assert_equal 'Admin', u.role.to_s
     assert_equal 'Published', u.status.to_s
   end
-
-  def test_enumerated_class_has_scopes
-    Role.all do |role|
-      assert_respond_to User, ['with_role', role.name].join('_').to_sym
-    end
-  end
-
-  def test_enumerated_class_scope_hash_value
-    query_hash = User.with_role_admin.where_values_hash.symbolize_keys
-
-    assert_equal query_hash, role_id: 1
-  end
 end

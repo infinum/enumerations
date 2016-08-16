@@ -141,39 +141,6 @@ Status.all
 
 
 
-## Scopes on model
-
-With enumerations, you'll get scope for each enumeration value in the
-following format:
-
-```ruby
-with_#{enumeration_name}_#{enumeration_value_name}
-```
-
-Examples:
-
-```ruby
-class Post < ActiveRecord::Base
-  enumeration :status
-end
-
-Post.with_status_draft                      # => <#ActiveRecord::Relation []>
-Post.with_status_review_pending             # => <#ActiveRecord::Relation []>
-```
-
-```ruby
-class Post < ActiveRecord::Base
-  enumeration :my_status, class_name: Status
-end
-
-Post.with_my_status_draft                      # => <#ActiveRecord::Relation []>
-Post.with_my_status_review_pending             # => <#ActiveRecord::Relation []>
-```
-
-Each scope returns all records with specified enumeration value.
-
-
-
 ## Forms usage
 
 Use in forms:
