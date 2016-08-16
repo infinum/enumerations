@@ -3,12 +3,10 @@ CodeClimate::TestReporter.start
 
 require 'minitest/autorun'
 require 'enumerations'
+require 'active_record'
 require 'pry'
 
-# Faking ActiveRecord
-class MockActiveRecordBase
-  include Enumeration
-end
+require_relative 'database_helper'
 
 class Status < Enumeration::Base
   values draft:           { id: 1, name: 'Draft' },
@@ -29,14 +27,14 @@ class Role < Enumeration::Base
   end
 end
 
-class Post < MockActiveRecordBase
+class Post < ActiveRecord::Base
   attr_accessor :status_id, :some_other_status_id
 
   enumeration :status
   enumeration :different_status, foreign_key: :some_other_status_id, class_name: 'Status'
 end
 
-class User < MockActiveRecordBase
+class User < ActiveRecord::Base
   attr_accessor :role_id, :status_id
 
   enumeration :role
