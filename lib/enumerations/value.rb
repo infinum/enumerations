@@ -38,6 +38,11 @@ module Enumeration
 
     private
 
+    def create_instance_methods
+      define_attribute_getters
+      define_value_checking_method
+    end
+
     # Getters for all attributes
     #
     # Example:
@@ -48,7 +53,7 @@ module Enumeration
     #   user.role.name => # "Admin"
     #   user.role.description => # "Some description..."
     #
-    def create_instance_methods
+    def define_attributes_getters
       @attributes.each do |key, _|
         next if respond_to?(key)
 
@@ -56,8 +61,6 @@ module Enumeration
           @attributes[key]
         end
       end
-
-      define_value_checking_method
     end
 
     # Predicate methods for values
