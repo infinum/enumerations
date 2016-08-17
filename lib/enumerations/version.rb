@@ -1,3 +1,3 @@
-module Enumeration
-  VERSION = '1.3.0'
+module Enumerations
+  VERSION = '2.0.0'
 end

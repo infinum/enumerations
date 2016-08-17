@@ -1,4 +1,4 @@
-module Enumeration
+module Enumerations
   module Value
     def to_i
       id
@@ -47,7 +47,7 @@ module Enumeration
     #
     # Example:
     #
-    #   Role.admin => #<Enumeration::Value:0x007fff45d7ec30 @base=Role, @symbol=:admin,
+    #   Role.admin => #<Enumerations::Value:0x007fff45d7ec30 @base=Role, @symbol=:admin,
     #                   @attributes={:id=>1, :name=>"Admin", :description=>"Some description..."}>
     #   user.role.id => # 1
     #   user.role.name => # "Admin"

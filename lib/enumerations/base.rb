@@ -3,10 +3,10 @@ require 'active_support/core_ext/string/inflections'
 require 'enumerations/value'
 require 'enumerations/finder_methods'
 
-module Enumeration
+module Enumerations
   class Base
-    extend Enumeration::FinderMethods
-    include Enumeration::Value
+    extend Enumerations::FinderMethods
+    include Enumerations::Value
 
     class_attribute :_values, :_symbol_index
     self._values = {}
@@ -34,8 +34,8 @@ module Enumeration
       #
       # Example:
       #
-      #    Role.admin => #<Enumeration::Value: @base=Role, @symbol=:admin...>
-      #    Role.staff => #<Enumeration::Value: @base=Role, @symbol=:staff...>
+      #    Role.admin => #<Enumerations::Value: @base=Role, @symbol=:admin...>
+      #    Role.staff => #<Enumerations::Value: @base=Role, @symbol=:staff...>
       #
       singleton_class.send(:define_method, symbol) do
         find(symbol)
@@ -74,9 +74,9 @@ module Enumeration
     #
     # Example:
     #
-    #   Role.all => # [#<Enumeration::Value: @base=Role, @symbol=:admin...>,
-    #                  #<Enumeration::Value: @base=Role, @symbol=:manager...>,
-    #                  #<Enumeration::Value: @base=Role, @symbol=:staff...>]
+    #   Role.all => # [#<Enumerations::Value: @base=Role, @symbol=:admin...>,
+    #                  #<Enumerations::Value: @base=Role, @symbol=:manager...>,
+    #                  #<Enumerations::Value: @base=Role, @symbol=:staff...>]
     #
     def self.all
       _values.values

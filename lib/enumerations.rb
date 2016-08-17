@@ -7,8 +7,7 @@ require 'enumerations/version'
 require 'enumerations/base'
 require 'enumerations/reflection'
 
-# TODO: rename to Enumeration(s) in a major version change
-module Enumeration
+module Enumerations
   extend ActiveSupport::Concern
 
   included do
@@ -27,7 +26,7 @@ module Enumeration
     #   end
     #
     #  user.role_id = 1
-    #  user.role => #<Enumeration::Value: @base=Role, @symbol=:admin...>
+    #  user.role => #<Enumerations::Value: @base=Role, @symbol=:admin...>
     #
     #  user.role = Role.staff
     #  user.role_id => 2
@@ -45,8 +44,8 @@ module Enumeration
     # Example:
     #
     #   User.reflect_on_all_enumerations => # [
-    #      #<Enumeration::Reflection: @name=:role...>,
-    #      #<Enumeration::Reflection: @name=:status...>
+    #      #<Enumerations::Reflection: @name=:role...>,
+    #      #<Enumerations::Reflection: @name=:status...>
     #   ]
     #
     def reflect_on_all_enumerations
@@ -69,7 +68,7 @@ module Enumeration
     # Example:
     #
     #   user.role_id = 1
-    #   user.role => #<Enumeration::Value: @base=Role, @symbol=:admin...>
+    #   user.role => #<Enumerations::Value: @base=Role, @symbol=:admin...>
     #
     def define_getter_method(reflection)
       define_method(reflection.name) do
@@ -96,7 +95,7 @@ module Enumeration
     # Example:
     #
     #   user.role_admin!
-    #   user.role => #<Enumeration::Value: @base=Role, @symbol=:admin...>
+    #   user.role => #<Enumerations::Value: @base=Role, @symbol=:admin...>
     #
     def define_bang_methods(reflection)
       reflection.enumerator_class.all.each do |enumeration|
@@ -125,5 +124,5 @@ end
 
 # Extend ActiveRecord with Enumeration capabilites
 ActiveSupport.on_load(:active_record) do
-  include Enumeration
+  include Enumerations
 end
