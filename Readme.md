@@ -25,7 +25,7 @@ Usage
 Create a model for your enumerations:
 
 ```ruby
-class Status < Enumeration::Base
+class Status < Enumerations::Base
   values draft:           { id: 1, name: 'Draft' },
          review_pending:  { id: 2, name: 'Review pending' },
          published:       { id: 3, name: 'Published' }
@@ -35,7 +35,7 @@ end
 Or you can use `value` method for defining your enumerations:
 
 ```ruby
-class Status < Enumeration::Base
+class Status < Enumerations::Base
   value :draft,           id: 1, name: 'Draft'
   value :review_pending,  id: 2, name: 'Review pending'
   value :published,       id: 3, name: 'Published'
@@ -191,7 +191,7 @@ Advance Usage
 Except `id` and `name` you can specify other attributes to your enumerations:
 
 ```ruby
-class Status < Enumeration::Base
+class Status < Enumerations::Base
   value :draft,           id: 1, name: 'Draft'
   value :review_pending,  id: 2, name: 'Review pending', description: 'Some description...'
   value :published,       id: 3, name: 'Published'

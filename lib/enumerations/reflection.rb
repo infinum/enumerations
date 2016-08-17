@@ -1,4 +1,4 @@
-module Enumeration
+module Enumerations
   class Reflection
     attr_reader :name
 

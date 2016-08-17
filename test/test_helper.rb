@@ -8,7 +8,7 @@ require 'pry'
 
 require_relative 'database_helper'
 
-class Status < Enumeration::Base
+class Status < Enumerations::Base
   values draft:           { id: 1, name: 'Draft' },
          review_pending:  { id: 2, name: 'Review pending' },
          published:       { id: 3, name: 'Published' }
@@ -17,7 +17,7 @@ class Status < Enumeration::Base
   value :deleted, id: 5, deleted: true
 end
 
-class Role < Enumeration::Base
+class Role < Enumerations::Base
   value :admin,   id: 1, name: 'Admin', admin: true
   value :editor,  id: 2, name: 'Editor'
   value :author,  id: 3, name: 'Author'

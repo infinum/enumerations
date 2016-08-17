@@ -1,13 +1,13 @@
-module Enumeration
+module Enumerations
   module FinderMethods
     # Finds an enumeration by symbol, id or name
     #
     # Example:
     #
-    #   Role.find(:admin)  => #<Enumeration::Value: @base=Role, @symbol=:admin...>
-    #   Role.find(2)       => #<Enumeration::Value: @base=Role, @symbol=:manager...>
-    #   Role.find('2')     => #<Enumeration::Value: @base=Role, @symbol=:manager...>
-    #   Role.find('staff') => #<Enumeration::Value: @base=Role, @symbol=:staff...>
+    #   Role.find(:admin)  => #<Enumerations::Value: @base=Role, @symbol=:admin...>
+    #   Role.find(2)       => #<Enumerations::Value: @base=Role, @symbol=:manager...>
+    #   Role.find('2')     => #<Enumerations::Value: @base=Role, @symbol=:manager...>
+    #   Role.find('staff') => #<Enumerations::Value: @base=Role, @symbol=:staff...>
     #
     def find(key)
       case key
@@ -21,7 +21,7 @@ module Enumeration
     #
     # Example:
     #
-    #   Role.find_by(name: 'Admin') => #<Enumeration::Value: @base=Role, @symbol=:admin...>
+    #   Role.find_by(name: 'Admin') => #<Enumerations::Value: @base=Role, @symbol=:admin...>
     #
     def find_by(**args)
       _values.values.find { |value| args.map { |k, v| value.send(k) == v }.all? }
