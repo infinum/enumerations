@@ -39,7 +39,7 @@ module Enumeration
     private
 
     def create_instance_methods
-      define_attribute_getters
+      define_attributes_getters
       define_value_checking_method
     end
 
