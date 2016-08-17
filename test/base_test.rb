@@ -13,6 +13,18 @@ class BaseTest < Minitest::Test
     refute_same :published, status.symbol
   end
 
+  def test_lookup_by_string_id
+    status = Status.find('1')
+
+    assert_equal :draft, status.symbol
+  end
+
+  def test_lookup_by_string_key
+    status = Status.find('draft')
+
+    assert_equal :draft, status.symbol
+  end
+
   def test_find_by
     status = Status.find_by(name: 'Draft')
 
@@ -30,6 +42,19 @@ class BaseTest < Minitest::Test
 
     assert_equal 5, statuses.size
     assert_equal statuses.first, Status.draft
+  end
+
+  def test_symbols
+    status_symbols = Status.symbols
+
+    assert_equal 5, status_symbols.size
+    assert_equal status_symbols.first, Status.draft.to_sym
+  end
+
+  def test_required_id
+    assert_raises 'Enumeration id is required' do
+      Class.new.value draft: { name: 'Draft' }
+    end
   end
 
   def test_duplicated_id
@@ -57,45 +82,17 @@ class BaseTest < Minitest::Test
     end
   end
 
-  def test_with_defined_custom_attributes_visible
-    status = Status.find(:none)
+  def test_enumerations_custom_instance_method
+    role = Role.find(:admin)
 
-    assert_equal true, status.visible
+    assert_equal 'user_Admin', role.my_custom_name
   end
 
-  def test_with_defined_custom_attributes_deleted
-    status = Status.find(:deleted)
+  def test_all_enumerations_has_custom_instance_methods
+    roles = Role.all
 
-    assert_equal true, status.deleted
-  end
-
-  def test_without_defined_custom_attributes
-    status = Status.find(:draft)
-
-    assert_equal nil, status.visible
-  end
-
-  def test_equal_by_id
-    status = Status.find(:draft)
-
-    assert_equal true, status == 1
-  end
-
-  def test_equal_by_symbol
-    status = Status.draft
-
-    assert_equal true, status == :draft
-  end
-
-  def test_equal_by_enumeration
-    status = Status.draft
-
-    assert_equal true, status == Status.draft
-  end
-
-  def test_not_equal_by_enumeration
-    status = Status.draft
-
-    assert_equal false, status == Status.published
+    assert_silent do
+      roles.map(&:my_custom_name)
+    end
   end
 end

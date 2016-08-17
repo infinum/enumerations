@@ -27,17 +27,15 @@ module Enumeration
     #   end
     #
     #  user.role_id = 1
-    #  user.role => #<Enumeration::Value:0x007fff45d7ec30 @base=Role, @symbol=:admin...>
+    #  user.role => #<Enumeration::Value: @base=Role, @symbol=:admin...>
     #
     #  user.role = Role.staff
     #  user.role_id => 2
     #
-    # TODO: add documentation for foreign_key and class_name
     def enumeration(name, options = {})
-      options[:foreign_key] ||= "#{name}_id".to_sym
-      options[:class_name] ||= name.to_s.camelize
+      reflection = Reflection.new(name, options)
 
-      add_enumeration(name, options)
+      add_enumeration(reflection)
     end
 
     # Output all the enumerations that this model has defined
@@ -47,8 +45,9 @@ module Enumeration
     # Example:
     #
     #   User.reflect_on_all_enumerations => # [
-    #      #<Enumeration::Reflection:0x007fe894724320 @name=:role...>,
-    #      #<Enumeration::Reflection:0x007fe89471d020 @name=:status...>]
+    #      #<Enumeration::Reflection: @name=:role...>,
+    #      #<Enumeration::Reflection: @name=:status...>
+    #   ]
     #
     def reflect_on_all_enumerations
       _enumerations
@@ -56,36 +55,70 @@ module Enumeration
 
     private
 
-    def add_enumeration(name, options)
-      # Getter for belongs_to
-      #
-      # Example:
-      #
-      #   user.role_id = 1
-      #   user.role => #<Enumeration::Value:0x007fff45d7ec30 @base=Role, @symbol=:admin...>
-      #
-      define_method name do
-        enumerator_class = if options[:class_name].is_a?(Class)
-                             options[:class_name]
-                           else
-                             options[:class_name].constantize
-                           end
+    def add_enumeration(reflection)
+      define_getter_method(reflection)
+      define_setter_method(reflection)
+      define_bang_methods(reflection)
+      define_scopes(reflection)
 
-        enumerator_class.find(send(options[:foreign_key]))
+      self._enumerations += [reflection]
+    end
+
+    # Getter for belongs_to
+    #
+    # Example:
+    #
+    #   user.role_id = 1
+    #   user.role => #<Enumeration::Value: @base=Role, @symbol=:admin...>
+    #
+    def define_getter_method(reflection)
+      define_method(reflection.name) do
+        reflection.enumerator_class.find(send(reflection.foreign_key))
       end
+    end
 
-      # Setter for belongs_to
-      #
-      # Example:
-      #
-      #   user.role = Role.admin
-      #   user.role_id => 1
-      #
-      define_method "#{name}=" do |other|
-        send("#{options[:foreign_key]}=", other.id)
+    # Setter for belongs_to
+    #
+    # Example:
+    #
+    #   user.role = Role.admin
+    #   user.role_id => 1
+    #
+    def define_setter_method(reflection)
+      define_method("#{reflection.name}=") do |other|
+        send("#{reflection.foreign_key}=", other.id)
       end
+    end
 
-      self._enumerations += [Reflection.new(name, options)]
+    # Add bang methods for setting all enumeration values.
+    # All methods are prefixed with enumeration name.
+    #
+    # Example:
+    #
+    #   user.role_admin!
+    #   user.role => #<Enumeration::Value: @base=Role, @symbol=:admin...>
+    #
+    def define_bang_methods(reflection)
+      reflection.enumerator_class.all.each do |enumeration|
+        define_method("#{reflection.name}_#{enumeration.to_sym}!") do
+          send("#{reflection.name}=", enumeration)
+        end
+      end
+    end
+
+    # Scopes for enumerated ActiveRecord model.
+    # Format of scope name is with_#{enumeration_name}_#{enumeration_value_name}.
+    #
+    # Example:
+    #
+    #   User.with_role_admin => <#ActiveRecord::Relation []>
+    #   User.with_role_editor => <#ActiveRecord::Relation []>
+    #
+    def define_scopes(reflection)
+      reflection.enumerator_class.all.each do |enumeration|
+        scope "with_#{reflection.name}_#{enumeration.symbol}",
+              -> { where(reflection.foreign_key => enumeration.id) }
+      end
     end
   end
 end
