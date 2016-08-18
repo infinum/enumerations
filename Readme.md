@@ -141,6 +141,17 @@ Status.all
 
 
 
+## Filtering methods
+
+Enumerations can be filtered with `where` method, similar to `ActiveRecord::QueryMethods#where`.
+
+```ruby
+Role.where(admin: true)                       # => [Role.admin, Role.editor]
+Role.where(admin: true, active: true)         # => [Role.admin]
+```
+
+
+
 ## Scopes on model
 
 With enumerations, you'll get scope for each enumeration value in the
