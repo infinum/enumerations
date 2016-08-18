@@ -205,6 +205,36 @@ Status.review_pending.description              # => 'Some description...'
 Status.draft.description                       # => nil
 ```
 
+Translations
+=====
+
+**Enumerations** uses power of I18n API to enable you to create a locale file
+for enumerations like this:
+
+```yaml
+---
+en:
+  enumerations:
+    status:
+      draft:
+        name: Draft
+        description: Article draft...
+        ...
+    role:
+      admin:
+        name: Administrator
+```
+
+> You can separate enumerations locales into a separate `*.yml` files.
+> Then you should add locale file paths to I18n load path:
+
+```ruby
+# config/initializers/locale.rb
+
+# Where the I18n library should search for translation files (e.g.):
+I18n.load_path += Dir[Rails.root.join('config', 'locales', 'enumerations', '*.yml')]
+```
+
 Author
 ======
 
