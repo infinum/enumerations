@@ -6,7 +6,8 @@ require 'enumerations'
 require 'active_record'
 require 'pry'
 
-require_relative 'database_helper'
+require_relative 'helpers/database_helper'
+require_relative 'helpers/locale_helper'
 
 class Status < Enumerations::Base
   values draft:           { id: 1, name: 'Draft' },
@@ -19,7 +20,7 @@ end
 
 class Role < Enumerations::Base
   value :admin,   id: 1, name: 'Admin', admin: true
-  value :editor,  id: 2, name: 'Editor'
+  value :editor,  id: 2, name: 'Editor', description: 'Edits newspapers'
   value :author,  id: 3, name: 'Author'
 
   def my_custom_name
