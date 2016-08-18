@@ -57,8 +57,10 @@ module Enumerations
       @attributes.each do |key, _|
         next if respond_to?(key)
 
-        self.class.send :define_method, key do
-          @attributes[key]
+        self.class.send :define_method, key do |locale: I18n.locale|
+          I18n.t(key, scope: [:enumerations, self.class.name.underscore, symbol],
+                      default: @attributes[key],
+                      locale: locale) unless @attributes[key].nil?
         end
       end
     end
