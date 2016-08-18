@@ -1,42 +1,6 @@
 require_relative 'test_helper'
 
 class BaseTest < Minitest::Test
-  def test_lookup_by_symbol
-    status = Status.find(:draft)
-
-    assert_equal :draft, status.symbol
-  end
-
-  def test_lookup_fail_by_symbol
-    status = Status.find(:draft)
-
-    refute_same :published, status.symbol
-  end
-
-  def test_lookup_by_string_id
-    status = Status.find('1')
-
-    assert_equal :draft, status.symbol
-  end
-
-  def test_lookup_by_string_key
-    status = Status.find('draft')
-
-    assert_equal :draft, status.symbol
-  end
-
-  def test_find_by
-    status = Status.find_by(name: 'Draft')
-
-    assert_equal :draft, status.symbol
-  end
-
-  def test_fail_find_by
-    status = Status.find_by(name: 'Draft1')
-
-    assert_equal nil, status
-  end
-
   def test_all
     statuses = Status.all
 

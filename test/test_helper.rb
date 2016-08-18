@@ -18,8 +18,8 @@ class Status < Enumerations::Base
 end
 
 class Role < Enumerations::Base
-  value :admin,   id: 1, name: 'Admin', admin: true
-  value :editor,  id: 2, name: 'Editor'
+  value :admin,   id: 1, name: 'Admin',   admin: true, active: true
+  value :editor,  id: 2, name: 'Editor',  admin: true, active: false
   value :author,  id: 3, name: 'Author'
 
   def my_custom_name
