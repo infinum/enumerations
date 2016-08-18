@@ -47,7 +47,8 @@ Include enumerations for integer fields in other models:
 ```ruby
 class Post < ActiveRecord::Base
   enumeration :status
-  validates :status_id, presence: true
+
+  validates :status, presence: true           # You can validate either :status or :status_id
 end
 ```
 
@@ -58,7 +59,8 @@ class Post < ActiveRecord::Base
   enumeration :status,
               foreign_key: :post_status_id,   # specifies which column to use
               class_name: Post::Status        # specifies the class of the enumerator
-  validates :post_status_id, presence: true
+
+  validates :post_status, presence: true
 end
 ```
 Attribute `foreign_key` you can pass as a `String` or a `Symbol`. Attribute `class_name` can be set as a `String`, a `Symbol` or a `String`.
@@ -120,17 +122,30 @@ end
 Find enumerations by `id`:
 
 ```ruby
-@post.status = Status.find(2)                  # => Review pending
+@post.status = Status.find(2)                 # => Review pending
 @post.save
+```
+
+Other finding methods:
+
+```ruby
+# Find by id as a String
+Status.find('2')                              # => Review pending
+
+# Find by symbol as a String
+Status.find('draft')                          # => Draft
+
+# Find by multiple attributes
+Status.find_by(name: 'None', visible: true)   # => None
 ```
 
 Compare enumerations:
 
 ```ruby
-@post.status == :published                     # => true
-@post.status == 3                              # => true
-@post.status == Status.find(:published)        # => true
-@post.status.published?                        # => true
+@post.status == :published                    # => true
+@post.status == 3                             # => true
+@post.status == Status.find(:published)       # => true
+@post.status.published?                       # => true
 ```
 
 Get all enumerations:
