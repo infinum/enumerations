@@ -12,6 +12,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'activerecord'
   s.add_dependency 'activesupport'
+  s.add_dependency 'i18n'
   s.add_development_dependency 'pry-byebug'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'codeclimate-test-reporter'

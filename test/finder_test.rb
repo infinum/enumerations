@@ -64,8 +64,8 @@ class FinderTest < Minitest::Test
   end
 
   def test_where_by_undefined_custom_attributes
-    assert_raises do
-      Role.where(valid: false)
-    end
+    roles = Role.where(description1: false)
+
+    assert_equal [], roles
   end
 end

@@ -47,7 +47,8 @@ Include enumerations for integer fields in other models:
 ```ruby
 class Post < ActiveRecord::Base
   enumeration :status
-  validates :status_id, presence: true
+
+  validates :status, presence: true           # You can validate either :status or :status_id
 end
 ```
 
@@ -58,7 +59,8 @@ class Post < ActiveRecord::Base
   enumeration :status,
               foreign_key: :post_status_id,   # specifies which column to use
               class_name: Post::Status        # specifies the class of the enumerator
-  validates :post_status_id, presence: true
+
+  validates :post_status, presence: true
 end
 ```
 Attribute `foreign_key` you can pass as a `String` or a `Symbol`. Attribute `class_name` can be set as a `String`, a `Symbol` or a `String`.
@@ -120,17 +122,30 @@ end
 Find enumerations by `id`:
 
 ```ruby
-@post.status = Status.find(2)                  # => Review pending
+@post.status = Status.find(2)                 # => Review pending
 @post.save
+```
+
+Other finding methods:
+
+```ruby
+# Find by id as a String
+Status.find('2')                              # => Review pending
+
+# Find by symbol as a String
+Status.find('draft')                          # => Draft
+
+# Find by multiple attributes
+Status.find_by(name: 'None', visible: true)   # => None
 ```
 
 Compare enumerations:
 
 ```ruby
-@post.status == :published                     # => true
-@post.status == 3                              # => true
-@post.status == Status.find(:published)        # => true
-@post.status.published?                        # => true
+@post.status == :published                    # => true
+@post.status == 3                             # => true
+@post.status == Status.find(:published)       # => true
+@post.status.published?                       # => true
 ```
 
 Get all enumerations:
@@ -214,6 +229,36 @@ Every enumeration has `id`, `name` and `description` methods. If you call method
 ```ruby
 Status.review_pending.description              # => 'Some description...'
 Status.draft.description                       # => nil
+```
+
+Translations
+=====
+
+**Enumerations** uses power of I18n API to enable you to create a locale file
+for enumerations like this:
+
+```yaml
+---
+en:
+  enumerations:
+    status:
+      draft:
+        name: Draft
+        description: Article draft...
+        ...
+    role:
+      admin:
+        name: Administrator
+```
+
+> You can separate enumerations locales into a separate `*.yml` files.
+> Then you should add locale file paths to I18n load path:
+
+```ruby
+# config/initializers/locale.rb
+
+# Where the I18n library should search for translation files (e.g.):
+I18n.load_path += Dir[Rails.root.join('config', 'locales', 'enumerations', '*.yml')]
 ```
 
 Author

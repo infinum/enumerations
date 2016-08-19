@@ -25,7 +25,7 @@ module Enumerations
     #   Role.find_by(name: 'Admin') => #<Enumerations::Value: @base=Role, @symbol=:admin...>
     #
     def where(**args)
-      _values.values.select { |value| args.map { |k, v| value.send(k) == v }.all? }
+      _values.values.select { |value| args.map { |k, v| value.attributes[k] == v }.all? }
     end
 
     # Finds an enumeration by defined attribute. Similar to ActiveRecord::FinderMethods#find_by

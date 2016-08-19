@@ -1,0 +1,20 @@
+---
+hr:
+  enumerations:
+    status:
+      draft:
+        name: Nacrt
+      review_pending:
+        name: Čeka pregled
+      published:
+        name: Published
+
+    role:
+      admin:
+        name: Admin
+      editor:
+        name: Urednik
+        description: Uređuje novine
+      author:
+        name: Autor
+        description: Autor novina
