@@ -17,16 +17,13 @@ class TranslationTest < Minitest::Test
     assert_equal 'Nacrt', translated_name
   end
 
-  def test_translated_value_with_i18n_locale_and_custom_locale
+  def test_translated_value_with_i18n_locales
     status = Status.find(:draft)
 
     I18n.locale = :hr
-    translated_name_hr = status.name
-    translated_name_en = status.name(locale: :en)
+    assert_equal 'Nacrt', status.name
     I18n.locale = :en
-
-    assert_equal 'Nacrt', translated_name_hr
-    assert_equal 'Draft', translated_name_en
+    assert_equal 'Draft', status.name
   end
 
   def test_translated_value_with_custom_locale

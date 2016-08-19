@@ -58,10 +58,9 @@ module Enumerations
         next if respond_to?(key)
 
         self.class.send :define_method, key do |locale: I18n.locale|
-          if [String, Symbol].include?(@attributes[key].class)
-            translate_attribute(key, locale)
-          else
-            @attributes[key]
+          case @attributes[key]
+          when String, Symbol then translate_attribute(key, locale)
+          else @attributes[key]
           end
         end
       end
