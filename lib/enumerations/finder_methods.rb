@@ -24,7 +24,7 @@ module Enumerations
     #   Role.find_by(name: 'Admin') => #<Enumerations::Value: @base=Role, @symbol=:admin...>
     #
     def find_by(**args)
-      _values.values.find { |value| args.map { |k, v| value.send(k) == v }.all? }
+      _values.values.find { |value| args.map { |k, v| value.attributes[k] == v }.all? }
     end
 
     def find_by_key(key)

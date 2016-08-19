@@ -82,7 +82,7 @@ module Enumerations
       _values.values
     end
 
-    attr_reader :symbol
+    attr_reader :symbol, :attributes
 
     def initialize(symbol, attributes)
       @symbol = symbol

@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/test_helper')
+require_relative 'test_helper'
 
 class EnumerationsTest < Minitest::Test
   def test_reflect_on_all_enumerations

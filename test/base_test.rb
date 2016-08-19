@@ -31,6 +31,12 @@ class BaseTest < Minitest::Test
     assert_equal :draft, status.symbol
   end
 
+  def test_find_by_multiple_attributes
+    status = Status.find_by(name: 'None', visible: true)
+
+    assert_equal :none, status.symbol
+  end
+
   def test_fail_find_by
     status = Status.find_by(name: 'Draft1')
 
