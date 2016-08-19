@@ -58,11 +58,19 @@ module Enumerations
         next if respond_to?(key)
 
         self.class.send :define_method, key do |locale: I18n.locale|
-          I18n.t(key, scope: [:enumerations, self.class.name.underscore, symbol],
-                      default: @attributes[key],
-                      locale: locale) unless @attributes[key].nil?
+          if [String, Symbol].include?(@attributes[key].class)
+            translate_attribute(key, locale)
+          else
+            @attributes[key]
+          end
         end
       end
+    end
+
+    def translate_attribute(key, locale)
+      I18n.t(key, scope: [:enumerations, self.class.name.underscore, symbol],
+                  default: @attributes[key],
+                  locale: locale)
     end
 
     # Predicate methods for values

@@ -17,10 +17,40 @@ class TranslationTest < Minitest::Test
     assert_equal 'Nacrt', translated_name
   end
 
+  def test_translated_value_with_i18n_locale_and_custom_locale
+    status = Status.find(:draft)
+
+    I18n.locale = :hr
+    translated_name_hr = status.name
+    translated_name_en = status.name(locale: :en)
+    I18n.locale = :en
+
+    assert_equal 'Nacrt', translated_name_hr
+    assert_equal 'Draft', translated_name_en
+  end
+
   def test_translated_value_with_custom_locale
     status = Status.find(:draft)
 
     assert_equal 'Nacrt', status.name(locale: :hr)
+  end
+
+  def test_boolean_value_true_not_changed_by_translations
+    status = Status.find(:none)
+
+    assert_equal true, status.visible
+  end
+
+  def test_boolean_value_false_not_changed_by_translations
+    status = Status.find(:none)
+
+    assert_equal false, status.deleted
+  end
+
+  def test_boolean_value_false_not_changed_by_translations_with_custom_locale
+    status = Status.find(:none)
+
+    assert_equal false, status.deleted(locale: :hr)
   end
 
   def test_translated_custom_attribute_with_i18n_locale
@@ -62,6 +92,6 @@ class TranslationTest < Minitest::Test
     status = Status.find_by(name: 'Nacrt')
     I18n.locale = :en
 
-    assert_equal :draft, status.symbol
+    assert_equal nil, status
   end
 end
