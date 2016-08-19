@@ -17,6 +17,17 @@ module Enumerations
       end
     end
 
+    # Finds all enumerations which meets given attributes.
+    # Similar to ActiveRecord::QueryMethods#where.
+    #
+    # Example:
+    #
+    #   Role.find_by(name: 'Admin') => #<Enumerations::Value: @base=Role, @symbol=:admin...>
+    #
+    def where(**args)
+      _values.values.select { |value| args.map { |k, v| value.attributes[k] == v }.all? }
+    end
+
     # Finds an enumeration by defined attribute. Similar to ActiveRecord::FinderMethods#find_by
     #
     # Example:
@@ -24,7 +35,7 @@ module Enumerations
     #   Role.find_by(name: 'Admin') => #<Enumerations::Value: @base=Role, @symbol=:admin...>
     #
     def find_by(**args)
-      _values.values.find { |value| args.map { |k, v| value.attributes[k] == v }.all? }
+      where(args).first
     end
 
     def find_by_key(key)
