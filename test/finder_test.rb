@@ -13,7 +13,7 @@ class FinderTest < Minitest::Test
     refute_same :published, status.symbol
   end
 
-  def test_lookup_by_string_id
+  def test_lookup_by_fixnum_as_string_id
     status = Status.find('1')
 
     assert_equal :draft, status.symbol
@@ -67,5 +67,17 @@ class FinderTest < Minitest::Test
     roles = Role.where(description1: false)
 
     assert_equal [], roles
+  end
+
+  def test_lookup_by_string_id
+    pos = Position.find('PRES')
+    
+    assert_equal :president, pos.symbol
+  end
+
+  def test_where_by_string_id
+    pos = Position.where(id: 'PRES')
+  
+    assert_equal 1, pos.count
   end
 end

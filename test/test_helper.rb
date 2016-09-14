@@ -28,6 +28,11 @@ class Role < Enumerations::Base
   end
 end
 
+class Position < Enumerations::Base
+  value :president, id: 'PRES', name: 'President'
+  value :vp, id: 'VP', name: 'Vice President'
+end
+
 class Post < ActiveRecord::Base
   attr_accessor :status_id, :some_other_status_id
 
