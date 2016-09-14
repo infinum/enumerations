@@ -12,7 +12,7 @@ module Enumerations
     def find(key)
       case key
       when Symbol then find_by_key(key)
-      when String then find_by_key(key.to_sym) || find_by_id(key.to_i)
+      when String then key.to_i > 0 ? find_by_id(key.to_i) : find_by_key(key.to_sym) || find_by_id(key)
       when Fixnum then find_by_id(key)
       end
     end
