@@ -1,4 +1,4 @@
-require_relative 'test_helper'
+require_relative 'helpers/test_helper'
 
 class BaseTest < Minitest::Test
   def test_all
@@ -13,19 +13,6 @@ class BaseTest < Minitest::Test
 
     assert_equal 5, status_symbols.size
     assert_equal status_symbols.first, Status.draft.to_sym
-  end
-
-  def test_required_id
-    assert_raises 'Enumeration id is required' do
-      Class.new.value draft: { name: 'Draft' }
-    end
-  end
-
-  def test_duplicated_id
-    assert_raises 'Duplicate id 1' do
-      Class.new.values draft: { id: 1, name: 'Draft' },
-                       test:  { id: 1, name: 'Draft' }
-    end
   end
 
   def test_duplicated_symbol

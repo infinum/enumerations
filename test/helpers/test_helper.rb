@@ -6,8 +6,8 @@ require 'enumerations'
 require 'active_record'
 require 'pry'
 
-require_relative 'helpers/database_helper'
-require_relative 'helpers/locale_helper'
+require_relative 'database_helper'
+require_relative 'locale_helper'
 
 class Status < Enumerations::Base
   values draft:           { id: 1, name: 'Draft' },

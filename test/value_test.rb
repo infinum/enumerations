@@ -1,16 +1,16 @@
-require_relative 'test_helper'
+require_relative 'helpers/test_helper'
 
 class ValueTest < Minitest::Test
-  def test_equal_by_id
-    status = Status.find(:draft)
-
-    assert_equal true, status == 1
-  end
-
   def test_equal_by_symbol
     status = Status.draft
 
     assert_equal true, status == :draft
+  end
+
+  def test_equal_by_string
+    status = Status.draft
+
+    assert_equal true, status == 'draft'
   end
 
   def test_equal_by_enumeration
@@ -43,11 +43,12 @@ class ValueTest < Minitest::Test
     assert_equal nil, status.visible
   end
 
-  def test_enumeration_to_i
-    status = Status.find(:draft)
-
-    assert_equal status.to_i, 1
-  end
+  # TODO: Maybe return ordinal number ?
+  # def test_enumeration_to_i
+  #   status = Status.find(:draft)
+  #
+  #   assert_equal status.to_i, 1
+  # end
 
   def test_enumeration_to_sym
     status = Status.find(:draft)
@@ -58,6 +59,6 @@ class ValueTest < Minitest::Test
   def test_enumeration_to_param
     status = Status.find(:draft)
 
-    assert_equal status.to_param, 1
+    assert_equal status.to_param, 'draft'
   end
 end
