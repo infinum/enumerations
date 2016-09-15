@@ -274,7 +274,7 @@ Contributing
 
 Credits
 =======
-**Enumerations** is maintained and sponsored by [Infinum](www.infinum.co).
+**Enumerations** is maintained and sponsored by [Infinum](https://infinum.co)
 
 Copyright © 2016 Infinum Ltd.
 
