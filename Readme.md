@@ -274,11 +274,11 @@ Contributing
 
 Credits
 =======
-**Enumerations** is maintained and sponsored by [Infinum](infinum.co).
+**Enumerations** is maintained and sponsored by [Infinum](www.infinum.co).
 
 Copyright © 2016 Infinum Ltd.
 
 License
 =======
 
-The gem is available as open source under the terms of the [MIT License](opensource.org/licenses/MIT).
+The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
