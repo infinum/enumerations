@@ -26,9 +26,9 @@ Create a model for your enumerations:
 
 ```ruby
 class Status < Enumerations::Base
-  values draft:           { id: 1, name: 'Draft' },
-         review_pending:  { id: 2, name: 'Review pending' },
-         published:       { id: 3, name: 'Published' }
+  values draft:           { name: 'Draft' },
+         review_pending:  { name: 'Review pending' },
+         published:       { name: 'Published' }
 end
 ```
 
@@ -36,9 +36,9 @@ Or you can use `value` method for defining your enumerations:
 
 ```ruby
 class Status < Enumerations::Base
-  value :draft,           id: 1, name: 'Draft'
-  value :review_pending,  id: 2, name: 'Review pending'
-  value :published,       id: 3, name: 'Published'
+  value :draft,           name: 'Draft'
+  value :review_pending,  name: 'Review pending'
+  value :published,       name: 'Published'
 end
 ```
 
@@ -48,7 +48,7 @@ Include enumerations for integer fields in other models:
 class Post < ActiveRecord::Base
   enumeration :status
 
-  validates :status, presence: true           # You can validate either :status or :status_id
+  validates :status, presence: true
 end
 ```
 
@@ -57,8 +57,8 @@ You can pass attributes to specify which enumeration and which column to use:
 ```ruby
 class Post < ActiveRecord::Base
   enumeration :status,
-              foreign_key: :post_status_id,   # specifies which column to use
-              class_name: Post::Status        # specifies the class of the enumerator
+              foreign_key: :post_status,   # specifies which column to use
+              class_name: Post::Status     # specifies the class of the enumerator
 
   validates :post_status, presence: true
 end
@@ -89,7 +89,8 @@ Also, you can set enumeration value like this:
 @post.status_draft!
 ```
 
-> When you include enumerations into your model, you'll get methods for setting each enumeration value. Each method name is consists from enumeration name and enumeration value name with **!** at the end. Examples:
+> When you include enumerations into your model, you'll get methods for setting each enumeration value.
+Each method name is consists from enumeration name and enumeration value name with **!** at the end. Examples:
 
 ```ruby
 class Post < ActiveRecord::Base
@@ -129,10 +130,10 @@ Find enumerations by `id`:
 Other finding methods:
 
 ```ruby
-# Find by id as a String
-Status.find('2')                              # => Review pending
+# Find by key as a Symbol
+Status.find(:review_pending)                  # => Review pending
 
-# Find by symbol as a String
+# Find by key as a String
 Status.find('draft')                          # => Draft
 
 # Find by multiple attributes
@@ -143,7 +144,7 @@ Compare enumerations:
 
 ```ruby
 @post.status == :published                    # => true
-@post.status == 3                             # => true
+@post.status == 'published'                   # => true
 @post.status == Status.find(:published)       # => true
 @post.status.published?                       # => true
 ```
@@ -206,25 +207,26 @@ Use in forms:
 
 ```ruby
 %p
-  = f.label :status_id
+  = f.label :status
   %br
-  = f.collection_select :status_id, Status.all, :id, :name
+  = f.collection_select :status, Status.all, :symbol, :name
 ```
 
-Advance Usage
+Advanced Usage
 =====
 
-Except `id` and `name` you can specify other attributes to your enumerations:
+Except `name` you can specify any other attributes to your enumerations:
 
 ```ruby
 class Status < Enumerations::Base
   value :draft,           id: 1, name: 'Draft'
   value :review_pending,  id: 2, name: 'Review pending', description: 'Some description...'
-  value :published,       id: 3, name: 'Published'
+  value :published,       id: 3, name: 'Published', published: true
 end
 ```
 
-Every enumeration has `id`, `name` and `description` methods. If you call method that is not in attribute list for enumeration, it will return `nil`.
+Every enumeration has `id`, `name`, `description` and `published` methods.
+If you call method that is not in attribute list for enumeration, it will return `nil`.
 
 ```ruby
 Status.review_pending.description              # => 'Some description...'
@@ -261,7 +263,22 @@ en:
 I18n.load_path += Dir[Rails.root.join('config', 'locales', 'enumerations', '*.yml')]
 ```
 
-Author
-======
+Contributing
+============
 
-Copyright © 2010 Tomislav Car, Infinum Ltd.
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
+
+Credits
+=======
+**Enumerations** is maintained and sponsored by [Infinum](infinum.co).
+
+Copyright © 2016 Infinum Ltd.
+
+License
+=======
+
+The gem is available as open source under the terms of the [MIT License](opensource.org/licenses/MIT).
