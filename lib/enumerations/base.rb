@@ -8,9 +8,8 @@ module Enumerations
     extend Enumerations::FinderMethods
     include Enumerations::Value
 
-    class_attribute :_values, :_symbol_index
+    class_attribute :_values
     self._values = {}
-    self._symbol_index = {}
 
     # Adding new value to enumeration
     #
@@ -18,17 +17,13 @@ module Enumerations
     #
     #   value :admin, id: 1, name: 'Admin', description: 'Some description...'
     #
-    #   Role.admin.id             => # 1
-    #   Role.find(:admin).name    => # "Admin"
-    #   Role.find(1).description  => # "Some description..."
+    #   Role.find(:admin).name          => # "Admin"
+    #   Role.find(:admin).description   => # "Some description..."
     #
     def self.value(symbol, attributes)
-      raise 'Enumeration id is required' if attributes[:id].nil?
       raise "Duplicate symbol #{symbol}" if find(symbol)
-      raise "Duplicate id #{attributes[:id]}" if find(attributes[:id])
 
       self._values = _values.merge(symbol => new(symbol, attributes))
-      self._symbol_index = _symbol_index.merge(symbol => attributes[:id])
 
       # Adds name base finder methods
       #
@@ -50,9 +45,9 @@ module Enumerations
     #          manager:         { id: 2, name: 'Manager' },
     #          staff:           { id: 3, name: 'Staff', description: 'Some description...' }
     #
-    #   Role.admin.id => # 1
-    #   Role.find(:manager).name => # "Manager"
-    #   Role.find(3).description => # "Some description..."
+    #   Role.admin.id                     => # 1
+    #   Role.find(:manager).name          => # "Manager"
+    #   Role.find(:manager).description   => # "Some description..."
     #
     def self.values(values)
       values.each do |symbol, attributes|

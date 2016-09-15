@@ -25,11 +25,9 @@ module Enumerations
     #     enumeration :role
     #   end
     #
-    #  user.role_id = 1
     #  user.role => #<Enumerations::Value: @base=Role, @symbol=:admin...>
     #
     #  user.role = Role.staff
-    #  user.role_id => 2
     #
     def enumeration(name, options = {})
       reflection = Reflection.new(name, options)
@@ -67,12 +65,12 @@ module Enumerations
     #
     # Example:
     #
-    #   user.role_id = 1
+    #   user.role = Role.admin
     #   user.role => #<Enumerations::Value: @base=Role, @symbol=:admin...>
     #
     def define_getter_method(reflection)
       define_method(reflection.name) do
-        reflection.enumerator_class.find(send(reflection.foreign_key))
+        reflection.enumerator_class.find(self[reflection.foreign_key])
       end
     end
 
@@ -81,11 +79,12 @@ module Enumerations
     # Example:
     #
     #   user.role = Role.admin
-    #   user.role_id => 1
     #
     def define_setter_method(reflection)
       define_method("#{reflection.name}=") do |other|
-        send("#{reflection.foreign_key}=", other.id)
+        enumeration_value = reflection.enumerator_class.find(other)
+
+        self[reflection.foreign_key] = enumeration_value.symbol
       end
     end
 
@@ -116,7 +115,7 @@ module Enumerations
     def define_scopes(reflection)
       reflection.enumerator_class.all.each do |enumeration|
         scope "with_#{reflection.name}_#{enumeration.symbol}",
-              -> { where(reflection.foreign_key => enumeration.id) }
+              -> { where(reflection.foreign_key => enumeration.symbol) }
       end
     end
   end

@@ -12,7 +12,7 @@ module Enumerations
     end
 
     def foreign_key
-      @foreign_key ||= (@options[:foreign_key] || "#{name}_id").to_sym
+      @foreign_key ||= (@options[:foreign_key] || name).to_sym
     end
 
     def enumerator_class
