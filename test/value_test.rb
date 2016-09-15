@@ -43,12 +43,13 @@ class ValueTest < Minitest::Test
     assert_equal nil, status.visible
   end
 
-  # TODO: Maybe return ordinal number ?
-  # def test_enumeration_to_i
-  #   status = Status.find(:draft)
-  #
-  #   assert_equal status.to_i, 1
-  # end
+  def test_enumeration_to_i_return_ordinal
+    first_status = Status.find(:draft)
+    second_status = Status.find(:review_pending)
+
+    assert_equal first_status.to_i, 1
+    assert_equal second_status.to_i, 2
+  end
 
   def test_enumeration_to_sym
     status = Status.find(:draft)

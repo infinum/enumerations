@@ -15,28 +15,28 @@ class EnumerationsTest < Minitest::Test
     p = Post.new
     p.status = Status.draft
 
-    assert_equal 'Draft', p.status.to_s
+    assert_equal 'draft', p.status.to_s
   end
 
   def test_model_bang_assignment
     p = Post.new
     p.status_draft!
 
-    assert_equal 'Draft', p.status.to_s
+    assert_equal 'draft', p.status.to_s
   end
 
   def test_model_bang_assignment_with_custom_name
     p = Post.new
     p.different_status_draft!
 
-    assert_equal 'Draft', p.different_status.to_s
+    assert_equal 'draft', p.different_status.to_s
   end
 
   def test_model_via_symbol_assignment
     p = Post.new
     p.some_other_status = Status.published.symbol
 
-    assert_equal 'Published', p.different_status.to_s
+    assert_equal 'published', p.some_other_status.to_s
   end
 
   def test_boolean_lookup
@@ -70,8 +70,8 @@ class EnumerationsTest < Minitest::Test
     u.role = Role.admin
     u.status = Status.published
 
-    assert_equal 'Admin', u.role.to_s
-    assert_equal 'Published', u.status.to_s
+    assert_equal 'admin', u.role.to_s
+    assert_equal 'published', u.status.to_s
   end
 
   def test_enumerated_class_has_scopes

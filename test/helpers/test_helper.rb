@@ -29,14 +29,14 @@ class Role < Enumerations::Base
 end
 
 class Post < ActiveRecord::Base
-  attr_accessor :status_id, :some_other_status_id
+  attr_accessor :status, :some_other_status
 
   enumeration :status
-  enumeration :different_status, foreign_key: :some_other_status_id, class_name: 'Status'
+  enumeration :different_status, foreign_key: :some_other_status, class_name: 'Status'
 end
 
 class User < ActiveRecord::Base
-  attr_accessor :role_id, :status_id
+  attr_accessor :role, :status
 
   enumeration :role
   enumeration :status
