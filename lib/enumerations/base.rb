@@ -8,8 +8,10 @@ module Enumerations
     extend Enumerations::FinderMethods
     include Enumerations::Value
 
-    class_attribute :_values
+    class_attribute :_values, :_symbol_index
+
     self._values = {}
+    self._symbol_index = {}
 
     # Adding new value to enumeration
     #
@@ -21,7 +23,7 @@ module Enumerations
     #   Role.find(:admin).description   => # "Some description..."
     #
     def self.value(symbol, attributes)
-      raise "Duplicate symbol #{symbol}" if find(symbol)
+      validate_symbol_and_primary_key(symbol, attributes)
 
       self._values = _values.merge(symbol => new(symbol, attributes))
 
@@ -76,6 +78,20 @@ module Enumerations
     def self.all
       _values.values
     end
+
+    def self.validate_symbol_and_primary_key(symbol, attributes)
+      raise "Duplicate symbol #{symbol}" if find(symbol)
+
+      primary_key = Enumerations.configuration.primary_key
+      return if primary_key.nil?
+
+      raise 'Enumeration primary key is required' if attributes[primary_key].nil?
+      raise "Duplicate primary key #{attributes[primary_key]}" if find(attributes[primary_key])
+
+      self._symbol_index = _symbol_index.merge(symbol => attributes[primary_key])
+    end
+
+    private_class_method :validate_symbol_and_primary_key
 
     attr_reader :symbol, :attributes
 

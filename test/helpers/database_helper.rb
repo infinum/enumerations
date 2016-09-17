@@ -12,4 +12,9 @@ ActiveRecord::Schema.define do
     t.string :role
     t.string :status
   end
+
+  create_table :custom_posts, force: true do |t|
+    t.integer :custom_status_id
+    t.integer :custom_status
+  end
 end
