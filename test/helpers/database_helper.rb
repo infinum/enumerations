@@ -13,8 +13,8 @@ ActiveRecord::Schema.define do
     t.string :status
   end
 
-  create_table :custom_posts, force: true do |t|
-    t.integer :custom_status_id
-    t.integer :custom_status
+  create_table :custom_models, force: true do |t|
+    t.integer :custom_enum_id
+    t.integer :custom_enum
   end
 end

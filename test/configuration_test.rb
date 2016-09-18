@@ -38,7 +38,7 @@ class ConfigurationTest < Minitest::Test
     Enumerations.configure { |config| config.primary_key = :id }
 
     assert_raises 'Enumeration primary key is required' do
-      Class.new.values draft: { name: 'Draft' }
+      Class.new(Enumerations::Base).value draft: { name: 'Draft' }
     end
   end
 
@@ -46,8 +46,8 @@ class ConfigurationTest < Minitest::Test
     Enumerations.configure { |config| config.primary_key = :id }
 
     assert_raises 'Duplicate primary key 1' do
-      Class.new.values draft: { id: 1, name: 'Draft' },
-                       test:  { id: 1, name: 'Draft' }
+      Class.new(Enumerations::Base).values draft: { id: 1, name: 'Draft' },
+                                           test:  { id: 1, name: 'Draft' }
     end
   end
 end
