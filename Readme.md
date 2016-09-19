@@ -263,6 +263,89 @@ en:
 I18n.load_path += Dir[Rails.root.join('config', 'locales', 'enumerations', '*.yml')]
 ```
 
+Configuration
+=============
+
+Basically no configuration is needed.
+
+**Enumerations** has two configuration options.
+You can customize primary key and foreign key suffix.
+Just add initializer file to `config/initializers/enumerations.rb`.
+
+Example of configuration:
+
+```ruby
+# config/initializers/enumerations.rb
+
+Enumerations.configure do |config|
+  config.primary_key        = :id
+  config.foreign_key_suffix = :id
+end
+```
+
+By default, `primary_key` and `foreign_key_suffix` are set to `nil`.
+
+By default model enumeration value is saved to column with same name as enumeration.
+If you set enumeration as:
+```ruby
+enumeration :status
+```
+then model should have `status`column (as `String` type).
+If you want save an `ID` to this column, you can set `foreign_key_suffix` to `id`.
+Then model should have `status_id` column.
+
+If you set `primary_key` then you need provide this attribute for all enumerations values.
+Also, value from `primary_key` attribute will be stored to model as enumeration value.
+
+For example:
+
+```ruby
+# with default configuration
+
+post = Post.new
+post.status = Status.draft      # => post.status = 'draft'
+
+# with configured primary_key and foreign_key_suffix:
+
+Enumerations.configure do |config|
+  config.primary_key        = :id
+  config.foreign_key_suffix = :id
+end
+
+class Status < Enumerations::Base
+  value :draft,           id: 1, name: 'Draft'
+  value :review_pending,  id: 2, name: 'Review pending',
+  value :published,       id: 3, name: 'Published', published: true
+end
+
+post = Post.new
+post.status = Status.draft      # => post.status_id = 1
+```
+
+Database Enumerations
+=====================
+
+By default, enumeration values are saved to database as `String`.
+If you want, you can define `Enum` type in database:
+
+```sql
+CREATE TYPE status AS ENUM ('draft', 'review_pending', 'published');
+```
+
+Then you'll have enumeration as type in database and you can use it in database migrations:
+
+```ruby
+add_column :posts, :status, :status, index: true
+```
+
+With configuration option `primary_key`, you can store any type you want (e.g. `Integer`).
+
+Also, for performance reasons, you should add indices to enumeration column.
+
+[Here](https://www.postgresql.org/docs/9.1/static/datatype-enum.html) you can find more informations about ENUM types.
+
+
+
 Contributing
 ============
 
