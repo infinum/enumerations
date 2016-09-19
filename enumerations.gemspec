@@ -3,12 +3,19 @@ require File.expand_path('../lib/enumerations/version', __FILE__)
 Gem::Specification.new do |s|
   s.name        = 'enumerations'
   s.version     = Enumerations::VERSION
-  s.date        = '2016-08-15'
+  s.date        = '2016-09-15'
   s.summary     = 'Enumerations for ActiveRecord!'
   s.description = 'Extends ActiveRecord with enumeration capabilites.'
-  s.authors     = ['Tomislav Car', 'Nikica Jokic', 'Nikola Santic']
-  s.email       = ['tomislav@infinum.hr', 'nikica.jokic@infinum.hr', 'nikola.santic@infinum.hr']
   s.homepage    = 'https://github.com/infinum/enumerations'
+
+  s.authors     = [
+    'Tomislav Car', 'Nikica Jokić', 'Nikola Santić', 'Stjepan Hadjić', 'Petar Ćurković'
+  ]
+
+  s.email = [
+    'tomislav@infinum.hr', 'nikica.jokic@infinum.hr', 'nikola.santic@infinum.hr',
+    'stjepan.hadjic@infinum.hr', 'petar.curkovic@infinum.hr'
+  ]
 
   s.add_dependency 'activerecord'
   s.add_dependency 'activesupport'

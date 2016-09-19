@@ -26,9 +26,9 @@ Create a model for your enumerations:
 
 ```ruby
 class Status < Enumerations::Base
-  values draft:           { id: 1, name: 'Draft' },
-         review_pending:  { id: 2, name: 'Review pending' },
-         published:       { id: 3, name: 'Published' }
+  values draft:           { name: 'Draft' },
+         review_pending:  { name: 'Review pending' },
+         published:       { name: 'Published' }
 end
 ```
 
@@ -36,9 +36,9 @@ Or you can use `value` method for defining your enumerations:
 
 ```ruby
 class Status < Enumerations::Base
-  value :draft,           id: 1, name: 'Draft'
-  value :review_pending,  id: 2, name: 'Review pending'
-  value :published,       id: 3, name: 'Published'
+  value :draft,           name: 'Draft'
+  value :review_pending,  name: 'Review pending'
+  value :published,       name: 'Published'
 end
 ```
 
@@ -48,7 +48,7 @@ Include enumerations for integer fields in other models:
 class Post < ActiveRecord::Base
   enumeration :status
 
-  validates :status, presence: true           # You can validate either :status or :status_id
+  validates :status, presence: true
 end
 ```
 
@@ -57,8 +57,8 @@ You can pass attributes to specify which enumeration and which column to use:
 ```ruby
 class Post < ActiveRecord::Base
   enumeration :status,
-              foreign_key: :post_status_id,   # specifies which column to use
-              class_name: Post::Status        # specifies the class of the enumerator
+              foreign_key: :post_status,   # specifies which column to use
+              class_name: Post::Status     # specifies the class of the enumerator
 
   validates :post_status, presence: true
 end
@@ -69,18 +69,18 @@ Attribute `foreign_key` you can pass as a `String` or a `Symbol`. Attribute `cla
 
 ## Setting enumeration value to objects
 
-Set enumerations, find enumerations by `symbol`:
+Set enumerations:
 
 ```ruby
 @post = Post.first
-@post.status = Status.find(:draft)
+@post.status = Status.draft
 @post.save
 ```
 
-Or you can set enumerations on this way:
+Or you can set enumerations by `symbol`:
 
 ```ruby
-@post.status = Status.draft
+@post.status = Status.find(:draft)
 ```
 
 Also, you can set enumeration value like this:
@@ -89,7 +89,8 @@ Also, you can set enumeration value like this:
 @post.status_draft!
 ```
 
-> When you include enumerations into your model, you'll get methods for setting each enumeration value. Each method name is consists from enumeration name and enumeration value name with **!** at the end. Examples:
+> When you include enumerations into your model, you'll get methods for setting each enumeration value.
+Each method name is consists from enumeration name and enumeration value name with **!** at the end. Examples:
 
 ```ruby
 class Post < ActiveRecord::Base
@@ -129,10 +130,10 @@ Find enumerations by `id`:
 Other finding methods:
 
 ```ruby
-# Find by id as a String
-Status.find('2')                              # => Review pending
+# Find by key as a Symbol
+Status.find(:review_pending)                  # => Review pending
 
-# Find by symbol as a String
+# Find by key as a String
 Status.find('draft')                          # => Draft
 
 # Find by multiple attributes
@@ -143,8 +144,8 @@ Compare enumerations:
 
 ```ruby
 @post.status == :published                    # => true
-@post.status == 3                             # => true
-@post.status == Status.find(:published)       # => true
+@post.status == 'published'                   # => true
+@post.status == Status.published              # => true
 @post.status.published?                       # => true
 ```
 
@@ -206,25 +207,26 @@ Use in forms:
 
 ```ruby
 %p
-  = f.label :status_id
+  = f.label :status
   %br
-  = f.collection_select :status_id, Status.all, :id, :name
+  = f.collection_select :status, Status.all, :symbol, :name
 ```
 
-Advance Usage
+Advanced Usage
 =====
 
-Except `id` and `name` you can specify other attributes to your enumerations:
+Except `name` you can specify any other attributes to your enumerations:
 
 ```ruby
 class Status < Enumerations::Base
   value :draft,           id: 1, name: 'Draft'
   value :review_pending,  id: 2, name: 'Review pending', description: 'Some description...'
-  value :published,       id: 3, name: 'Published'
+  value :published,       id: 3, name: 'Published', published: true
 end
 ```
 
-Every enumeration has `id`, `name` and `description` methods. If you call method that is not in attribute list for enumeration, it will return `nil`.
+Every enumeration has `id`, `name`, `description` and `published` methods.
+If you call method that is not in attribute list for enumeration, it will return `nil`.
 
 ```ruby
 Status.review_pending.description              # => 'Some description...'
@@ -261,7 +263,105 @@ en:
 I18n.load_path += Dir[Rails.root.join('config', 'locales', 'enumerations', '*.yml')]
 ```
 
-Author
-======
+Configuration
+=============
 
-Copyright © 2010 Tomislav Car, Infinum Ltd.
+Basically no configuration is needed.
+
+**Enumerations** has two configuration options.
+You can customize primary key and foreign key suffix.
+Just add initializer file to `config/initializers/enumerations.rb`.
+
+Example of configuration:
+
+```ruby
+# config/initializers/enumerations.rb
+
+Enumerations.configure do |config|
+  config.primary_key        = :id
+  config.foreign_key_suffix = :id
+end
+```
+
+By default, `primary_key` and `foreign_key_suffix` are set to `nil`.
+
+By default model enumeration value is saved to column with same name as enumeration.
+If you set enumeration as:
+```ruby
+enumeration :status
+```
+then model should have `status`column (as `String` type).
+If you want save an `ID` to this column, you can set `foreign_key_suffix` to `id`.
+Then model should have `status_id` column.
+
+If you set `primary_key` then you need provide this attribute for all enumerations values.
+Also, value from `primary_key` attribute will be stored to model as enumeration value.
+
+For example:
+
+```ruby
+# with default configuration
+
+post = Post.new
+post.status = Status.draft      # => post.status = 'draft'
+
+# with configured primary_key and foreign_key_suffix:
+
+Enumerations.configure do |config|
+  config.primary_key        = :id
+  config.foreign_key_suffix = :id
+end
+
+class Status < Enumerations::Base
+  value :draft,           id: 1, name: 'Draft'
+  value :review_pending,  id: 2, name: 'Review pending',
+  value :published,       id: 3, name: 'Published', published: true
+end
+
+post = Post.new
+post.status = Status.draft      # => post.status_id = 1
+```
+
+Database Enumerations
+=====================
+
+By default, enumeration values are saved to database as `String`.
+If you want, you can define `Enum` type in database:
+
+```sql
+CREATE TYPE status AS ENUM ('draft', 'review_pending', 'published');
+```
+
+Then you'll have enumeration as type in database and you can use it in database migrations:
+
+```ruby
+add_column :posts, :status, :status, index: true
+```
+
+With configuration option `primary_key`, you can store any type you want (e.g. `Integer`).
+
+Also, for performance reasons, you should add indices to enumeration column.
+
+[Here](https://www.postgresql.org/docs/9.1/static/datatype-enum.html) you can find more informations about ENUM types.
+
+
+
+Contributing
+============
+
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
+
+Credits
+=======
+**Enumerations** is maintained and sponsored by [Infinum](https://infinum.co)
+
+Copyright © 2016 Infinum Ltd.
+
+License
+=======
+
+The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).

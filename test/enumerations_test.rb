@@ -1,4 +1,4 @@
-require_relative 'test_helper'
+require_relative 'helpers/test_helper'
 
 class EnumerationsTest < Minitest::Test
   def test_reflect_on_all_enumerations
@@ -8,35 +8,35 @@ class EnumerationsTest < Minitest::Test
     assert_equal :status, enumerations.first.name
     assert_equal 'Status', enumerations.first.class_name
 
-    assert_equal :some_other_status_id, enumerations[1].foreign_key
+    assert_equal :some_other_status, enumerations[1].foreign_key
   end
 
   def test_model_enumeration_assignment
     p = Post.new
     p.status = Status.draft
 
-    assert_equal 'Draft', p.status.to_s
+    assert_equal 'draft', p.status.to_s
   end
 
   def test_model_bang_assignment
     p = Post.new
     p.status_draft!
 
-    assert_equal 'Draft', p.status.to_s
+    assert_equal 'draft', p.status.to_s
   end
 
   def test_model_bang_assignment_with_custom_name
     p = Post.new
     p.different_status_draft!
 
-    assert_equal 'Draft', p.different_status.to_s
+    assert_equal 'draft', p.different_status.to_s
   end
 
-  def test_model_via_id_assignment
+  def test_model_via_symbol_assignment
     p = Post.new
-    p.some_other_status_id = Status.published.id
+    p.some_other_status = Status.published.symbol
 
-    assert_equal 'Published', p.different_status.to_s
+    assert_equal 'published', p.some_other_status.to_s
   end
 
   def test_boolean_lookup
@@ -59,10 +59,10 @@ class EnumerationsTest < Minitest::Test
     assert_equal 2, enumerations.size
 
     assert_equal :role, enumerations.first.name
-    assert_equal :role_id, enumerations.first.foreign_key
+    assert_equal :role, enumerations.first.foreign_key
 
     assert_equal :status, enumerations[1].name
-    assert_equal :status_id, enumerations[1].foreign_key
+    assert_equal :status, enumerations[1].foreign_key
   end
 
   def test_multiple_enumeration_assignments_on_model
@@ -70,8 +70,8 @@ class EnumerationsTest < Minitest::Test
     u.role = Role.admin
     u.status = Status.published
 
-    assert_equal 'Admin', u.role.to_s
-    assert_equal 'Published', u.status.to_s
+    assert_equal 'admin', u.role.to_s
+    assert_equal 'published', u.status.to_s
   end
 
   def test_enumerated_class_has_scopes
@@ -83,6 +83,6 @@ class EnumerationsTest < Minitest::Test
   def test_enumerated_class_scope_hash_value
     query_hash = User.with_role_admin.where_values_hash.symbolize_keys
 
-    assert_equal query_hash, role_id: 1
+    assert_equal query_hash, role: :admin
   end
 end

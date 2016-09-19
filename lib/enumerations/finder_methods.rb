@@ -1,20 +1,16 @@
 module Enumerations
   module FinderMethods
-    # Finds an enumeration by symbol, id or name
+    # Finds an enumeration by symbol or name
     #
     # Example:
     #
     #   Role.find(:admin)  => #<Enumerations::Value: @base=Role, @symbol=:admin...>
-    #   Role.find(2)       => #<Enumerations::Value: @base=Role, @symbol=:manager...>
-    #   Role.find('2')     => #<Enumerations::Value: @base=Role, @symbol=:manager...>
     #   Role.find('staff') => #<Enumerations::Value: @base=Role, @symbol=:staff...>
     #
     def find(key)
       case key
-      when Symbol then find_by_key(key)
-      when String then find_by_key(key.to_sym) || find_by_id(key.to_i)
-      when Fixnum then find_by_id(key)
-      end
+      when Symbol, String, Enumerations::Base then find_by_key(key.to_sym)
+      end || find_by_primary_key(key)
     end
 
     # Finds all enumerations which meets given attributes.
@@ -42,8 +38,14 @@ module Enumerations
       _values[key]
     end
 
-    def find_by_id(id)
-      _values[_symbol_index.key(id)]
+    def find_by_primary_key(primary_key)
+      value_from_symbol_index(primary_key) || value_from_symbol_index(primary_key.to_s.to_i)
+    end
+
+    private
+
+    def value_from_symbol_index(key)
+      _values[_symbol_index.key(key)]
     end
   end
 end

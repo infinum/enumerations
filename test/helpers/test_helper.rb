@@ -6,8 +6,10 @@ require 'enumerations'
 require 'active_record'
 require 'pry'
 
-require_relative 'helpers/database_helper'
-require_relative 'helpers/locale_helper'
+require_relative 'database_helper'
+require_relative 'locale_helper'
+
+Enumerations.configure { |_| }
 
 class Status < Enumerations::Base
   values draft:           { id: 1, name: 'Draft' },
@@ -19,9 +21,9 @@ class Status < Enumerations::Base
 end
 
 class Role < Enumerations::Base
-  value :admin,   id: 1, name: 'Admin',  admin: true, active: true
-  value :editor,  id: 2, name: 'Editor', admin: true, active: false, description: 'Edits newspapers'
-  value :author,  id: 3, name: 'Author'
+  value :admin,   name: 'Admin',  admin: true, active: true
+  value :editor,  name: 'Editor', admin: true, active: false, description: 'Edits newspapers'
+  value :author,  name: 'Author'
 
   def my_custom_name
     ['user', name].join('_')
@@ -29,15 +31,11 @@ class Role < Enumerations::Base
 end
 
 class Post < ActiveRecord::Base
-  attr_accessor :status_id, :some_other_status_id
-
   enumeration :status
-  enumeration :different_status, foreign_key: :some_other_status_id, class_name: 'Status'
+  enumeration :different_status, foreign_key: :some_other_status, class_name: 'Status'
 end
 
 class User < ActiveRecord::Base
-  attr_accessor :role_id, :status_id
-
   enumeration :role
   enumeration :status
 end

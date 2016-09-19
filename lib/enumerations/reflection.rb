@@ -12,11 +12,17 @@ module Enumerations
     end
 
     def foreign_key
-      @foreign_key ||= (@options[:foreign_key] || "#{name}_id").to_sym
+      @foreign_key ||= (@options[:foreign_key] || default_foreign_key_name).to_sym
     end
 
     def enumerator_class
       @enumerator_class ||= class_name.constantize
+    end
+
+    private
+
+    def default_foreign_key_name
+      [name, Enumerations.configuration.foreign_key_suffix].compact.join('_')
     end
   end
 end

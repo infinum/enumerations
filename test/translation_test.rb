@@ -1,4 +1,4 @@
-require_relative 'test_helper'
+require_relative 'helpers/test_helper'
 
 class TranslationTest < Minitest::Test
   def test_translated_value_with_default_locale

@@ -1,36 +1,34 @@
 module Enumerations
   module Value
     def to_i
-      id
+      _values.keys.index(symbol) + 1
     end
 
     def to_s
-      name
+      symbol.to_s
+    end
+
+    def to_param
+      to_s
     end
 
     def to_sym
       symbol
     end
 
-    def to_param
-      id
-    end
-
-    # Comparison by id, symbol or object
+    # Comparison by symbol or object
     #
     # Example:
     #
-    #   Role.admin == 1           => true
     #   Role.admin == :admin      => true
     #   Role.admin == Role.admin  => true
-    #   Role.admin == 2           => false
     #   Role.admin == :staff      => false
     #   Role.admin == Role.staff  => false
     #
     # TODO: test if case..when is working with this
     def ==(other)
       case other
-      when Fixnum then other == id
+      when String then other == to_s
       when Symbol then other == symbol
       else super
       end
@@ -49,8 +47,8 @@ module Enumerations
     #
     #   Role.admin => #<Enumerations::Value:0x007fff45d7ec30 @base=Role, @symbol=:admin,
     #                   @attributes={:id=>1, :name=>"Admin", :description=>"Some description..."}>
-    #   user.role.id => # 1
-    #   user.role.name => # "Admin"
+    #   user.role.id          => # 1
+    #   user.role.name        => # "Admin"
     #   user.role.description => # "Some description..."
     #
     def define_attributes_getters

@@ -9,6 +9,7 @@ module Enumerations
     include Enumerations::Value
 
     class_attribute :_values, :_symbol_index
+
     self._values = {}
     self._symbol_index = {}
 
@@ -18,17 +19,13 @@ module Enumerations
     #
     #   value :admin, id: 1, name: 'Admin', description: 'Some description...'
     #
-    #   Role.admin.id             => # 1
-    #   Role.find(:admin).name    => # "Admin"
-    #   Role.find(1).description  => # "Some description..."
+    #   Role.find(:admin).name          => # "Admin"
+    #   Role.find(:admin).description   => # "Some description..."
     #
     def self.value(symbol, attributes)
-      raise 'Enumeration id is required' if attributes[:id].nil?
-      raise "Duplicate symbol #{symbol}" if find(symbol)
-      raise "Duplicate id #{attributes[:id]}" if find(attributes[:id])
+      validate_symbol_and_primary_key(symbol, attributes)
 
       self._values = _values.merge(symbol => new(symbol, attributes))
-      self._symbol_index = _symbol_index.merge(symbol => attributes[:id])
 
       # Adds name base finder methods
       #
@@ -50,9 +47,9 @@ module Enumerations
     #          manager:         { id: 2, name: 'Manager' },
     #          staff:           { id: 3, name: 'Staff', description: 'Some description...' }
     #
-    #   Role.admin.id => # 1
-    #   Role.find(:manager).name => # "Manager"
-    #   Role.find(3).description => # "Some description..."
+    #   Role.admin.id                     => # 1
+    #   Role.find(:manager).name          => # "Manager"
+    #   Role.find(:manager).description   => # "Some description..."
     #
     def self.values(values)
       values.each do |symbol, attributes|
@@ -81,6 +78,20 @@ module Enumerations
     def self.all
       _values.values
     end
+
+    def self.validate_symbol_and_primary_key(symbol, attributes)
+      raise "Duplicate symbol #{symbol}" if find(symbol)
+
+      primary_key = Enumerations.configuration.primary_key
+      return if primary_key.nil?
+
+      raise 'Enumeration primary key is required' if attributes[primary_key].nil?
+      raise "Duplicate primary key #{attributes[primary_key]}" if find(attributes[primary_key])
+
+      self._symbol_index = _symbol_index.merge(symbol => attributes[primary_key])
+    end
+
+    private_class_method :validate_symbol_and_primary_key
 
     attr_reader :symbol, :attributes
 

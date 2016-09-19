@@ -1,4 +1,4 @@
-require_relative 'test_helper'
+require_relative 'helpers/test_helper'
 
 class FinderTest < Minitest::Test
   def test_lookup_by_symbol
@@ -11,12 +11,6 @@ class FinderTest < Minitest::Test
     status = Status.find(:draft)
 
     refute_same :published, status.symbol
-  end
-
-  def test_lookup_by_string_id
-    status = Status.find('1')
-
-    assert_equal :draft, status.symbol
   end
 
   def test_lookup_by_string_key
