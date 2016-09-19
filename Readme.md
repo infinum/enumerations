@@ -69,18 +69,18 @@ Attribute `foreign_key` you can pass as a `String` or a `Symbol`. Attribute `cla
 
 ## Setting enumeration value to objects
 
-Set enumerations, find enumerations by `symbol`:
+Set enumerations:
 
 ```ruby
 @post = Post.first
-@post.status = Status.find(:draft)
+@post.status = Status.draft
 @post.save
 ```
 
-Or you can set enumerations on this way:
+Or you can set enumerations by `symbol`:
 
 ```ruby
-@post.status = Status.draft
+@post.status = Status.find(:draft)
 ```
 
 Also, you can set enumeration value like this:
@@ -145,7 +145,7 @@ Compare enumerations:
 ```ruby
 @post.status == :published                    # => true
 @post.status == 'published'                   # => true
-@post.status == Status.find(:published)       # => true
+@post.status == Status.published              # => true
 @post.status.published?                       # => true
 ```
 
