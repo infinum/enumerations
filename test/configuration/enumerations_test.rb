@@ -1,5 +1,5 @@
 require_relative '../helpers/test_helper'
-require_relative 'Configuration'
+require_relative 'configuration'
 
 module Configuration
   class EnumerationsTest < Minitest::Test
