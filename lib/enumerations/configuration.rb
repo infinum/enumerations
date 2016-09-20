@@ -1,16 +1,14 @@
 module Enumerations
-  class << self
-    attr_accessor :configuration
+  def self.configuration
+    @configuration ||= Configuration.new
   end
 
   def self.configure
-    self.configuration ||= Configuration.new
     yield(configuration)
   end
 
   def self.restore_default_configuration
-    self.configuration = nil
-    configure {}
+    @configuration = nil
   end
 
   class Configuration
