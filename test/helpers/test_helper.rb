@@ -9,8 +9,6 @@ require 'pry'
 require_relative 'database_helper'
 require_relative 'locale_helper'
 
-Enumerations.configure { |_| }
-
 class Status < Enumerations::Base
   values draft:           { id: 1, name: 'Draft' },
          review_pending:  { id: 2, name: 'Review pending' },
