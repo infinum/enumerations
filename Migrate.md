@@ -46,9 +46,7 @@ And voilà! You can carry on with work knowing your enumerations are up to date.
 Second way
 ==========
 
-Use any gem you see fit, we prefer `data_migrate` gem for this job.
-
-Simply create the data migration with `rails g data_migration name_of_your_migration`
+You can use a gem for the migration, or just write raw SQL.
 
 Your migration will look something like this:
 
