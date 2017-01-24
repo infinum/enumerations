@@ -48,16 +48,28 @@ Second way
 
 You can use a gem for the migration, or just write raw SQL.
 
-Your migration will look something like this:
+Your migrations will look something like this:
 
+First to change the column types
 ```ruby
-class MoveMyEnumToNewEnumerations < ActiveRecord::Migration
-  def change
+class MoveMyEnumToNewEnumerationsColumns
+  def up
     rename_column :my_table, :my_enum_id, :my_enum
     change_column :my_table, :my_enum, :string
   end
 
-  def data
+  def down
+    change_column :my_table, :my_enum, 'integer USING CAST(my_enum AS integer)'
+    rename_column :my_table, :my_enum, :my_enum_id
+  end
+end
+```
+
+And now for the actual data
+
+```ruby
+class MoveMyEnumToNewEnumerations < ActiveRecord::Migration
+  def up
     execute(<<-SQL
       UPDATE my_table
       SET my_enum =
@@ -65,12 +77,22 @@ class MoveMyEnumToNewEnumerations < ActiveRecord::Migration
         WHEN '1' THEN 'first'
         WHEN '2' THEN 'second'
         WHEN '3' THEN 'third'
-        WHEN '6' THEN 'sixth'
-        WHEN '7' THEN 'seventh'
         END
     SQL
     )
   end
+
+  def down
+    execute(<<-SQL
+      UPDATE my_table
+      SET my_enum =
+        CASE my_enum
+        WHEN 'first' THEN '1'
+        WHEN 'second' THEN '2'
+        WHEN 'third' THEN '3'
+        END
+    SQL
+    )
 end
 ```
 
