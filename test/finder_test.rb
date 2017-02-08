@@ -28,7 +28,7 @@ class FinderTest < Minitest::Test
   def test_fail_find_by
     status = Status.find_by(name: 'Draft1')
 
-    assert_equal nil, status
+    assert_nil status
   end
 
   def test_where_by_name

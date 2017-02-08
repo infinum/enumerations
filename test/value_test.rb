@@ -40,7 +40,7 @@ class ValueTest < Minitest::Test
   def test_without_defined_custom_attributes
     status = Status.find(:draft)
 
-    assert_equal nil, status.visible
+    assert_nil status.visible
   end
 
   def test_enumeration_to_i_return_ordinal

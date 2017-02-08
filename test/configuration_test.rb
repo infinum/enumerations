@@ -10,8 +10,8 @@ class ConfigurationTest < Minitest::Test
   end
 
   def test_default_configuration
-    assert_equal nil, Enumerations.configuration.primary_key
-    assert_equal nil, Enumerations.configuration.foreign_key_suffix
+    assert_nil Enumerations.configuration.primary_key
+    assert_nil Enumerations.configuration.foreign_key_suffix
   end
 
   def test_custom_configuration
