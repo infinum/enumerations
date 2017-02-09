@@ -69,13 +69,13 @@ class TranslationTest < Minitest::Test
   def test_empty_custom_attribute_with_custom_locale
     role = Role.find(:admin)
 
-    assert_equal nil, role.description(locale: :hr)
+    assert_nil role.description(locale: :hr)
   end
 
   def test_empty_custom_attribute_with_custom_locale_and_defined_translation
     role = Role.find(:author)
 
-    assert_equal nil, role.description(locale: :hr)
+    assert_nil role.description(locale: :hr)
   end
 
   def test_find_by_localized_name
@@ -89,6 +89,6 @@ class TranslationTest < Minitest::Test
     status = Status.find_by(name: 'Nacrt')
     I18n.locale = :en
 
-    assert_equal nil, status
+    assert_nil status
   end
 end

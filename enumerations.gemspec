@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'i18n'
   s.add_development_dependency 'pry-byebug'
   s.add_development_dependency 'rake'
-  s.add_development_dependency 'codeclimate-test-reporter'
+  s.add_development_dependency 'codeclimate-test-reporter', '~> 1.0'
   s.add_development_dependency 'sqlite3'
 
   s.files         = `git ls-files`.split("\n")
