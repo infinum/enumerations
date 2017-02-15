@@ -1,4 +1,5 @@
 require_relative 'helpers/test_helper'
+require 'enumerations/enumerations_error'
 
 class EnumerationsTest < Minitest::Test
   def test_reflect_on_all_enumerations
@@ -87,16 +88,14 @@ class EnumerationsTest < Minitest::Test
   end
 
   def test_raising_error_on_nonexistent_value_assignment
-    exception = assert_raises RuntimeError do
+    exception = assert_raises EnumerationsError do
       User.new(role: :nonexistent_value)
     end
-    assert_equal 'invalid value assignment for role', exception.message
+    assert_equal 'invalid value assignment for role (nonexistent_value)', exception.message
   end
 
   def test_raising_error_on_nil_value_assignment
-    exception = assert_raises RuntimeError do
-      User.new(role: nil)
-    end
-    assert_equal 'invalid value assignment for role', exception.message
+    user = User.new(role: nil)
+    assert_nil user.role
   end
 end
