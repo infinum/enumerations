@@ -1,0 +1,2 @@
+class EnumerationsError < RuntimeError
+end
