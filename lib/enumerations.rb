@@ -84,6 +84,7 @@ module Enumerations
     def define_setter_method(reflection)
       define_method("#{reflection.name}=") do |other|
         enumeration_value = reflection.enumerator_class.find(other)
+        raise "invalid value assignment for #{reflection.foreign_key}" if enumeration_value.nil?
 
         self[reflection.foreign_key] =
           enumeration_value.send(Enumerations.configuration.primary_key || :symbol)
