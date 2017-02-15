@@ -75,8 +75,8 @@ class EnumerationsTest < Minitest::Test
   end
 
   def test_enumerated_class_has_scopes
-    Role.all do |role|
-      assert_respond_to User, ['with_role', role.name].join('_').to_sym
+    Role.all.each do |role|
+      assert_respond_to User, ['with_role', role.to_s].join('_').to_sym
     end
   end
 
