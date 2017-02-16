@@ -22,6 +22,7 @@ class Role < Enumerations::Base
   value :admin,   name: 'Admin',  admin: true, active: true
   value :editor,  name: 'Editor', admin: true, active: false, description: 'Edits newspapers'
   value :author,  name: 'Author'
+  value :lecturer
 
   def my_custom_name
     ['user', name].join('_')
