@@ -22,7 +22,7 @@ module Enumerations
     #   Role.find(:admin).name          => # "Admin"
     #   Role.find(:admin).description   => # "Some description..."
     #
-    def self.value(symbol, attributes)
+    def self.value(symbol, attributes = {})
       validate_symbol_and_primary_key(symbol, attributes)
 
       self._values = _values.merge(symbol => new(symbol, attributes))
