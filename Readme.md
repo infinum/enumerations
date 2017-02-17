@@ -188,6 +188,8 @@ end
 Post.with_status_draft                        # => <#ActiveRecord::Relation []>
 Post.with_status_review_pending               # => <#ActiveRecord::Relation []>
 Post.with_status(:review_pending)             # => <#ActiveRecord::Relation []>
+Post.with_status('review_pending')            # => <#ActiveRecord::Relation []>
+Post.with_status(Status.review_pending)       # => <#ActiveRecord::Relation []>
 Post.with_status(:draft, :review_pending)     # => <#ActiveRecord::Relation []>
 Post.with_status([:draft, :review_pending])   # => <#ActiveRecord::Relation []>
 ```
