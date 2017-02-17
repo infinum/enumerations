@@ -92,7 +92,7 @@ class EnumerationsTest < Minitest::Test
     author = User.create(role: :author)
 
     assert_equal User.with_role(:admin), [admin]
-    assert_equal User.with_role(:admin, 'editor'), [admin, editor]
+    assert_equal User.with_role(Role.admin, 'editor'), [admin, editor]
     assert_equal User.with_role([:admin, :editor, :author]), [admin, editor, author]
   end
 end
