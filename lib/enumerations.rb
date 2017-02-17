@@ -113,6 +113,9 @@ module Enumerations
     #
     #   User.with_role_admin => <#ActiveRecord::Relation []>
     #   User.with_role_editor => <#ActiveRecord::Relation []>
+    #   User.with_role(:admin) => <#ActiveRecord::Relation []>
+    #   User.with_role(:admin, :editor) => <#ActiveRecord::Relation []>
+    #   User.with_role([:admin, :editor]) => <#ActiveRecord::Relation []>
     #
     def define_scopes(reflection)
       reflection.enumerator_class.all.each do |enumeration|
@@ -121,6 +124,8 @@ module Enumerations
         scope "with_#{reflection.name}_#{enumeration.symbol}",
               -> { where(reflection.foreign_key => foreign_key) }
       end
+
+      scope "with_#{reflection.name}", ->(*symbols) { where(reflection.foreign_key => symbols) }
     end
   end
 end
