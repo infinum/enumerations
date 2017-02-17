@@ -85,4 +85,14 @@ class EnumerationsTest < Minitest::Test
 
     assert_equal query_hash, role: :admin
   end
+
+  def test_scopes_with_arguments
+    admin = User.create(role: :admin)
+    editor = User.create(role: :editor)
+    author = User.create(role: :author)
+
+    assert_equal User.with_role(:admin), [admin]
+    assert_equal User.with_role(:admin, 'editor'), [admin, editor]
+    assert_equal User.with_role([:admin, :editor, :author]), [admin, editor, author]
+  end
 end
