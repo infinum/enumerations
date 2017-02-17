@@ -87,14 +87,12 @@ class EnumerationsTest < Minitest::Test
     assert_equal query_hash, role: :admin
   end
 
-  def test_raising_error_on_nonexistent_value_assignment
-    exception = assert_raises EnumerationsError do
-      User.new(role: :nonexistent_value)
-    end
-    assert_equal 'invalid value assignment for role (nonexistent_value)', exception.message
+  def test_nonexistent_value_assignment
+    user = User.new(role: :nonexistent_value)
+    assert_nil user.role
   end
 
-  def test_raising_error_on_nil_value_assignment
+  def test_on_nil_value_assignment
     user = User.new(role: nil)
     assert_nil user.role
   end

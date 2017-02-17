@@ -86,13 +86,9 @@ module Enumerations
       define_method("#{reflection.name}=") do |other|
         enumeration_value = reflection.enumerator_class.find(other)
 
-        if enumeration_value.nil? && !other.nil?
-          raise EnumerationsError,
-            "invalid value assignment for #{reflection.foreign_key} (#{other.to_s})"
-        end
-
         self[reflection.foreign_key] =
-          other && enumeration_value.send(Enumerations.configuration.primary_key || :symbol)
+          enumeration_value &&
+          enumeration_value.send(Enumerations.configuration.primary_key || :symbol)
       end
     end
 
