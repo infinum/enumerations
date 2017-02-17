@@ -16,6 +16,10 @@ module Enumerations
       symbol
     end
 
+    def quoted_id
+      "'#{send(Enumerations.configuration.primary_key || :symbol)}'"
+    end
+
     # Comparison by symbol or object
     #
     # Example:
