@@ -47,5 +47,15 @@ module Configuration
 
       assert_equal query_hash, custom_enum_id: 1
     end
+
+    def test_scopes_with_arguments
+      draft = CustomModel.create(custom_enum: :draft)
+      review = CustomModel.create(custom_enum: :review)
+      published = CustomModel.create(custom_enum: :published)
+
+      assert_equal CustomModel.with_custom_enum(1), [draft]
+      assert_equal CustomModel.with_custom_enum('1', CustomEnum.review), [draft, review]
+      assert_equal CustomModel.with_custom_enum([1, 2, 3]), [draft, review, published]
+    end
   end
 end

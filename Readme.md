@@ -175,6 +175,7 @@ following format:
 
 ```ruby
 with_#{enumeration_name}_#{enumeration_value_name}
+with_#{enumeration_name}(#{enumeration_value_name}, ...)
 ```
 
 Examples:
@@ -186,6 +187,11 @@ end
 
 Post.with_status_draft                        # => <#ActiveRecord::Relation []>
 Post.with_status_review_pending               # => <#ActiveRecord::Relation []>
+Post.with_status(:review_pending)             # => <#ActiveRecord::Relation []>
+Post.with_status('review_pending')            # => <#ActiveRecord::Relation []>
+Post.with_status(Status.review_pending)       # => <#ActiveRecord::Relation []>
+Post.with_status(:draft, :review_pending)     # => <#ActiveRecord::Relation []>
+Post.with_status([:draft, :review_pending])   # => <#ActiveRecord::Relation []>
 ```
 
 ```ruby
@@ -195,6 +201,9 @@ end
 
 Post.with_my_status_draft                      # => <#ActiveRecord::Relation []>
 Post.with_my_status_review_pending             # => <#ActiveRecord::Relation []>
+Post.with_my_status(:review_pending)           # => <#ActiveRecord::Relation []>
+Post.with_my_status(:draft, :review_pending)   # => <#ActiveRecord::Relation []>
+Post.with_my_status([:draft, :review_pending]) # => <#ActiveRecord::Relation []>
 ```
 
 Each scope returns all records with specified enumeration value.
