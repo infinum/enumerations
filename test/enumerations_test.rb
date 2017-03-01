@@ -1,4 +1,5 @@
 require_relative 'helpers/test_helper'
+require 'enumerations/enumerations_error'
 
 class EnumerationsTest < Minitest::Test
   def test_reflect_on_all_enumerations
@@ -75,8 +76,8 @@ class EnumerationsTest < Minitest::Test
   end
 
   def test_enumerated_class_has_scopes
-    Role.all do |role|
-      assert_respond_to User, ['with_role', role.name].join('_').to_sym
+    Role.all.each do |role|
+      assert_respond_to User, ['with_role', role.to_s].join('_').to_sym
     end
   end
 
@@ -84,5 +85,15 @@ class EnumerationsTest < Minitest::Test
     query_hash = User.with_role_admin.where_values_hash.symbolize_keys
 
     assert_equal query_hash, role: :admin
+  end
+
+  def test_nonexistent_value_assignment
+    user = User.new(role: :nonexistent_value)
+    assert_nil user.role
+  end
+
+  def test_on_nil_value_assignment
+    user = User.new(role: nil)
+    assert_nil user.role
   end
 end

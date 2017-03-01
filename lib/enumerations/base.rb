@@ -80,13 +80,13 @@ module Enumerations
     end
 
     def self.validate_symbol_and_primary_key(symbol, attributes)
-      raise "Duplicate symbol #{symbol}" if find(symbol)
+      raise EnumerationsError, "Duplicate symbol #{symbol}" if find(symbol)
 
       primary_key = Enumerations.configuration.primary_key
       return if primary_key.nil?
 
-      raise 'Enumeration primary key is required' if attributes[primary_key].nil?
-      raise "Duplicate primary key #{attributes[primary_key]}" if find(attributes[primary_key])
+      raise EnumerationsError, 'Enumeration primary key is required' if attributes[primary_key].nil?
+      raise EnumerationsError, "Duplicate primary key #{attributes[primary_key]}" if find(attributes[primary_key])
 
       self._symbol_index = _symbol_index.merge(symbol => attributes[primary_key])
     end

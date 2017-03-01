@@ -7,6 +7,7 @@ require 'enumerations/configuration'
 require 'enumerations/version'
 require 'enumerations/base'
 require 'enumerations/reflection'
+require 'enumerations/enumerations_error'
 
 module Enumerations
   extend ActiveSupport::Concern
@@ -86,6 +87,7 @@ module Enumerations
         enumeration_value = reflection.enumerator_class.find(other)
 
         self[reflection.foreign_key] =
+          enumeration_value &&
           enumeration_value.send(Enumerations.configuration.primary_key || :symbol)
       end
     end
