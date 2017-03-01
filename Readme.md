@@ -222,6 +222,7 @@ class Status < Enumerations::Base
   value :draft,           id: 1, name: 'Draft'
   value :review_pending,  id: 2, name: 'Review pending', description: 'Some description...'
   value :published,       id: 3, name: 'Published', published: true
+  value :other                                 # passing no attributes is also allowed
 end
 ```
 
