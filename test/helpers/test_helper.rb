@@ -19,10 +19,10 @@ class Status < Enumerations::Base
 end
 
 class Role < Enumerations::Base
-  value :admin,   name: 'Admin',  admin: true, active: true
-  value :editor,  name: 'Editor', admin: true, active: false, description: 'Edits newspapers'
-  value :author,  name: 'Author'
-  value :lecturer
+  value :admin,     name: 'Admin',  admin: true, active: true
+  value :editor,    name: 'Editor', admin: true, active: false, description: 'Edits newspapers'
+  value :author,    name: 'Author'
+  value :lecturer,  type: :croatist
 
   def my_custom_name
     ['user', name].join('_')

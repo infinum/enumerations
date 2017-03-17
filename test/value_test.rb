@@ -62,4 +62,10 @@ class ValueTest < Minitest::Test
 
     assert_equal status.to_param, 'draft'
   end
+
+  def test_enumeration_when_attribute_value_is_symbol
+    role = Role.find(:lecturer)
+
+    assert_equal role.type, 'croatist'
+  end
 end
