@@ -97,6 +97,12 @@ class EnumerationsTest < Minitest::Test
     assert_equal query_hash, role: [:admin, :author, :editor]
   end
 
+  def test_enumerated_class_enumeration_scope_hash_value_for_multiple_enums_as_array
+    query_hash = User.with_role([:admin, Role.author, 'editor']).where_values_hash.symbolize_keys
+
+    assert_equal query_hash, role: [:admin, :author, :editor]
+  end
+
   def test_enumerated_class_scope_hash_value
     query_hash = User.with_role_admin.where_values_hash.symbolize_keys
 

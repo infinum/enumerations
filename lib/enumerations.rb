@@ -145,8 +145,8 @@ module Enumerations
       )
     end
 
-    def fetch_foreign_key_values(reflection, symbols)
-      symbols.map do |symbol|
+    def fetch_foreign_key_values(reflection, *symbols)
+      symbols.flatten.map do |symbol|
         enumeration_value = reflection.enumerator_class.find(symbol)
 
         enumeration_value &&

@@ -6,7 +6,7 @@ Enumerations
 [![Build Status](https://semaphoreci.com/api/v1/infinum/enumerations/branches/master/shields_badge.svg)](https://semaphoreci.com/infinum/enumerations)
 [![Test Coverage](https://codeclimate.com/github/infinum/enumerations/badges/coverage.svg)](https://codeclimate.com/github/infinum/enumerations/coverage)
 
-Rails plugin for enumerations in ActiveRecord models.
+Rails plugin for Enumerations in ActiveRecord models.
 
 Installation
 ============
@@ -177,6 +177,12 @@ following format:
 with_#{enumeration_name}_#{enumeration_value_name}
 ```
 
+or you can use the following scope and pass an array of enumerations:
+
+```ruby
+with_#{enumeration_name}(enumeration, ...)
+```
+
 Examples:
 
 ```ruby
@@ -186,6 +192,11 @@ end
 
 Post.with_status_draft                        # => <#ActiveRecord::Relation []>
 Post.with_status_review_pending               # => <#ActiveRecord::Relation []>
+Post.with_status(:draft)                      # => <#ActiveRecord::Relation []>
+Post.with_status(Status.draft)                # => <#ActiveRecord::Relation []>
+Post.with_status(:draft, :review_pending)     # => <#ActiveRecord::Relation []>
+Post.with_status(Status.draft, 'published')   # => <#ActiveRecord::Relation []>
+Post.with_status([:draft, :review_pending])   # => <#ActiveRecord::Relation []>
 ```
 
 ```ruby
@@ -195,6 +206,7 @@ end
 
 Post.with_my_status_draft                      # => <#ActiveRecord::Relation []>
 Post.with_my_status_review_pending             # => <#ActiveRecord::Relation []>
+Post.with_my_status(:draft)                    # => <#ActiveRecord::Relation []>
 ```
 
 Each scope returns all records with specified enumeration value.
