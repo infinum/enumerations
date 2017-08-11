@@ -58,7 +58,8 @@ module Enumerations
       define_getter_method(reflection)
       define_setter_method(reflection)
       define_bang_methods(reflection)
-      define_scopes(reflection)
+      define_scopes_for_each_enumeration_value(reflection)
+      define_enumeration_scope(reflection)
 
       self._enumerations += [reflection]
     end
@@ -116,12 +117,40 @@ module Enumerations
     #   User.with_role_admin => <#ActiveRecord::Relation []>
     #   User.with_role_editor => <#ActiveRecord::Relation []>
     #
-    def define_scopes(reflection)
+    def define_scopes_for_each_enumeration_value(reflection)
       reflection.enumerator_class.all.each do |enumeration|
         foreign_key = enumeration.send(Enumerations.configuration.primary_key || :symbol)
 
-        scope "with_#{reflection.name}_#{enumeration.symbol}",
-              -> { where(reflection.foreign_key => foreign_key) }
+        scope(
+          "with_#{reflection.name}_#{enumeration.symbol}",
+          -> { where(reflection.foreign_key => foreign_key) }
+        )
+      end
+    end
+
+    # Scope for enumerated ActiveRecord model.
+    # Format of scope name is with_#{enumeration_name}(*enumerations).
+    #
+    # Example:
+    #
+    #   User.with_role(:admin) => <#ActiveRecord::Relation []>
+    #   User.with_role(:admin, Role.editor) => <#ActiveRecord::Relation []>
+    #
+    def define_enumeration_scope(reflection)
+      scope(
+        "with_#{reflection.name}",
+        lambda do |*symbols|
+          where(reflection.foreign_key => fetch_foreign_key_values(reflection, symbols))
+        end
+      )
+    end
+
+    def fetch_foreign_key_values(reflection, symbols)
+      symbols.map do |symbol|
+        enumeration_value = reflection.enumerator_class.find(symbol)
+
+        enumeration_value &&
+          enumeration_value.send(Enumerations.configuration.primary_key || :symbol)
       end
     end
   end
