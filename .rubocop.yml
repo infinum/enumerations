@@ -1,0 +1,8 @@
+LineLength:
+  Max: 100
+
+Documentation:
+  Enabled: False
+
+Style/SymbolArray:
+  Enabled: False
