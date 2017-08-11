@@ -83,6 +83,8 @@ Or you can set enumerations by `symbol`:
 @post.status = Status.find(:draft)
 ```
 
+> If you try to set value that is not an Enumeration value, you will actualy set attribute to `nil`!
+
 Also, you can set enumeration value like this:
 
 ```ruby
@@ -175,12 +177,14 @@ following format:
 
 ```ruby
 with_#{enumeration_name}_#{enumeration_value_name}
+without_#{enumeration_name}_#{enumeration_value_name}
 ```
 
 or you can use the following scope and pass an array of enumerations:
 
 ```ruby
 with_#{enumeration_name}(enumeration, ...)
+without_#{enumeration_name}(enumeration, ...)
 ```
 
 Examples:
@@ -191,8 +195,9 @@ class Post < ActiveRecord::Base
 end
 
 Post.with_status_draft                        # => <#ActiveRecord::Relation []>
-Post.with_status_review_pending               # => <#ActiveRecord::Relation []>
+Post.without_status_review_pending            # => <#ActiveRecord::Relation []>
 Post.with_status(:draft)                      # => <#ActiveRecord::Relation []>
+Post.without_status(:draft)                   # => <#ActiveRecord::Relation []>
 Post.with_status(Status.draft)                # => <#ActiveRecord::Relation []>
 Post.with_status(:draft, :review_pending)     # => <#ActiveRecord::Relation []>
 Post.with_status(Status.draft, 'published')   # => <#ActiveRecord::Relation []>
@@ -207,6 +212,7 @@ end
 Post.with_my_status_draft                      # => <#ActiveRecord::Relation []>
 Post.with_my_status_review_pending             # => <#ActiveRecord::Relation []>
 Post.with_my_status(:draft)                    # => <#ActiveRecord::Relation []>
+Post.without_my_status(:draft)                 # => <#ActiveRecord::Relation []>
 ```
 
 Each scope returns all records with specified enumeration value.
