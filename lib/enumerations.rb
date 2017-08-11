@@ -121,10 +121,11 @@ module Enumerations
       reflection.enumerator_class.all.each do |enumeration|
         foreign_key = enumeration.send(Enumerations.configuration.primary_key || :symbol)
 
-        scope(
-          "with_#{reflection.name}_#{enumeration.symbol}",
-          -> { where(reflection.foreign_key => foreign_key) }
-        )
+        scope("with_#{reflection.name}_#{enumeration.symbol}",
+              -> { where(reflection.foreign_key => foreign_key) })
+
+        scope("without_#{reflection.name}_#{enumeration.symbol}",
+              -> { where.not(reflection.foreign_key => foreign_key) })
       end
     end
 
@@ -137,12 +138,15 @@ module Enumerations
     #   User.with_role(:admin, Role.editor) => <#ActiveRecord::Relation []>
     #
     def define_enumeration_scope(reflection)
-      scope(
-        "with_#{reflection.name}",
-        lambda do |*symbols|
-          where(reflection.foreign_key => fetch_foreign_key_values(reflection, symbols))
-        end
-      )
+      scope("with_#{reflection.name}",
+            lambda do |*symbols|
+              where(reflection.foreign_key => fetch_foreign_key_values(reflection, symbols))
+            end)
+
+      scope("without_#{reflection.name}",
+            lambda do |*symbols|
+              where.not(reflection.foreign_key => fetch_foreign_key_values(reflection, symbols))
+            end)
     end
 
     def fetch_foreign_key_values(reflection, *symbols)
