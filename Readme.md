@@ -246,7 +246,8 @@ Status.review_pending.description              # => 'Some description...'
 Status.draft.description                       # => nil
 ```
 
-For every attribute, you have predicate methods for checking presence of each attribute:
+For each attribute, you have predicate method. Predicate methods are actually calling `present?`
+method on attribute value:
 
 ```ruby
 Status.draft.name?                             # => true
