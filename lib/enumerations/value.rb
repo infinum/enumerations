@@ -39,6 +39,7 @@ module Enumerations
     def create_instance_methods
       define_attributes_getters
       define_value_checking_method
+      define_predicate_methods_for_attributes
     end
 
     # Getters for all attributes
@@ -81,6 +82,29 @@ module Enumerations
     def define_value_checking_method
       self.class.send :define_method, "#{symbol}?" do
         __callee__[0..-2].to_sym == symbol
+      end
+    end
+
+    # Predicate methods for all attributes
+    #
+    # Example:
+    #
+    #   class Role < Enumerations::Base
+    #     value :admin, name: 'Administrator', active: false
+    #   end
+    #
+    #   user.role.name?       => # true
+    #   user.role.admin?      => # false
+    #
+    def define_predicate_methods_for_attributes
+      @attributes.each do |key, _|
+        method_name = "#{key}?"
+
+        next if respond_to?(method_name.to_sym)
+
+        self.class.send :define_method, method_name do
+          @attributes[key].present?
+        end
       end
     end
   end

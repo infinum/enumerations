@@ -237,7 +237,7 @@ Except `name` you can specify any other attributes to your enumerations:
 
 ```ruby
 class Status < Enumerations::Base
-  value :draft,           id: 1, name: 'Draft'
+  value :draft,           id: 1, name: 'Draft', published: false
   value :review_pending,  id: 2, name: 'Review pending', description: 'Some description...'
   value :published,       id: 3, name: 'Published', published: true
   value :other                                 # passing no attributes is also allowed
@@ -250,6 +250,16 @@ If you call method that is not in attribute list for enumeration, it will return
 ```ruby
 Status.review_pending.description              # => 'Some description...'
 Status.draft.description                       # => nil
+```
+
+For each attribute, you have predicate method. Predicate methods are actually calling `present?`
+method on attribute value:
+
+```ruby
+Status.draft.name?                             # => true
+Status.draft.published?                        # => false
+Status.published.published?                    # => true
+Status.other.name?                             # => false
 ```
 
 Translations

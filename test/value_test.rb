@@ -68,4 +68,18 @@ class ValueTest < Minitest::Test
 
     assert_equal role.type, 'croatist'
   end
+
+  def test_enumeration_attribute_predicate_methods
+    status = Status.none
+
+    assert_equal status.name?, true
+    assert_equal status.visible?, true
+    assert_equal status.deleted?, false
+  end
+
+  def test_enumeration_attribute_predicate_method_on_undefined_attribute
+    status = Status.deleted
+
+    assert_equal status.name?, false
+  end
 end
