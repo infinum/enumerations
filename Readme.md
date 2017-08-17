@@ -319,7 +319,7 @@ If you set enumeration as:
 ```ruby
 enumeration :status
 ```
-then model should have `status`column (as `String` type).
+then model should have `status` column (as `String` type).
 If you want save an `ID` to this column, you can set `foreign_key_suffix` to `id`.
 Then model should have `status_id` column.
 
@@ -349,6 +349,17 @@ end
 
 post = Post.new
 post.status = Status.draft      # => post.status_id = 1
+```
+
+If you want to configure primary key per enumeration class, you can use `primary_key=` class method:
+
+```ruby
+class Status < Enumerations::Base
+  primary_key = :id
+
+  value :draft,           id: 1, name: 'Draft'
+  value :review_pending,  id: 2, name: 'Review pending'
+end
 ```
 
 Database Enumerations
