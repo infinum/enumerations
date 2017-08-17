@@ -89,7 +89,7 @@ module Enumerations
 
         self[reflection.foreign_key] =
           enumeration_value &&
-          enumeration_value.send(Enumerations.configuration.primary_key || :symbol)
+          enumeration_value.send(reflection.enumerator_class.primary_key || :symbol)
       end
     end
 
@@ -119,7 +119,7 @@ module Enumerations
     #
     def define_scopes_for_each_enumeration_value(reflection)
       reflection.enumerator_class.all.each do |enumeration|
-        foreign_key = enumeration.send(Enumerations.configuration.primary_key || :symbol)
+        foreign_key = enumeration.send(reflection.enumerator_class.primary_key || :symbol)
 
         scope("with_#{reflection.name}_#{enumeration.symbol}",
               -> { where(reflection.foreign_key => foreign_key) })
@@ -154,7 +154,7 @@ module Enumerations
         enumeration_value = reflection.enumerator_class.find(symbol)
 
         enumeration_value &&
-          enumeration_value.send(Enumerations.configuration.primary_key || :symbol)
+          enumeration_value.send(reflection.enumerator_class.primary_key || :symbol)
       end
     end
   end

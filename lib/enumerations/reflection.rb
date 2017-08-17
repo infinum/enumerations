@@ -15,11 +15,6 @@ module Enumerations
       @foreign_key ||= (options[:foreign_key] || default_foreign_key_name).to_sym
     end
 
-    def primary_key
-      @primary_key ||=
-        (options[:primary_key] || Enumerations.configuration.primary_key || :symbol).to_sym
-    end
-
     def enumerator_class
       @enumerator_class ||= class_name.constantize
     end
