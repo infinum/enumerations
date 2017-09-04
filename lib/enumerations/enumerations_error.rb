@@ -1,2 +1,0 @@
-class EnumerationsError < RuntimeError
-end
