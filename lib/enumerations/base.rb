@@ -8,10 +8,11 @@ module Enumerations
     extend Enumerations::FinderMethods
     include Enumerations::Value
 
-    class_attribute :_values, :_symbol_index
+    class_attribute :_values, :_symbol_index, :_primary_key
 
     self._values = {}
     self._symbol_index = {}
+    self._primary_key = nil
 
     # Adding new value to enumeration
     #
@@ -79,16 +80,45 @@ module Enumerations
       _values.values
     end
 
+    # Sets primary key for enumeration class.
+    #
+    # Example:
+    #
+    #   class Status < Enumeration::Base
+    #     primary_key = :id
+    #   end
+    #
+    def self.primary_key=(key)
+      self._primary_key = key && key.to_sym
+    end
+
+    # Gets primary key for enumeration class.
+    #
+    # Example:
+    #
+    #   Status.primary_key  => # nil
+    #
+    #   class Status < Enumeration::Base
+    #     primary_key = :id
+    #   end
+    #
+    #   Status.primary_key  => # :id
+    #
+    def self.primary_key
+      _primary_key || Enumerations.configuration.primary_key
+    end
+
     def self.validate_symbol_and_primary_key(symbol, attributes)
       raise EnumerationsError, "Duplicate symbol #{symbol}" if find(symbol)
 
-      primary_key = Enumerations.configuration.primary_key
       return if primary_key.nil?
 
-      raise EnumerationsError, 'Enumeration primary key is required' if attributes[primary_key].nil?
-      raise EnumerationsError, "Duplicate primary key #{attributes[primary_key]}" if find(attributes[primary_key])
+      primary_key_value = attributes[primary_key]
 
-      self._symbol_index = _symbol_index.merge(symbol => attributes[primary_key])
+      raise EnumerationsError, 'Enumeration primary key is required' if primary_key_value.nil?
+      raise EnumerationsError, "Duplicate primary key #{primary_key_value}" if find(primary_key_value)
+
+      self._symbol_index = _symbol_index.merge(symbol => primary_key_value)
     end
 
     private_class_method :validate_symbol_and_primary_key
