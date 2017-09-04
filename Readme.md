@@ -355,7 +355,7 @@ If you want to configure primary key per enumeration class, you can use `primary
 
 ```ruby
 class Status < Enumerations::Base
-  primary_key = :id
+  self.primary_key = :id
 
   value :draft,           id: 1, name: 'Draft'
   value :review_pending,  id: 2, name: 'Review pending'
