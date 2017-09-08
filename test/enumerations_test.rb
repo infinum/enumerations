@@ -1,5 +1,5 @@
 require_relative 'helpers/test_helper'
-require 'enumerations/enumerations_error'
+require 'enumerations/errors'
 
 class EnumerationsTest < Minitest::Test
   def test_reflect_on_all_enumerations
@@ -128,8 +128,9 @@ class EnumerationsTest < Minitest::Test
   end
 
   def test_nonexistent_value_assignment
-    user = User.new(role: :nonexistent_value)
-    assert_nil user.role
+    assert_raises Enumerations::InvalidValueError do
+      User.new(role: :nonexistent_value)
+    end
   end
 
   def test_on_nil_value_assignment

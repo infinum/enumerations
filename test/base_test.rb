@@ -16,7 +16,7 @@ class BaseTest < Minitest::Test
   end
 
   def test_duplicated_symbol
-    assert_raises EnumerationsError, 'Duplicate symbol draft' do
+    assert_raises Enumerations::DuplicatedSymbolError do
       obj = Class.new(Enumerations::Base)
 
       obj.value :draft, id: 1, name: 'Draft'
