@@ -7,7 +7,7 @@ require 'enumerations/configuration'
 require 'enumerations/version'
 require 'enumerations/base'
 require 'enumerations/reflection'
-require 'enumerations/error'
+require 'enumerations/errors'
 
 module Enumerations
   extend ActiveSupport::Concern
@@ -87,7 +87,7 @@ module Enumerations
       define_method("#{reflection.name}=") do |other|
         enumeration_value = reflection.enumerator_class.find(other)
 
-        raise Enumerations::Error::InvalidValue if other.present? && enumeration_value.nil?
+        raise Enumerations::InvalidValueError if other.present? && enumeration_value.nil?
 
         self[reflection.foreign_key] =
           enumeration_value &&

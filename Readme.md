@@ -83,7 +83,7 @@ Or you can set enumerations by `symbol`:
 @post.status = Status.find(:draft)
 ```
 
-> If you try to set value that is not an Enumeration value (except `nil`), you will get an `Enumerations::Error::InvalidValue` exception.
+> If you try to set value that is not an Enumeration value (except `nil`), you will get an `Enumerations::InvalidValueError` exception.
 
 Also, you can set enumeration value like this:
 

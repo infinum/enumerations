@@ -109,14 +109,14 @@ module Enumerations
     end
 
     def self.validate_symbol_and_primary_key(symbol, attributes)
-      raise Error::DuplicatedSymbol if find(symbol)
+      raise Enumerations::DuplicatedSymbolError if find(symbol)
 
       return if primary_key.nil?
 
       primary_key_value = attributes[primary_key]
 
-      raise Error::MissingPrimaryKey if primary_key_value.nil?
-      raise Error::DuplicatedPrimaryKey if find(primary_key_value)
+      raise Enumerations::MissingPrimaryKeyError if primary_key_value.nil?
+      raise Enumerations::DuplicatedPrimaryKeyError if find(primary_key_value)
 
       self._symbol_index = _symbol_index.merge(symbol => primary_key_value)
     end
