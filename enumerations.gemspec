@@ -3,7 +3,7 @@ require File.expand_path('../lib/enumerations/version', __FILE__)
 Gem::Specification.new do |s|
   s.name        = 'enumerations'
   s.version     = Enumerations::VERSION
-  s.date        = '2016-09-20'
+  s.date        = '2017-09-08'
   s.summary     = 'Enumerations for ActiveRecord!'
   s.description = 'Extends ActiveRecord with enumeration capabilites.'
   s.homepage    = 'https://github.com/infinum/enumerations'
