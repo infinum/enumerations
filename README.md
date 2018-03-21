@@ -399,7 +399,7 @@ Credits
 =======
 **Enumerations** is maintained and sponsored by [Infinum](https://infinum.co)
 
-Copyright © 2016 Infinum Ltd.
+Copyright © 2010 - 2018 Infinum Ltd.
 
 License
 =======
