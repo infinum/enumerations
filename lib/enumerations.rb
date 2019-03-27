@@ -52,6 +52,15 @@ module Enumerations
       _enumerations
     end
 
+    def fetch_foreign_key_values(reflection, *symbols)
+      symbols.flatten.map do |symbol|
+        enumeration_value = reflection.enumerator_class.find(symbol)
+
+        enumeration_value &&
+          enumeration_value.send(reflection.enumerator_class.primary_key || :symbol)
+      end
+    end
+
     private
 
     def add_enumeration(reflection)
@@ -149,15 +158,6 @@ module Enumerations
             lambda do |*symbols|
               where.not(reflection.foreign_key => fetch_foreign_key_values(reflection, symbols))
             end)
-    end
-
-    def fetch_foreign_key_values(reflection, *symbols)
-      symbols.flatten.map do |symbol|
-        enumeration_value = reflection.enumerator_class.find(symbol)
-
-        enumeration_value &&
-          enumeration_value.send(reflection.enumerator_class.primary_key || :symbol)
-      end
     end
   end
 end
