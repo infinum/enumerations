@@ -39,7 +39,9 @@ module Enumerations
     end
 
     def find_by_primary_key(primary_key)
-      value_from_symbol_index(primary_key) || value_from_symbol_index(primary_key.to_s.to_i)
+      return value_from_symbol_index(primary_key.to_i) if primary_key.is_a?(String)
+
+      value_from_symbol_index(primary_key)
     end
 
     private
