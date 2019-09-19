@@ -4,7 +4,7 @@ require 'enumerations/value'
 require 'enumerations/finder_methods'
 
 module Enumerations
-  class Base
+  class Base < ActiveSupport::Multibyte::Chars
     extend Enumerations::FinderMethods
     include Enumerations::Value
 
@@ -126,6 +126,8 @@ module Enumerations
     attr_reader :symbol, :attributes
 
     def initialize(symbol, attributes)
+      super(symbol)
+
       @symbol = symbol
       @attributes = attributes
 
