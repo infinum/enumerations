@@ -126,6 +126,8 @@ module Enumerations
     attr_reader :symbol, :attributes
 
     def initialize(symbol, attributes)
+      super(symbol)
+
       @symbol = symbol
       @attributes = attributes
 
