@@ -14,10 +14,12 @@ module Enumerations
   class Configuration
     attr_accessor :primary_key
     attr_accessor :foreign_key_suffix
+    attr_accessor :translate
 
     def initialize
       @primary_key        = nil
       @foreign_key_suffix = nil
+      @translate          = true
     end
   end
 end
