@@ -1,11 +1,17 @@
 # Change Log
 
 ## [v2.4.0](https://github.com/infinum/enumerations/tree/v2.4.0) (2019-02-07)
-[Full Changelog](https://github.com/infinum/enumerations/compare/v2.3.1...v2.4.0)
+[Full Changelog](https://github.com/infinum/enumerations/compare/v2.3.3...v2.4.0)
 
 **Implemented enhancements:**
 
 - Add `translate_attributes` configuration option to disable translation of attributes
+
+## [v2.3.3](https://github.com/infinum/enumerations/tree/v2.3.1) (2019-19-09)
+[Full Changelog](https://github.com/infinum/enumerations/compare/v2.3.2...v2.3.3)
+
+## [v2.3.2](https://github.com/infinum/enumerations/tree/v2.3.1) (2019-03-27)
+[Full Changelog](https://github.com/infinum/enumerations/compare/v2.3.1...v2.3.2)
 
 ## [v2.3.1](https://github.com/infinum/enumerations/tree/v2.3.1) (2017-09-08)
 [Full Changelog](https://github.com/infinum/enumerations/compare/v2.3.0...v2.3.1)
