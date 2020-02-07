@@ -91,4 +91,13 @@ class TranslationTest < Minitest::Test
 
     assert_nil status
   end
+
+  def test_turn_of_translate
+    status = Status.find(:draft)
+    Enumerations.configuration.translate_attributes = false
+    name = status.name
+    Enumerations.configuration.translate_attributes = true
+
+    assert_equal name, 'Draft'
+  end
 end

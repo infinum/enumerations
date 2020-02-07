@@ -66,6 +66,8 @@ module Enumerations
     end
 
     def translate_attribute(key, locale)
+      return @attributes[key].to_s unless Enumerations.configuration.translate_attributes
+
       I18n.t(key, scope: [:enumerations, self.class.name.demodulize.underscore, symbol],
                   default: @attributes[key].to_s,
                   locale: locale)
