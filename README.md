@@ -265,7 +265,7 @@ Status.other.name?                             # => false
 Translations
 =====
 
-**Enumerations** uses power of I18n API to enable you to create a locale file
+**Enumerations** uses power of I18n API (if trnslate configuration is set to true) to enable you to create a locale file
 for enumerations like this:
 
 ```yaml
@@ -309,6 +309,7 @@ Example of configuration:
 Enumerations.configure do |config|
   config.primary_key        = :id
   config.foreign_key_suffix = :id
+  config.translate          = true
 end
 ```
 
