@@ -92,7 +92,7 @@ module Enumeration
       case key
       when Symbol then find_by_key(key)
       when String then find_by_key(key.to_sym) || find_by_id(key.to_i)
-      when Fixnum then find_by_id(key)
+      when Integer then find_by_id(key)
       end
     end
 
