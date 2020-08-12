@@ -152,7 +152,7 @@ module Enumeration
     # TODO: test if case..when is working with this
     def ==(other)
       case other
-      when Fixnum then other == id
+      when Integer then other == id
       when Symbol then other == @symbol
       else super
       end
