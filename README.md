@@ -230,6 +230,32 @@ Use in forms:
   = f.collection_select :status, Status.all, :symbol, :name
 ```
 
+
+
+## Validating input
+
+Enumerations will by default raise an exception if you try to set an invalid value. This prevents usage of validations, which you might want to add if you're developing an API and have to return meaningful errors to API clients.
+
+You can enable validations by first disabling error raising on invalid input (see [configuration](#configuration)). Then, you should add an inclusion validation to enumerated attributes:
+```ruby
+class Post < ActiveRecord::Base
+  enumeration :status
+
+  validates :status, inclusion: { in: Status.all }
+end
+```
+
+You'll now get an appropriate error message when you insert an invalid value:
+```ruby
+> post = Post.new(status: 'invalid')
+> post.valid?
+=> false
+> post.errors.full_messages.to_sentence
+=> "Status is not included in the list"
+> post.status
+=> "invalid"
+```
+
 Advanced Usage
 =====
 
