@@ -17,11 +17,13 @@ module Enumerations
     attr_accessor :primary_key
     attr_accessor :foreign_key_suffix
     attr_accessor :translate_attributes
+    attr_accessor :raise_invalid_value_error
 
     def initialize
-      @primary_key          = nil
-      @foreign_key_suffix   = nil
-      @translate_attributes = true
+      @primary_key               = nil
+      @foreign_key_suffix        = nil
+      @translate_attributes      = true
+      @raise_invalid_value_error = true
     end
   end
 end
