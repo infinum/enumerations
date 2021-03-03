@@ -82,7 +82,7 @@ module Enumerations
     #
     def define_getter_method(reflection)
       define_method(reflection.name) do
-        reflection.enumerator_class.find(self[reflection.foreign_key])
+        reflection.enumerator_class.find(self[reflection.foreign_key]) || self[reflection.foreign_key]
       end
     end
 
@@ -96,11 +96,15 @@ module Enumerations
       define_method("#{reflection.name}=") do |other|
         enumeration_value = reflection.enumerator_class.find(other)
 
-        raise Enumerations::InvalidValueError if other.present? && enumeration_value.nil?
+        if other.present? && enumeration_value.nil?
+          raise Enumerations::InvalidValueError if Enumerations.configuration.raise_invalid_value_error
 
-        self[reflection.foreign_key] =
-          enumeration_value &&
-          enumeration_value.send(reflection.enumerator_class.primary_key || :symbol)
+          self[reflection.foreign_key] = other
+        else
+          self[reflection.foreign_key] =
+            enumeration_value &&
+            enumeration_value.send(reflection.enumerator_class.primary_key || :symbol)
+        end
       end
     end
 

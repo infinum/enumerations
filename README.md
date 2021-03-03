@@ -83,7 +83,7 @@ Or you can set enumerations by `symbol`:
 @post.status = Status.find(:draft)
 ```
 
-> If you try to set value that is not an Enumeration value (except `nil`), you will get an `Enumerations::InvalidValueError` exception.
+> If you try to set value that is not an Enumeration value (except `nil`), you will get an `Enumerations::InvalidValueError` exception. You can turn this exception off in configuration.
 
 Also, you can set enumeration value like this:
 
@@ -230,6 +230,32 @@ Use in forms:
   = f.collection_select :status, Status.all, :symbol, :name
 ```
 
+
+
+## Validating input
+
+Enumerations will by default raise an exception if you try to set an invalid value. This prevents usage of validations, which you might want to add if you're developing an API and have to return meaningful errors to API clients.
+
+You can enable validations by first disabling error raising on invalid input (see [configuration](#configuration)). Then, you should add an inclusion validation to enumerated attributes:
+```ruby
+class Post < ActiveRecord::Base
+  enumeration :status
+
+  validates :status, inclusion: { in: Status.all }
+end
+```
+
+You'll now get an appropriate error message when you insert an invalid value:
+```ruby
+> post = Post.new(status: 'invalid')
+> post.valid?
+=> false
+> post.errors.full_messages.to_sentence
+=> "Status is not included in the list"
+> post.status
+=> "invalid"
+```
+
 Advanced Usage
 =====
 
@@ -297,8 +323,8 @@ Configuration
 
 Basically no configuration is needed.
 
-**Enumerations** has two configuration options.
-You can customize primary key and foreign key suffix.
+**Enumerations** has four configuration options.
+You can customize primary key, foreign key suffix, whether to translate attributes and whether to raise `Enumerations::InvalidValueError` exception when setting invalid values.
 Just add initializer file to `config/initializers/enumerations.rb`.
 
 Example of configuration:
@@ -307,9 +333,10 @@ Example of configuration:
 # config/initializers/enumerations.rb
 
 Enumerations.configure do |config|
-  config.primary_key          = :id
-  config.foreign_key_suffix   = :id
-  config.translate_attributes = true
+  config.primary_key               = :id
+  config.foreign_key_suffix        = :id
+  config.translate_attributes      = true
+  config.raise_invalid_value_error = true
 end
 ```
 

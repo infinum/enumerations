@@ -133,6 +133,20 @@ class EnumerationsTest < Minitest::Test
     end
   end
 
+  def test_nonexistent_value_assignment_with_error_raising_turned_off
+    Enumerations.configuration.raise_invalid_value_error = false
+
+    user = User.new(role: :nonexistent_value)
+
+    assert_equal user.role, 'nonexistent_value'
+
+    user.role = :other_nonexistent_value
+
+    assert_equal user.role, 'other_nonexistent_value'
+
+    Enumerations.configuration.raise_invalid_value_error = true
+  end
+
   def test_on_nil_value_assignment
     user = User.new(role: nil)
     assert_nil user.role
