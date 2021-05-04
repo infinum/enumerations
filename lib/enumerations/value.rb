@@ -102,7 +102,7 @@ module Enumerations
       @attributes.each do |key, _|
         method_name = "#{key}?"
 
-        next if respond_to?(method_name.to_sym)
+        next if self.class.instance_methods(false).include?(method_name.to_sym)
 
         self.class.send :define_method, method_name do
           @attributes[key].present?
