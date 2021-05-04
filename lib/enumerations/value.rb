@@ -54,7 +54,7 @@ module Enumerations
     #
     def define_attributes_getters
       @attributes.each do |key, _|
-        next if respond_to?(key)
+        next if self.class.instance_methods(false).include?(key)
 
         self.class.send :define_method, key do |locale: I18n.locale|
           case @attributes[key]
