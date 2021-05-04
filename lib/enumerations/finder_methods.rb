@@ -31,7 +31,7 @@ module Enumerations
     #   Role.find_by(name: 'Admin') => #<Enumerations::Value: @base=Role, @symbol=:admin...>
     #
     def find_by(**args)
-      where(args).first
+      where(**args).first
     end
 
     def find_by_key(key)
