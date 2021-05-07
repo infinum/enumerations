@@ -8,6 +8,7 @@ on:
 
 jobs:
   test:
+    name: Ruby ${{ matrix.ruby }}
     runs-on: ubuntu-18.04
     strategy:
       matrix:
@@ -19,5 +20,5 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
-      - name: Ruby ${{ matrix.ruby }}
+      - name: Run tests
         run: bundle exec rake test
