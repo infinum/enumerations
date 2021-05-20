@@ -1,5 +1,19 @@
 # Change Log
 
+## [v2.5.1](https://github.com/infinum/enumerations/tree/v2.5.1) (YYYY-MM-DD)
+[Full Changelog](https://github.com/infinum/enumerations/compare/v2.5.0...v2.5.1)
+
+**Implemented enhancements:**
+
+- Add support for Ruby 3 [\#52](https://github.com/infinum/enumerations/issues/52)
+
+## [v2.5.0](https://github.com/infinum/enumerations/tree/v2.5.0) (2021-03-03)
+[Full Changelog](https://github.com/infinum/enumerations/compare/v2.4.0...v2.5.0)
+
+**Implemented enhancements:**
+
+- Add `raise_invalid_value_error` configuration option to disable raising errors on invalid values
+
 ## [v2.4.0](https://github.com/infinum/enumerations/tree/v2.4.0) (2019-02-07)
 [Full Changelog](https://github.com/infinum/enumerations/compare/v2.3.3...v2.4.0)
 

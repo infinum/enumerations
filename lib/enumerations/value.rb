@@ -54,7 +54,7 @@ module Enumerations
     #
     def define_attributes_getters
       @attributes.each do |key, _|
-        next if respond_to?(key)
+        next if self.class.method_defined?(key)
 
         self.class.send :define_method, key do |locale: I18n.locale|
           case @attributes[key]
@@ -102,7 +102,7 @@ module Enumerations
       @attributes.each do |key, _|
         method_name = "#{key}?"
 
-        next if respond_to?(method_name.to_sym)
+        next if self.class.method_defined?(method_name.to_sym)
 
         self.class.send :define_method, method_name do
           @attributes[key].present?
