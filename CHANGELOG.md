@@ -1,6 +1,6 @@
 # Change Log
 
-## [v2.5.1](https://github.com/infinum/enumerations/tree/v2.5.1) (YYYY-MM-DD)
+## [v2.5.1](https://github.com/infinum/enumerations/tree/v2.5.1) (2021-05-24)
 [Full Changelog](https://github.com/infinum/enumerations/compare/v2.5.0...v2.5.1)
 
 **Implemented enhancements:**
