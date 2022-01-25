@@ -32,6 +32,8 @@ end
 class Post < ActiveRecord::Base
   enumeration :status
   enumeration :different_status, foreign_key: :some_other_status, class_name: 'Status'
+
+  validates :status, uniqueness: true
 end
 
 class User < ActiveRecord::Base
