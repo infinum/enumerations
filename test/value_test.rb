@@ -82,4 +82,22 @@ class ValueTest < Minitest::Test
 
     assert_equal status.name?, false
   end
+
+  def test_enumeration_raises_error_for_nonexistent_attribute
+    enum = Class.new(Enumerations::Base) do
+      value :foobar
+    end
+
+    assert_raises NoMethodError do
+      enum.foobar.name
+    end
+  end
+
+  def test_enumeration_does_not_respond_to_nonexistent_attribute
+    enum = Class.new(Enumerations::Base) do
+      value :foobar
+    end
+
+    assert_equal enum.foobar.respond_to?(:name), false
+  end
 end
