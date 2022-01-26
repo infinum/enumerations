@@ -26,6 +26,12 @@ class EnumerationsTest < Minitest::Test
     assert_equal 'draft', p.status.to_s
   end
 
+  def test_model_uniqueness_validation
+    p = Post.new(status: :draft)
+
+    assert_equal true, p.valid?
+  end
+
   def test_model_bang_assignment_with_custom_name
     p = Post.new
     p.different_status_draft!
