@@ -9,7 +9,7 @@ on:
 jobs:
   test:
     name: Ruby ${{ matrix.ruby }}
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         ruby: [2.6, 2.7, 3.0]
