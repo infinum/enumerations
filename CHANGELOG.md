@@ -1,5 +1,21 @@
 # Change Log
 
+## [v2.5.2](https://github.com/infinum/enumerations/tree/v2.5.2) (2022-01-27)
+[Full Changelog](https://github.com/infinum/enumerations/compare/v2.5.1...v2.5.2)
+
+**Implemented enhancements:**
+
+- Adds Ruby 3.1 to test suite. Changes the runner to ubuntu-latest.
+
+**Closed issues:**
+
+- Ruby 3.0, `respond_to? :name` always returns true [\#55](https://github.com/infinum/enumerations/issues/55)
+
+**Merged pull requests:**
+
+- Initialize `ActiveSupport::Multibyte::Chars` with a String [\#56](https://github.com/infinum/enumerations/pull/56) ([lovro-bikic](https://github.com/lovro-bikic))
+- Test against Ruby 3.1 [\#57](https://github.com/infinum/enumerations/pull/57) ([lovro-bikic](https://github.com/lovro-bikic))
+
 ## [v2.5.1](https://github.com/infinum/enumerations/tree/v2.5.1) (2021-05-24)
 [Full Changelog](https://github.com/infinum/enumerations/compare/v2.5.0...v2.5.1)
 
