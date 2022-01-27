@@ -4,7 +4,7 @@ Enumerations
 [![Gem Version](https://badge.fury.io/rb/enumerations.svg)](https://badge.fury.io/rb/enumerations)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c3b96c5afceaa9be2173/maintainability)](https://codeclimate.com/github/infinum/enumerations/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/c3b96c5afceaa9be2173/test_coverage)](https://codeclimate.com/github/infinum/enumerations/test_coverage)
-[![Build Status](https://semaphoreci.com/api/v1/infinum/enumerations/branches/master/shields_badge.svg)](https://semaphoreci.com/infinum/enumerations)
+![Build Status](https://github.com/infinum/enumerations/actions/workflows/test.yml/badge.svg)
 
 Rails plugin for Enumerations in ActiveRecord models.
 
