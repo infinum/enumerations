@@ -100,4 +100,12 @@ class ValueTest < Minitest::Test
 
     assert_equal enum.foobar.respond_to?(:name), false
   end
+
+  def test_string_methods_on_value
+    enum = Class.new(Enumerations::Base) do
+      value :foobar
+    end
+
+    assert_equal enum.foobar.upcase, 'FOOBAR'
+  end
 end
