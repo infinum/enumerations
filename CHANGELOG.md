@@ -1,6 +1,6 @@
 # Change Log
 
-## [v2.5.3](https://github.com/infinum/enumerations/tree/v2.5.3) (2022-01-27)
+## [v2.5.3](https://github.com/infinum/enumerations/tree/v2.5.3) (2022-02-02)
 [Full Changelog](https://github.com/infinum/enumerations/compare/v2.5.2...v2.5.3)
 
 **Fixed bugs:**
