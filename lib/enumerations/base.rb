@@ -133,5 +133,11 @@ module Enumerations
 
       create_instance_methods
     end
+
+    private
+
+    def chars(string)
+      string
+    end
   end
 end
