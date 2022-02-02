@@ -1,5 +1,16 @@
 # Change Log
 
+## [v2.5.3](https://github.com/infinum/enumerations/tree/v2.5.3) (2022-01-27)
+[Full Changelog](https://github.com/infinum/enumerations/compare/v2.5.2...v2.5.3)
+
+**Fixed bugs:**
+
+- Prevent `method_missing` instantiates new instance of `Enumerations::Base`; returns `String` instead
+
+**Merged pull requests:**
+
+- Initialize `ActiveSupport::Multibyte::Chars` with a String [\#58](https://github.com/infinum/enumerations/pull/58) ([PetarCurkovic](https://github.com/PetarCurkovic))
+
 ## [v2.5.2](https://github.com/infinum/enumerations/tree/v2.5.2) (2022-01-27)
 [Full Changelog](https://github.com/infinum/enumerations/compare/v2.5.1...v2.5.2)
 
