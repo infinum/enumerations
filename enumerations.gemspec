@@ -7,6 +7,7 @@ Gem::Specification.new do |s|
   s.summary     = 'Enumerations for ActiveRecord!'
   s.description = 'Extends ActiveRecord with enumeration capabilites.'
   s.homepage    = 'https://github.com/infinum/enumerations'
+  s.license     = 'MIT'
 
   s.authors     = [
     'Tomislav Car', 'Nikica Jokić', 'Nikola Santić', 'Stjepan Hadjić', 'Petar Ćurković'
