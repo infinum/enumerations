@@ -1,5 +1,12 @@
 # Change Log
 
+## [v2.5.4](https://github.com/infinum/enumerations/tree/v2.5.4) (2023-01-09)
+[Full Changelog](https://github.com/infinum/enumerations/compare/v2.5.3...v2.5.4)
+
+**Implemented enhancements:**
+
+- Add MIT license file.
+
 ## [v2.5.3](https://github.com/infinum/enumerations/tree/v2.5.3) (2022-02-02)
 [Full Changelog](https://github.com/infinum/enumerations/compare/v2.5.2...v2.5.3)
 
