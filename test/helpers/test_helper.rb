@@ -40,3 +40,14 @@ class User < ActiveRecord::Base
   enumeration :role
   enumeration :status
 end
+
+class OveridableStatus < Enumerations::Base
+  self.primary_key = :id
+  self.foreign_key_suffix = :id
+
+  value :draft, id: 1
+end
+
+class OveridableModel < ActiveRecord::Base
+  enumeration :overidable_status
+end

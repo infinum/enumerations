@@ -22,7 +22,7 @@ module Enumerations
     private
 
     def default_foreign_key_name
-      [name, Enumerations.configuration.foreign_key_suffix].compact.join('_')
+      [name, enumerator_class.foreign_key_suffix].compact.join('_')
     end
   end
 end

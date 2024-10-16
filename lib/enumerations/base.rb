@@ -8,11 +8,12 @@ module Enumerations
     extend Enumerations::FinderMethods
     include Enumerations::Value
 
-    class_attribute :_values, :_symbol_index, :_primary_key
+    class_attribute :_values, :_symbol_index, :_primary_key, :_foreign_key_suffix
 
     self._values = {}
     self._symbol_index = {}
     self._primary_key = nil
+    self._foreign_key_suffix = nil
 
     # Adding new value to enumeration
     #
@@ -105,13 +106,46 @@ module Enumerations
     #   Status.primary_key  => # :id
     #
     def self.primary_key
+      return nil if _primary_key == :none
+
       _primary_key || Enumerations.configuration.primary_key
+    end
+
+    # Sets foreign key suffix for enumeration class.
+    #
+    # Example:
+    #
+    #   class Status < Enumeration::Base
+    #     foreign_key_suffix = :id
+    #   end
+
+    def self.foreign_key_suffix=(suffix)
+      self._foreign_key_suffix = suffix && suffix.to_sym
+    end
+
+    # Gets foreign key suffix for enumeration class.
+    #
+    # Example:
+    #
+    #   Status.foreign_key_suffix  => # nil
+    #
+    #   class Status < Enumeration::Base
+    #     foreign_key_suffix = :id
+    #   end
+    #
+    #   Status.foreign_key_suffix  => # :id
+    #
+    def self.foreign_key_suffix
+      return nil if _foreign_key_suffix == :none
+
+      _foreign_key_suffix || Enumerations.configuration.foreign_key_suffix
     end
 
     def self.validate_symbol_and_primary_key(symbol, attributes)
       raise Enumerations::DuplicatedSymbolError if find(symbol)
 
       return if primary_key.nil?
+      return if primary_key == :symbol
 
       primary_key_value = attributes[primary_key]
 
