@@ -106,8 +106,6 @@ module Enumerations
     #   Status.primary_key  => # :id
     #
     def self.primary_key
-      return nil if _primary_key == :none
-
       _primary_key || Enumerations.configuration.primary_key
     end
 
@@ -136,8 +134,6 @@ module Enumerations
     #   Status.foreign_key_suffix  => # :id
     #
     def self.foreign_key_suffix
-      return nil if _foreign_key_suffix == :none
-
       _foreign_key_suffix || Enumerations.configuration.foreign_key_suffix
     end
 
