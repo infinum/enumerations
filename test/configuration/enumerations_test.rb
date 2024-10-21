@@ -49,13 +49,13 @@ module Configuration
     end
 
     def test_enumerations_overrides
-      assert_equal :id, OveridableStatus.primary_key
-      assert_equal :id, OveridableStatus.foreign_key_suffix
+      assert_equal :id, OverridableStatus.primary_key
+      assert_equal :id, OverridableStatus.foreign_key_suffix
 
-      model = OveridableModel.new
-      model.overidable_status = OveridableStatus.draft
+      model = OverridableModel.new
+      model.overridable_status = OverridableStatus.draft
 
-      assert_equal 1, model.overidable_status_id
+      assert_equal 1, model.overridable_status_id
     end
   end
 end

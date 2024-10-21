@@ -18,7 +18,7 @@ ActiveRecord::Schema.define do
     t.integer :custom_enum
   end
 
-  create_table :overidable_models, force: true do |t|
-    t.integer :overidable_status_id
+  create_table :overridable_models, force: true do |t|
+    t.integer :overridable_status_id
   end
 end
