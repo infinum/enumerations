@@ -141,7 +141,6 @@ module Enumerations
       raise Enumerations::DuplicatedSymbolError if find(symbol)
 
       return if primary_key.nil?
-      return if primary_key == :symbol
 
       primary_key_value = attributes[primary_key]
 
