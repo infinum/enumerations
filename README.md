@@ -379,11 +379,12 @@ post = Post.new
 post.status = Status.draft      # => post.status_id = 1
 ```
 
-If you want to configure primary key per enumeration class, you can use `primary_key=` class method:
+If you want to configure primary key or foreign key suffix per enumeration class, you can use `primary_key=` and `foreign_key_suffix=` class method:
 
 ```ruby
 class Status < Enumerations::Base
   self.primary_key = :id
+  self.foreign_key_suffix = :id
 
   value :draft,           id: 1, name: 'Draft'
   value :review_pending,  id: 2, name: 'Review pending'

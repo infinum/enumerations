@@ -47,5 +47,15 @@ module Configuration
 
       assert_equal query_hash, custom_enum_id: 1
     end
+
+    def test_enumerations_overrides
+      assert_equal :id, OverridableStatus.primary_key
+      assert_equal :id, OverridableStatus.foreign_key_suffix
+
+      model = OverridableModel.new
+      model.overridable_status = OverridableStatus.draft
+
+      assert_equal 1, model.overridable_status_id
+    end
   end
 end
