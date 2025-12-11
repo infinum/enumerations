@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'active_support/core_ext/class/attribute'
 require 'active_support/core_ext/string/inflections'
 require 'enumerations/value'
 require 'enumerations/finder_methods'
 
 module Enumerations
-  class Base < ActiveSupport::Multibyte::Chars
+  class Base < String
     extend Enumerations::FinderMethods
     include Enumerations::Value
 
@@ -161,12 +163,6 @@ module Enumerations
       @attributes = attributes
 
       create_instance_methods
-    end
-
-    private
-
-    def chars(string)
-      string
     end
   end
 end
