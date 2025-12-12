@@ -1,4 +1,6 @@
-require File.expand_path('../lib/enumerations/version', __FILE__)
+# frozen_string_literal: true
+
+require File.expand_path('lib/enumerations/version', __dir__)
 
 Gem::Specification.new do |s|
   s.name        = 'enumerations'
@@ -8,8 +10,9 @@ Gem::Specification.new do |s|
   s.description = 'Extends ActiveRecord with enumeration capabilites.'
   s.homepage    = 'https://github.com/infinum/enumerations'
   s.license     = 'MIT'
+  s.required_ruby_version = '>= 3.0'
 
-  s.authors     = [
+  s.authors = [
     'Tomislav Car', 'Nikica Jokić', 'Nikola Santić', 'Stjepan Hadjić', 'Petar Ćurković'
   ]
 

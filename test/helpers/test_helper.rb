@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'simplecov'
 SimpleCov.start
 
@@ -10,9 +12,9 @@ require_relative 'database_helper'
 require_relative 'locale_helper'
 
 class Status < Enumerations::Base
-  values draft:           { id: 1, name: 'Draft' },
-         review_pending:  { id: 2, name: 'Review pending' },
-         published:       { id: 3, name: 'Published' }
+  values draft: { id: 1, name: 'Draft' },
+         review_pending: { id: 2, name: 'Review pending' },
+         published: { id: 3, name: 'Published' }
 
   value :none,    id: 4, name: 'None', visible: true, deleted: false
   value :deleted, id: 5, deleted: true
