@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Enumerations
-  VERSION = '2.6.0'.freeze
+  VERSION = '2.7.0'
 end
