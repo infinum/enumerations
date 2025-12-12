@@ -4,7 +4,6 @@ require 'simplecov'
 SimpleCov.start
 
 require 'minitest/autorun'
-require 'logger'
 require 'enumerations'
 require 'active_record'
 require 'pry'
