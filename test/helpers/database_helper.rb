@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'logger'
 
 ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: ':memory:')
@@ -20,5 +22,9 @@ ActiveRecord::Schema.define do
 
   create_table :overridable_models, force: true do |t|
     t.integer :overridable_status_id
+  end
+
+  create_table :api_clients, force: true do |t|
+    t.string :api_client_permission
   end
 end

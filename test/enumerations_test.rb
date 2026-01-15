@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require_relative 'helpers/test_helper'
 require 'enumerations/errors'
 
-class EnumerationsTest < Minitest::Test
+class EnumerationsTest < Minitest::Test # rubocop:disable Metrics/ClassLength
   def test_reflect_on_all_enumerations
     enumerations = Post.reflect_on_all_enumerations
 
@@ -156,5 +158,12 @@ class EnumerationsTest < Minitest::Test
   def test_on_nil_value_assignment
     user = User.new(role: nil)
     assert_nil user.role
+  end
+
+  def test_type_cast_when_saving_value_to_database
+    client = ApiClient.new(api_client_permission: ApiClientPermission.people_first_name)
+    client.save
+
+    assert_equal 'people_first_name', client[:api_client_permission]
   end
 end
