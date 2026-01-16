@@ -10,6 +10,7 @@
 
 **Breaking change:**
 - enumeration classes with overridden `to_s` method might not work as expected anymore
+(previously, overriding `to_s` would affect the value saved to the database, now it doesn't anymore)
 
 ## [v2.6.0](https://github.com/infinum/enumerations/tree/v2.6.0) (2024-10-22)
 [Full Changelog](https://github.com/infinum/enumerations/compare/v2.5.4...v2.6.0)
