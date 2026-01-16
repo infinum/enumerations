@@ -164,6 +164,7 @@ class EnumerationsTest < Minitest::Test # rubocop:disable Metrics/ClassLength
     client = ApiClient.new(api_client_permission: ApiClientPermission.people_first_name)
     client.save
 
+    # overriding to_s doesn't have an effect on the value saved to the database
     assert_equal 'people_first_name', client[:api_client_permission]
   end
 end
