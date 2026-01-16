@@ -1,5 +1,18 @@
 # Change Log
 
+## [v3.0.0](https://github.com/infinum/enumerations/tree/v3.0.0) (2026-01-16)
+[Full Changelog](https://github.com/infinum/enumerations/compare/v2.6.0...v3.0.0)
+
+**Breaking change:**
+
+- enumeration classes with overridden `to_s` method might not work as expected anymore
+(previously, overriding `to_s` would affect the value saved to the database, now it doesn't anymore)
+
+**Implemented enhancements:**
+
+- Drop support for ruby 2.6 and 2.7, only versions '>= 3.0' are now supported
+- Resolve `ActiveSupport::Multibyte::Chars` deprecation warning
+
 ## [v2.6.0](https://github.com/infinum/enumerations/tree/v2.6.0) (2024-10-22)
 [Full Changelog](https://github.com/infinum/enumerations/compare/v2.5.4...v2.6.0)
 
