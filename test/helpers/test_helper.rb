@@ -31,6 +31,19 @@ class Role < Enumerations::Base
   end
 end
 
+class ApiClientPermission < Enumerations::Base
+  value :people_first_name, id: 'people.first_name'
+  value :people_last_name, id: 'people.last_name'
+
+  def to_s
+    id
+  end
+end
+
+class ApiClient < ActiveRecord::Base
+  enumeration :api_client_permission
+end
+
 class Post < ActiveRecord::Base
   enumeration :status
   enumeration :different_status, foreign_key: :some_other_status, class_name: 'Status'
