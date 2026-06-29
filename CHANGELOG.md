@@ -1,5 +1,12 @@
 # Change Log
 
+## [v3.0.1](https://github.com/infinum/enumerations/tree/v3.0.1) (2026-06-29)
+[Full Changelog](https://github.com/infinum/enumerations/compare/v3.0.0...v3.0.1)
+
+**Fixed bugs:**
+
+- Return stored enumeration instances as-is from attribute getters [\#67](https://github.com/infinum/enumerations/pull/67)
+
 ## [v3.0.0](https://github.com/infinum/enumerations/tree/v3.0.0) (2026-01-16)
 [Full Changelog](https://github.com/infinum/enumerations/compare/v2.6.0...v3.0.0)
 
