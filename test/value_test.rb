@@ -108,4 +108,13 @@ class ValueTest < Minitest::Test
 
     assert_equal enum.foobar.upcase, 'FOOBAR'
   end
+
+  def test_enumeration_attribute_storing_another_enumeration_is_returned_as_is
+    enum = Class.new(Enumerations::Base) do
+      value :foobar, related: Role.admin
+    end
+
+    assert_instance_of Role, enum.foobar.related
+    assert_equal true, enum.foobar.related.admin?
+  end
 end
