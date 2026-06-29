@@ -58,6 +58,7 @@ module Enumerations
 
         self.class.send :define_method, key do |locale: I18n.locale|
           case @attributes[key]
+          when Enumerations::Base then @attributes[key]
           when String, Symbol then translate_attribute(key, locale)
           else @attributes[key]
           end
